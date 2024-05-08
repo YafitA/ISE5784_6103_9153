@@ -3,8 +3,6 @@
  */
 package primitives;
 
-import jdk.jshell.spi.ExecutionControl;
-
 /**
  * A fundamental object in 3D geometry - a point with 3 coordinates
  */
