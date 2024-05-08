@@ -8,7 +8,7 @@ public class Point {
         this.xyz = xyz;
     }
 
-    public Point(int x, int y, int z) {
+    public Point(double x, double y, double z) {
         this.xyz = new Double3(x, y, z);
     }
 
@@ -43,5 +43,4 @@ public class Point {
         // TODO
         throw new UnsupportedOperationException();
     }
-
 }
