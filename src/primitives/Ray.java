@@ -1,6 +1,3 @@
-/**
- *
- */
 package primitives;
 
 /**
@@ -20,7 +17,7 @@ public class Ray {
     public Ray(Point head, Vector direction) {
         this.head = head;
         //Vector direction must be normalized
-        if(direction.length()!=1)
+        if(direction.length() != 1)
             direction = direction.normalize();
         this.direction = direction;
     }

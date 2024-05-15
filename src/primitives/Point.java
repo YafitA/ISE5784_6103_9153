@@ -7,6 +7,7 @@ package primitives;
  * A fundamental object in 3D geometry - a point with 3 coordinates
  */
 public class Point {
+
     /** The coordinates of the point */
     protected final Double3 xyz;
 
