@@ -40,16 +40,12 @@ public class Plane implements Geometry {
      * @return normal
      */
     public Vector getNormal() {
-        return null;
+        return this.normal;
     }
 
-    /**
-     * gets point and returns the normal
-     * @param p a point on the plane
-     * @return normal
-     */
+    @Override
     public Vector getNormal(Point p) {
-        return null;
+        return this.normal;
     }
 
     @Override

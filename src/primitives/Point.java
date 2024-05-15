@@ -60,7 +60,6 @@ public class Point {
         return new Vector(this.xyz.subtract(p.xyz));
     }
 
-
     /**
      * Calculates the Euclidean distance between this point and the given point.
      * @param p The point to calculate the distance to.
