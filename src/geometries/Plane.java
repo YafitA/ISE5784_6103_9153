@@ -9,6 +9,7 @@ import primitives.Vector;
 public class Plane implements Geometry {
 
     private final Point q;
+
     private final Vector normal;
 
     /**
