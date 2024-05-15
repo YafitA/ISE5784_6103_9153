@@ -48,12 +48,4 @@ public class Plane implements Geometry {
         return this.normal;
     }
 
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) return true;
-        if (obj instanceof Plane other)
-            return other.q.equals(q) && other.normal.equals(normal);
-        return false;
-    }
-
 }

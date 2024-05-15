@@ -5,11 +5,16 @@ import static java.lang.System.out;
 import static primitives.Util.isZero;
 
 import primitives.*;
+/**
+ * Tamar Rothstein 326039153
+ * Yafit Aton 211816103
+ */
 
 /**
  * Test program for the 1st stage
  * @author Dan Zilberstein
  */
+
 public final class Main {
 
     /**
