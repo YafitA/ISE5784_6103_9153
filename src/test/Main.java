@@ -5,9 +5,10 @@ import static java.lang.System.out;
 import static primitives.Util.isZero;
 
 import primitives.*;
+
 /**
- * Tamar Rothstein 326039153
- * Yafit Aton 211816103
+ * Tamar Rothstein      326039153       tamar.roth1912@gmail.com
+ * Yafit Aton           211816103       yafitta5@gmail.com
  */
 
 /**
