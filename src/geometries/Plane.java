@@ -3,6 +3,8 @@ package geometries;
 import primitives.Point;
 import primitives.Vector;
 
+import javax.lang.model.type.NullType;
+
 /**
  * class to present a plane
  */
@@ -20,9 +22,7 @@ public class Plane implements Geometry {
      */
     public Plane(Point p1, Point p2, Point p3) {
         this.q = p1;
-        Vector vec1 = p2.subtract(p1);
-        Vector vec2 = p3.subtract(p1);
-        normal = vec1.crossProduct(vec2).normalize();
+        normal = null;
     }
 
     /**
