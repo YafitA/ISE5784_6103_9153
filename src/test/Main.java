@@ -6,14 +6,11 @@ import static primitives.Util.isZero;
 
 import primitives.*;
 
-/**
- * Tamar Rothstein      326039153       tamar.roth1912@gmail.com
- * Yafit Aton           211816103       yafitta5@gmail.com
- */
-
 
 /**
  * Test program for the 1st stage
+ * Tamar Rothstein      326039153       tamar.roth1912@gmail.com
+ *  Yafit Aton           211816103       yafitta5@gmail.com
  * @author Dan Zilberstein
  */
 
