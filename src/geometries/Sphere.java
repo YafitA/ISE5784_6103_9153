@@ -12,6 +12,7 @@ public class Sphere extends RadialGeometry {
 
     /**
      * Constructs Sphere object with the center and radius
+     *
      * @param center the middle point
      * @param radius the shape's radius
      */
@@ -21,7 +22,7 @@ public class Sphere extends RadialGeometry {
     }
 
     @Override
-    public Vector getNormal(Point p){
+    public Vector getNormal(Point p) {
         return null;
     }
 }

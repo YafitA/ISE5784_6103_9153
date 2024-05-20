@@ -16,6 +16,7 @@ public class Plane implements Geometry {
 
     /**
      * gets 3 points and calculates the normal
+     *
      * @param p1 first point on plane
      * @param p2 second point on plane
      * @param p3 third point on plane
@@ -27,6 +28,7 @@ public class Plane implements Geometry {
 
     /**
      * Constructs plane object with the specified point and normal
+     *
      * @param q      point on the plane
      * @param normal normal to the plane
      */
@@ -37,6 +39,7 @@ public class Plane implements Geometry {
 
     /**
      * returns the normal
+     *
      * @return normal
      */
     public Vector getNormal() {
@@ -45,7 +48,7 @@ public class Plane implements Geometry {
 
     @Override
     public Vector getNormal(Point p) {
-        return getNormal();
+        return this.normal;
     }
 
 }

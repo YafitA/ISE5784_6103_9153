@@ -7,14 +7,15 @@ import primitives.Vector;
 /**
  * class to present Cylinder
  */
-public class Cylinder extends Tube{
+public class Cylinder extends Tube {
 
     private final double height;
 
     /**
      * Constructs Cylinder object with the height, axis and radius
+     *
      * @param height tube's height
-     * @param axis tube's axis
+     * @param axis   tube's axis
      * @param radius tube's radius
      */
     public Cylinder(double height, Ray axis, double radius) {
