@@ -92,6 +92,6 @@ public class Point {
         double d1Dis = this.xyz.d1 - p.xyz.d1;
         double d2Dis = this.xyz.d2 - p.xyz.d2;
         double d3Dis = this.xyz.d3 - p.xyz.d3;
-        return d1Dis*d1Dis + d2Dis*d2Dis + d3Dis*d3Dis;
+        return d1Dis * d1Dis + d2Dis * d2Dis + d3Dis * d3Dis;
     }
 }

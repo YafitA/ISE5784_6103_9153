@@ -18,7 +18,8 @@ public class Ray {
     public Ray(Point head, Vector direction) {
         this.head = head;
         //Vector direction must be normalized
-        this.direction = direction.normalize();;
+        this.direction = direction.normalize();
+        ;
     }
 
     @Override
