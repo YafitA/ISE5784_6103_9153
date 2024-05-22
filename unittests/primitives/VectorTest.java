@@ -117,7 +117,7 @@ public class VectorTest {
 
         /// ============ Equivalence Partitions Tests ==============
         // TC01: test Dot-Product
-        assertEquals(v1.dotProduct(v2), 28, DELTA, "ERROR: dotProduct() wrong value");
+        assertEquals(v1.dotProduct(v2), -28, DELTA, "ERROR: dotProduct() wrong value");
 
         // =============== Boundary Values Tests ==================
         // TC02: test Dot-Product for orthogonal vectors
@@ -163,7 +163,7 @@ public class VectorTest {
         assertEquals(1, u.length(), DELTA, "ERROR: the normalized vector is not a unit vector");
 
         //TC02: test that the vectors are co-lined
-        assertThrows(IllegalAccessError.class, ()->v.crossProduct(u),
+        assertThrows(IllegalArgumentException.class, ()->v.crossProduct(u),
                 "ERROR: the normalized vector is not parallel to the original one");
 
         //TC03: test that the normalized vector is not opposite to the original one
