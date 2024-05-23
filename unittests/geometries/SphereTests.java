@@ -4,9 +4,15 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class SphereTests {
+/**
+ * Unit tests for geometries.Sphere class
+ */
+public class SphereTests {
 
+    /**
+     * Test method for {@link geometries.Sphere#getNormal(primitives.Point)}.
+     */
     @Test
-    void getNormal() {
+    public void testGetNormal() {
     }
 }

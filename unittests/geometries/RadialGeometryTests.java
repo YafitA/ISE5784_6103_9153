@@ -1,7 +1,9 @@
 package geometries;
 
 import static org.junit.jupiter.api.Assertions.*;
-
-class RadialGeometryTests {
+/**
+ * Unit tests for geometries.RadialGeometry class
+ */
+public class RadialGeometryTests {
 
 }
