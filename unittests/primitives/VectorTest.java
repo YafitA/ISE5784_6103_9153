@@ -77,6 +77,9 @@ public class VectorTest {
                 "ERROR: Vector + itself does not throw an exception");
     }
 
+    /**
+     * Test method for {@link primitives.Vector#subtract(primitives.Point)}.
+     */
     @Test
     public void testSubtract(){
         Vector v1 = new Vector(1, 2, 3);
@@ -92,6 +95,7 @@ public class VectorTest {
                 () ->v1.subtract(v1),
         "ERROR: Vector - itself does not throw an exception");
     }
+
     /**
      * Test method for {@link primitives.Vector#scale(double)}.
      */
@@ -118,11 +122,13 @@ public class VectorTest {
 
         /// ============ Equivalence Partitions Tests ==============
         // TC01: test Dot-Product
-        assertEquals(-28, v1.dotProduct(v2), DELTA, "ERROR: dotProduct() wrong value");
+        assertEquals(-28, v1.dotProduct(v2), DELTA,
+                "ERROR: dotProduct() wrong value");
 
         // =============== Boundary Values Tests ==================
         // TC02: test Dot-Product for orthogonal vectors
-        assertEquals(0, v1.dotProduct(v3), DELTA, "ERROR: dotProduct() for orthogonal vectors is not zero");
+        assertEquals(0, v1.dotProduct(v3), DELTA,
+                "ERROR: dotProduct() for orthogonal vectors is not zero");
     }
 
     /**
@@ -141,8 +147,10 @@ public class VectorTest {
                 "ERROR: crossProduct() wrong result length");
 
         //TC01: test Cross-Product if result is orthogonal to its operands
-        assertEquals(0, vr.dotProduct(v3),  DELTA, "ERROR: crossProduct() result is not orthogonal to its operands");
-        assertEquals(0, vr.dotProduct(v1),  DELTA, "ERROR: crossProduct() result is not orthogonal to its operands");
+        assertEquals(0, vr.dotProduct(v3),  DELTA,
+                "ERROR: crossProduct() result is not orthogonal to its operands");
+        assertEquals(0, vr.dotProduct(v1),  DELTA,
+                "ERROR: crossProduct() result is not orthogonal to its operands");
 
         // =============== Boundary Values Tests ==================
         //TC03: test Cross-Product equal zero vector
