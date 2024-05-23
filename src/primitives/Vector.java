@@ -70,20 +70,20 @@ public class Vector extends Point {
     }
 
     /**
-     * Scales this vector by a scalar value and returns the result.
+     * Scales this vector by a scalar value and returns the vector result.
      *
      * @param num The scalar value to scale by.
-     * @return The result of scaling this vector by the given scalar value.
+     * @return The vector result of scaling this vector by the given scalar value.
      */
     public Vector scale(double num) {
         return new Vector(this.xyz.scale(num));
     }
 
     /**
-     * Calculates the dot product of this vector with another vector.
+     * Calculates the dot product number of this vector with another vector.
      *
      * @param vec The vector to calculate the dot product with.
-     * @return The dot product of this vector with the given vector.
+     * @return The dot product number of this vector with the given vector.
      */
     public double dotProduct(Vector vec) {
         return this.xyz.d1 * vec.xyz.d1 +
@@ -92,10 +92,10 @@ public class Vector extends Point {
     }
 
     /**
-     * Calculates the cross product of this vector with another vector.
+     * Calculates the cross product Vector of this vector with another vector.
      *
      * @param vec The vector to calculate the cross product with.
-     * @return The cross product of this vector with the given vector.
+     * @return The cross product Vector of this vector with the given vector.
      */
     public Vector crossProduct(Vector vec) {
         double x = this.xyz.d2 * vec.xyz.d3 - this.xyz.d3 * vec.xyz.d2;
@@ -105,9 +105,9 @@ public class Vector extends Point {
     }
 
     /**
-     * Normalizes this vector.
+     * Normalizes this vector to length 1.
      *
-     * @return The normalized version of this vector.
+     * @return The normalized version of this vector with length 1.
      */
     public Vector normalize() {
         return this.scale(1.0 / this.length());
