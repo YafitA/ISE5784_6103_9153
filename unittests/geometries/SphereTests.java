@@ -14,5 +14,7 @@ public class SphereTests {
      */
     @Test
     public void testGetNormal() {
+        // ============ Equivalence Partitions Tests ==============
+        //TC01:
     }
 }

@@ -11,21 +11,39 @@ import static org.junit.jupiter.api.Assertions.*;
  */
 public class PlaneTests {
 
+    private final double DELTA = 0.000001;
+
+    /**
+     * Test method for {@link primitives.Vector#Vector(double, double, double)}.
+     */
+    @Test
+    public void testConstructor(){
+        // ============ Equivalence Partitions Tests ==============
+        //TC01: the first and second point are equal
+        assertThrows(IllegalArgumentException.class,
+                ()->new Plane(new Point(1,2,3), new Point(1,2,3), new Point(4,5,8)),
+                "ERROR: Constructor receive two equal points");
+        //TC02: The points are on the same line
+        assertThrows(IllegalArgumentException.class,
+                ()->new Plane(new Point(1,2,3), new Point(2,4,6), new Point(3,6,9)),
+                "ERROR: Constructor receive three points that are on the same line");
+
+    }
+
     /**
      * Test method for {@link geometries.Plane#getNormal()}.
      */
     @Test
-    public void testGetNormal1() {
-    Plane plane = new Plane(new Point(1,0,0), new Point(0,1,0), new Point(0, 0,1));
-    assertEquals(new Vector(0, 0, 1),
-            plane.getNormal(),
-            "ERROR: GetNormal() does not work correctly");
+    public void testGetNormal() {
+        // ============ Equivalence Partitions Tests ==============
+        //TC01: ensure normal is correct
+        Plane plane = new Plane(new Point(0,0,0), new Point(0,1,0), new Point(0, 0,1));
+        assertEquals(new Vector(1, 0, 0),
+                plane.getNormal(),
+                "ERROR: GetNormal() does not work correctly");
+        // ensure |result| = 1
+        assertEquals(1, plane.getNormal().length(), DELTA, "ERROR: Normal is len not 1");
     }
 
-    /**
-     * Test method for {@link geometries.Plane#getNormal(primitives.Point)}.
-     */
-    @Test
-    public void testGetNormal2() {
-    }
+
 }

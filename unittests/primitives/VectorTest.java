@@ -23,6 +23,7 @@ public class VectorTest {
                 ()-> new Vector(0, 0, 0),
                 "ERROR: zero vector does not throw an exception");
     }
+
     /**
      * Test method for {@link primitives.Vector#Vector(primitives.Double3)}.
      */
