@@ -16,11 +16,11 @@ public class VectorTest {
      * Test method for {@link primitives.Vector#Vector(double, double, double)}.
      */
     @Test
-    public void testConstructor1(){
+    public void testConstructor1() {
         // =============== Boundary Values Tests ==================
         //TC01: Create vector zero
         assertThrows(IllegalArgumentException.class,
-                ()-> new Vector(0, 0, 0),
+                () -> new Vector(0, 0, 0),
                 "ERROR: zero vector does not throw an exception");
     }
 
@@ -28,11 +28,11 @@ public class VectorTest {
      * Test method for {@link primitives.Vector#Vector(primitives.Double3)}.
      */
     @Test
-    public void testConstructor2(){
+    public void testConstructor2() {
         // =============== Boundary Values Tests ==================
         //TC01: Create vector zero
         assertThrows(IllegalArgumentException.class,
-                ()-> new Vector(Double3.ZERO),
+                () -> new Vector(Double3.ZERO),
                 "ERROR: zero vector does not throw an exception");
     }
 
@@ -81,7 +81,7 @@ public class VectorTest {
      * Test method for {@link primitives.Vector#subtract(primitives.Point)}.
      */
     @Test
-    public void testSubtract(){
+    public void testSubtract() {
         Vector v1 = new Vector(1, 2, 3);
         Vector v2 = new Vector(-2, -4, -6);
 
@@ -92,8 +92,8 @@ public class VectorTest {
         // =============== Boundary Values Tests ==================
         //TC02: Result of - is vector zero
         assertThrows(IllegalArgumentException.class,
-                () ->v1.subtract(v1),
-        "ERROR: Vector - itself does not throw an exception");
+                () -> v1.subtract(v1),
+                "ERROR: Vector - itself does not throw an exception");
     }
 
     /**
@@ -109,7 +109,7 @@ public class VectorTest {
 
         // =============== Boundary Values Tests ==================
         // TC01: test scale result equal zero vector
-        assertThrows(IllegalArgumentException.class, ()-> v1.scale(0), "ERROR: zero vector does not throw an exception");
+        assertThrows(IllegalArgumentException.class, () -> v1.scale(0), "ERROR: zero vector does not throw an exception");
     }
 
     /**
@@ -155,7 +155,7 @@ public class VectorTest {
         // =============== Boundary Values Tests ==================
         //TC03: test Cross-Product equal zero vector
         assertThrows(IllegalArgumentException.class,
-                ()-> v1.crossProduct(v2),
+                () -> v1.crossProduct(v2),
                 "ERROR: crossProduct() for parallel vectors does not throw an exception");
     }
 
@@ -173,7 +173,7 @@ public class VectorTest {
 
         //TC02: test that the vectors are co-lined
         assertThrows(IllegalArgumentException.class,
-                    ()->v.crossProduct(u),
+                () -> v.crossProduct(u),
                 "ERROR: the normalized vector is not parallel to the original one");
 
         //TC03: test that the normalized vector is not opposite to the original one

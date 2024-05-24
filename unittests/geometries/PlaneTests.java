@@ -17,15 +17,15 @@ public class PlaneTests {
      * Test method for {@link primitives.Vector#Vector(double, double, double)}.
      */
     @Test
-    public void testConstructor(){
+    public void testConstructor() {
         // ============ Equivalence Partitions Tests ==============
         //TC01: the first and second point are equal
         assertThrows(IllegalArgumentException.class,
-                ()->new Plane(new Point(1,2,3), new Point(1,2,3), new Point(4,5,8)),
+                () -> new Plane(new Point(1, 2, 3), new Point(1, 2, 3), new Point(4, 5, 8)),
                 "ERROR: Constructor receive two equal points");
         //TC02: The points are on the same line
         assertThrows(IllegalArgumentException.class,
-                ()->new Plane(new Point(1,2,3), new Point(2,4,6), new Point(3,6,9)),
+                () -> new Plane(new Point(1, 2, 3), new Point(2, 4, 6), new Point(3, 6, 9)),
                 "ERROR: Constructor receive three points that are on the same line");
 
     }
@@ -37,7 +37,7 @@ public class PlaneTests {
     public void testGetNormal() {
         // ============ Equivalence Partitions Tests ==============
         //TC01: ensure normal is correct
-        Plane plane = new Plane(new Point(0,0,0), new Point(0,1,0), new Point(0, 0,1));
+        Plane plane = new Plane(new Point(0, 0, 0), new Point(0, 1, 0), new Point(0, 0, 1));
         assertEquals(new Vector(1, 0, 0),
                 plane.getNormal(),
                 "ERROR: GetNormal() does not work correctly");

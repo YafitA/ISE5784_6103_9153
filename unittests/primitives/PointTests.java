@@ -14,13 +14,12 @@ class PointTests {
 
     /**
      * First point for tests
-     *
      */
     private static final Point p1 = new Point(1, 2, 3);
     /**
      * Second point for tests
      */
-    private static final Point p2 = new Point(2 ,4, 6);
+    private static final Point p2 = new Point(2, 4, 6);
     /**
      * Third point for tests
      */
