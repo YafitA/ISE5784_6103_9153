@@ -26,13 +26,26 @@ public class Cylinder extends Tube {
 
     @Override
     public Vector getNormal(Point point){
-        //if the dot product between the vector of the axis direction
-        //and the vector between the point and axis head are horizontal
-        //the point is on the base
-        if(Util.isZero(point.subtract(this.axis.getHead()).
+        //check if the point is on one of the bases
+        //if the vectors (basePoint - Point) and the tube's ray vector
+        //are horizontal - the point is on the base
+
+        //get the base Point of the first base
+        //point = axis.head + high * axis.vector
+        Point basePoint1 = this.axis.getHead().add(this.axis.getDirection().scale(this.height));
+
+        //get the base Point of the second base
+        //point = axis.head
+        Point basePoint2 = this.axis.getHead();
+
+        if(point.equals(basePoint1) || Util.isZero(basePoint1.subtract(point).
            dotProduct(this.axis.getDirection())))
             return this.axis.getDirection();
-        else //point is on wrapper
-            return super.getNormal(point);
+
+        if (point.equals(basePoint2) || Util.isZero(basePoint2.subtract(point).
+                dotProduct(this.axis.getDirection())))
+            return this.axis.getDirection();
+         //else - point is on wrapper
+        return super.getNormal(point);
     }
 }
