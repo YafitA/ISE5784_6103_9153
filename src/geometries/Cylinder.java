@@ -2,6 +2,7 @@ package geometries;
 
 import primitives.Point;
 import primitives.Ray;
+import primitives.Util;
 import primitives.Vector;
 
 /**
@@ -24,7 +25,14 @@ public class Cylinder extends Tube {
     }
 
     @Override
-    public Vector getNormal(Point point) {
-        return null;
+    public Vector getNormal(Point point){
+        //if the dot product between the vector of the axis direction
+        //and the vector between the point and axis head are horizontal
+        //the point is on the base
+        if(Util.isZero(point.subtract(this.axis.getHead()).
+           dotProduct(this.axis.getDirection())))
+            return this.axis.getDirection();
+        else //point is on wrapper
+            return super.getNormal(point);
     }
 }

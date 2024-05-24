@@ -20,7 +20,7 @@ public class TubeTests {
         Tube tube = new Tube(new Ray(Point.ZERO, new Vector(1,0,0)), 10);
         // ============ Equivalence Partitions Tests ==============
         //TC01: Normal calculation
-        assertEquals(new Vector(1,0,0),
+        assertEquals(new Vector(0,1,0),
                     tube.getNormal(new Point(1,1,0)),
                     "ERROR: getNormal() is wrong");
 

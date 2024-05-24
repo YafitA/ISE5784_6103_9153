@@ -19,7 +19,6 @@ public class Ray {
         this.head = head;
         //Vector direction must be normalized
         this.direction = direction.normalize();
-        ;
     }
 
     @Override
@@ -28,6 +27,22 @@ public class Ray {
         return (obj instanceof Ray other)
                 && this.head.equals(other.head)
                 && this.direction.equals(other.direction);
+    }
+
+    /**
+     * get ray's direction
+     * @return  direction
+     */
+    public Vector getDirection() {
+        return direction;
+    }
+
+    /**
+     * get ray's head
+     * @return head
+     */
+    public Point getHead() {
+        return head;
     }
 
     @Override
