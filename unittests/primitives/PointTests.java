@@ -34,7 +34,6 @@ class PointTests {
      */
     private static final double DELTA = 0.00001;
 
-
     /**
      * Test method for {@link primitives.Point#add(primitives.Vector)}.
      */

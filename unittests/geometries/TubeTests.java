@@ -31,6 +31,5 @@ public class TubeTests {
         //when (P-P0) is orthogonal to v
         assertThrows(IllegalArgumentException.class, ()-> tube.getNormal(new Point(2,0,0)),
                 "ERROR: (P-P0) is orthogonal to v");
-
     }
 }
