@@ -1,13 +1,12 @@
 package geometries;
 
-/**
- * interface to present intersect
- */
-
 import primitives.Point;
 import primitives.Ray;
 import java.util.List;
 
+/**
+ * interface to present intersect
+ */
 public interface Intersectable {
 
     /**
