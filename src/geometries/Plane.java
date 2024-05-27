@@ -1,9 +1,11 @@
 package geometries;
 
 import primitives.Point;
+import primitives.Ray;
 import primitives.Vector;
 
 import javax.lang.model.type.NullType;
+import java.util.List;
 
 /**
  * class to present a plane
@@ -55,4 +57,8 @@ public class Plane implements Geometry {
         return this.normal;
     }
 
+    @Override
+    public List<Point> findIntersections(Ray ray) {
+        return List.of();
+    }
 }

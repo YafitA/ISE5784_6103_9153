@@ -5,6 +5,8 @@ import primitives.Ray;
 import primitives.Util;
 import primitives.Vector;
 
+import java.util.List;
+
 /**
  * class to present Cylinder
  */
@@ -44,5 +46,11 @@ public class Cylinder extends Tube {
             return this.axis.getDirection();
         //else - point is on wrapper
         return super.getNormal(point);
+    }
+
+    @Override
+    public List<Point> findIntersections(Ray ray) {
+        //todo: bonus
+        return List.of();
     }
 }
