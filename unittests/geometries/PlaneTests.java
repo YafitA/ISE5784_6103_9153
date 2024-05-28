@@ -37,13 +37,16 @@ public class PlaneTests {
     public void testGetNormal() {
         // ============ Equivalence Partitions Tests ==============
         //TC01: ensure normal is correct
-        Plane plane = new Plane(new Point(0, 0, 0), new Point(0, 1, 0), new Point(0, 0, 1));
+        Point p000 = new Point(0, 0, 0);
+        Point p010 = new Point(0, 1, 0);
+        Point p001 = new Point(0, 0, 1);
+        Plane plane = new Plane(p000, p010, p001);
         assertEquals(new Vector(1, 0, 0),
-                plane.getNormal(),
-                "ERROR: GetNormal() does not work correctly");
+                plane.getNormal(), "ERROR: GetNormal() does not work correctly");
+        //ensure that the normal is orthogonal to the vector between the points
+        assertEquals(0, plane.getNormal().dotProduct(p000.subtract(p010)), DELTA);
+        assertEquals(0, plane.getNormal().dotProduct(p000.subtract(p001)), DELTA);
         // ensure |result| = 1
         assertEquals(1, plane.getNormal().length(), DELTA, "ERROR: Normal is len not 1");
     }
-
-
 }

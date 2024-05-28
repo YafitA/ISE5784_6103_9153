@@ -6,6 +6,8 @@ import primitives.Vector;
 
 import java.util.List;
 
+import static primitives.Util.isZero;
+
 /**
  * class to present Tube
  */
@@ -32,8 +34,8 @@ public class Tube extends RadialGeometry {
         //axis.vector * (given point - axis.headPoint)
         double t = axis.getDirection().dotProduct(point.subtract(axis.getHead()));
 
-        //axis.headPoint + t * axis.vector
-        Point o = axis.getHead().add(axis.getDirection().scale(t));
+        //axis.headPoint + t * axis.vector (or simply the head point if the projection (t) is Zero)
+        Point o = isZero(t) ? axis.getHead() : axis.getHead().add(axis.getDirection().scale(t));
 
         //normalize(given point - o)
         return point.subtract(o).normalize();

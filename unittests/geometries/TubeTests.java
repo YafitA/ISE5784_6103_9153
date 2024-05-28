@@ -29,7 +29,7 @@ public class TubeTests {
         //TC01: When connecting the point to the top of the beam
         //of the axis of the cylinder makes a right angle with the axis -
         // the point "is in front of the head of the horn" when (P-P0) is orthogonal to v
-        assertThrows(IllegalArgumentException.class, () -> tube.getNormal(new Point(2, 0, 0)),
+        assertEquals(new Vector(0, 1, 0), tube.getNormal(new Point(0, 10, 0)),
                 "ERROR: (P-P0) is orthogonal to v");
     }
 }

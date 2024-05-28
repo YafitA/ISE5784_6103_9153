@@ -24,10 +24,9 @@ public class SphereTests {
     public void testGetNormal() {
         // ============ Equivalence Partitions Tests ==============
         //TC01: a simple test
-        Sphere s = new Sphere(Point.ZERO, 2);
-        assertEquals(new Vector(1, 0, 0),
-                s.getNormal(p100),
-                "ERROR: getNormal() is wrong");
+        Sphere s = new Sphere(p001, 2);
+        assertEquals(new Vector(0.7071067811865475,0.0,-0.7071067811865475),
+                s.getNormal(p100), "ERROR: getNormal() is wrong");
     }
 
     /**
