@@ -18,16 +18,18 @@ public class Geometries implements Intersectable {
 
     /**
      * Constructs Geometries with params
+     *
      * @param geometries group of shapes
      */
-    public Geometries(Intersectable...geometries){
+    public Geometries(Intersectable... geometries) {
     }
 
     /**
      * Add shapes to the group
+     *
      * @param geometries group of shapes
      */
-    public void add(Intersectable... geometries){
+    public void add(Intersectable... geometries) {
 
     }
 
