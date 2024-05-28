@@ -43,6 +43,6 @@ public class CylinderTests {
         assertEquals(v, cylinder.getNormal(new Point(0, 0, -1)),
                 "ERROR: getNormal() is wrong for point on the bottom base ");
 
-        //todo add tc for points on connection between base and wrap
+        //todo: optional add tc for points on connection between base and wrap
     }
 }
