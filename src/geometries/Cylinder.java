@@ -30,12 +30,12 @@ public class Cylinder extends Tube {
 
     @Override
     public Vector getNormal(Point point) {
-
+        //axis = p0 + dv
         Point p0 = axis.getHead();
         Vector v = axis.getDirection();
-
+        //if it's the base's center point return  v
         if (point.equals(p0)) return v;
-
+        //vector from the middle
         Vector u = point.subtract(p0);
         double t = v.dotProduct(u);
         //check if the point is on one of the bases

@@ -1,8 +1,7 @@
 package geometries;
 
-import primitives.Point;
-import primitives.Ray;
-import primitives.Vector;
+
+import primitives.*;
 
 
 import java.util.List;
@@ -41,7 +40,7 @@ public class Sphere extends RadialGeometry {
         double t1=tm+th;
         double t2=tm-th;
         Point p1= this.center.add(ray.getDirection().scale(t1));
-        if(t2<0){
+        if(Util.alignZero(t2)<0){
             return  List.of(p1);
         }
         Point p2=this.center.add(ray.getDirection().scale(t2));
