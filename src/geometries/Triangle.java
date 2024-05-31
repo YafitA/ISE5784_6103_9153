@@ -24,7 +24,6 @@ public class Triangle extends Polygon {
 
     @Override
     public List<Point> findIntersections(Ray ray) {
-        //todo: bonus
 
         Point p1 = vertices.get(0);
         Point p2 = vertices.get(1);
