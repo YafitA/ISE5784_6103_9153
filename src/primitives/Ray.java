@@ -55,11 +55,12 @@ public class Ray {
 
     /**
      * get a point on the ray multiply by t
+     *
      * @param t scalar to find point
      * @return point p=p0+tv
      */
-    public Point getPoint(double t){
-        if(!Util.isZero(t))
+    public Point getPoint(double t) {
+        if (!Util.isZero(t))
             return this.head.add(this.direction.scale(t));
         else //if t is zero
             return this.head;

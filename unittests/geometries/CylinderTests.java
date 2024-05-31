@@ -19,7 +19,7 @@ public class CylinderTests {
     public void testGetNormal() {
 
         Cylinder cylinder = new Cylinder(2, new Ray(new Point(0, 0, -1), new Vector(0, 0, 1)), 2);
-        Vector v = cylinder.axis.getDirection() ;
+        Vector v = cylinder.axis.getDirection();
 
         // ============ Equivalence Partitions Tests ==============
         //TC01: Point on the round surface

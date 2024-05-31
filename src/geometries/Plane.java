@@ -61,6 +61,15 @@ public class Plane implements Geometry {
 
     @Override
     public List<Point> findIntersections(Ray ray) {
-        return List.of();
+
+        //Calculate point t - where the ray hits the plane
+        double t = (this.normal.dotProduct((q.subtract(ray.getHead())))) / normal.dotProduct(ray.getDirection());
+
+        if (t > 0) {
+            Point p = ray.getHead().add(ray.getDirection().scale(t));
+            return List.of(p);
+        }
+        //if t <= 0 there are no points hitting the plane
+        return null;
     }
 }

@@ -49,4 +49,6 @@ public class PlaneTests {
         // ensure |result| = 1
         assertEquals(1, plane.getNormal().length(), DELTA, "ERROR: Normal is len not 1");
     }
+
+
 }
