@@ -52,6 +52,6 @@ public class Triangle extends Polygon {
         }
 
         //else point does not exist
-        return List.of();
+        return null;
     }
 }
