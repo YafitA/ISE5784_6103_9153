@@ -44,20 +44,20 @@ public class Triangle extends Polygon {
         double t2 = v.dotProduct(n2);
         double t3 = v.dotProduct(n3);
 
-        //if all dotProduct are > 0 then point is inside
+            //if all dotProduct are > 0 then point is inside
         if (Util.alignZero(t1) > 0 && Util.alignZero(t2) > 0
                 && Util.alignZero(t3) > 0) {
-            Plane pl = new Plane(p1, p2, p3);
-            return plane.findIntersections(ray);
-            //super.findIntersections(ray);
+            //Plane pl = new Plane(p1, p2, p3);
+            //return plane.findIntersections(ray);
+            this.plane.findIntersections(ray);
         }
 
         //if all dotProduct are < 0 then point is inside
         if (Util.alignZero(t1) < 0 && Util.alignZero(t2) < 0
                 && Util.alignZero(t3) < 0) {
-            Plane pl = new Plane(p1, p2, p3);
-            return plane.findIntersections(ray);
-            //super.findIntersections(ray);
+            //Plane pl = new Plane(p1, p2, p3);
+            //return plane.findIntersections(ray);
+            this.plane.findIntersections(ray);
         }
 
         //else point does not exist
