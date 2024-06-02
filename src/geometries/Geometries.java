@@ -39,9 +39,12 @@ public class Geometries implements Intersectable {
     public List<Point> findIntersections(Ray ray) {
         //initialize list with null
         List<Point> intersectionsPoints = null;
+
         //go over the list of shapes
         for (Intersectable item : intersectableList) {
+
             List<Point> itemIntersections = item.findIntersections(ray);
+
             //check if findIntersections returned points and
             // if intersectionsPoints is empty if so initialize an empty list
             if (itemIntersections != null) {
@@ -51,6 +54,7 @@ public class Geometries implements Intersectable {
                 intersectionsPoints.addAll(itemIntersections);
             }
         }
+
         return intersectionsPoints;
     }
 }

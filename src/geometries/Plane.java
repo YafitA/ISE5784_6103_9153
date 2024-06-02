@@ -64,6 +64,7 @@ public class Plane implements Geometry {
 
     @Override
     public List<Point> findIntersections(Ray ray) {
+
         //in case p=q
         if (q.equals(ray.getHead())) return null;
 
@@ -72,12 +73,11 @@ public class Plane implements Geometry {
         if (isZero(nv)) return null;
 
         //Calculate point t - where the ray hits the plane
-        double t = alignZero((normal.dotProduct((q.subtract(ray.getHead())))) / nv);
+        double t = (normal.dotProduct((q.subtract(ray.getHead())))) / nv;
 
         //there are points hitting the plane
-        if (t > 0) {
-            Point p = ray.getPoint(t);
-            return List.of(p);
+        if (alignZero(t) > 0) {
+            return List.of(ray.getPoint(t));
         }
 
         //there are no points hitting the plane

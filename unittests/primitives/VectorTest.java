@@ -147,10 +147,10 @@ public class VectorTest {
         assertEquals(vr.length(), v1.length() * v3.length(), DELTA,
                 "ERROR: crossProduct() wrong result length");
 
-//        assertEquals(0, vr.crossProduct(v3),  DELTA,
-//                "ERROR: crossProduct() result is not orthogonal to its operands");
-//        assertEquals(0, vr.dotProduct(v1),  DELTA,
-//                "ERROR: crossProduct() result is not orthogonal to its operands");
+        assertEquals(0, vr.dotProduct(v3),  DELTA,
+                "ERROR: crossProduct() result is not orthogonal to its operands");
+        assertEquals(0, vr.dotProduct(v1),  DELTA,
+                "ERROR: crossProduct() result is not orthogonal to its operands");
 
         // =============== Boundary Values Tests ==================
         //TC03: test Cross-Product equal zero vector
