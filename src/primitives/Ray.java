@@ -49,7 +49,7 @@ public class Ray {
 
     @Override
     public String toString() {
-        return this.head + " " + this.direction;
+        return head + " " + this.direction;
     }
 
     /**
@@ -59,9 +59,9 @@ public class Ray {
      * @return point p=p0+tv
      */
     public Point getPoint(double t) {
-        //p=p0+tv
+        //p= p0 + tv
         if (!Util.isZero(t))
-            return this.head.add(this.direction.scale(t));
+            return head.add(this.direction.scale(t));
         else //if t is zero
             return this.head;
     }
