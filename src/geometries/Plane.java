@@ -6,6 +6,9 @@ import primitives.Vector;
 
 import java.util.List;
 
+import static primitives.Util.alignZero;
+import static primitives.Util.isZero;
+
 /**
  * class to present a plane
  */
@@ -61,23 +64,23 @@ public class Plane implements Geometry {
 
     @Override
     public List<Point> findIntersections(Ray ray) {
-        //todo
-
         //in case p=q
-        if(q.equals(ray.getHead())) return null;
+        if (q.equals(ray.getHead())) return null;
 
-        // double nv = n.dotProduct(v);
-//        if (isZero(nv))
-//            null;
+        //check if denominator = 0
+        double nv = normal.dotProduct(ray.getDirection());
+        if (isZero(nv)) return null;
+
         //Calculate point t - where the ray hits the plane
-        double t = (this.normal.dotProduct((q.subtract(ray.getHead())))) / normal.dotProduct(ray.getDirection());
+        double t = alignZero((normal.dotProduct((q.subtract(ray.getHead())))) / nv);
 
+        //there are points hitting the plane
         if (t > 0) {
-            Point p = ray.getHead().add(ray.getDirection().scale(t));
+            Point p = ray.getPoint(t);
             return List.of(p);
         }
 
-        //if t <= 0 there are no points hitting the plane
+        //there are no points hitting the plane
         return null;
     }
 }

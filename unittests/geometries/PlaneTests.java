@@ -1,11 +1,14 @@
 package geometries;
 
 //import jdk.internal.access.JavaTemplateAccess;
+
 import org.junit.jupiter.api.Test;
 import primitives.Point;
 import primitives.Ray;
 import primitives.Vector;
+
 import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
@@ -57,7 +60,7 @@ public class PlaneTests {
     @Test
     void testFindIntersections() {
 
-        Plane pl = new Plane(new Point(0, 0, 1),new Vector(1, 1, 1));
+        Plane pl = new Plane(new Point(0, 0, 1), new Vector(1, 1, 1));
 
         // ============ Equivalence Partitions Tests ==============
         // TC01: Ray hits plane

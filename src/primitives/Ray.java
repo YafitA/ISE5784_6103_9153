@@ -7,7 +7,6 @@ public class Ray {
 
 
     private final Point head;
-
     private final Vector direction;
 
     /**
@@ -66,5 +65,4 @@ public class Ray {
         else //if t is zero
             return this.head;
     }
-
 }
