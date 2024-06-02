@@ -2,6 +2,7 @@ package geometries;
 
 import primitives.Point;
 import primitives.Ray;
+import primitives.Util;
 import primitives.Vector;
 
 import java.util.List;
@@ -37,19 +38,25 @@ public class Triangle extends Polygon {
         Vector n2 = v2.crossProduct(v3).normalize();
         Vector n3 = v3.crossProduct(v1).normalize();
 
+        double t1=ray.getDirection().dotProduct(n1);
+        double t2=ray.getDirection().dotProduct(n2);
+        double t3=ray.getDirection().dotProduct(n3);
+
+
         //if all dotProduct are > 0 then point is inside
-        if(ray.getDirection().dotProduct(n1) > 0 && ray.getDirection().dotProduct(n2) > 0
-                && ray.getDirection().dotProduct(n3) > 0){
+        if(Util.alignZero(t1) > 0 && Util.alignZero(t2) > 0
+                && Util.alignZero(t3) > 0){
             Plane plane = new Plane(p1, p2, p3);
             return plane.findIntersections(ray);
         }
 
         //if all dotProduct are < 0 then point is inside
-        if(ray.getDirection().dotProduct(n1) > 0 && ray.getDirection().dotProduct(n2) > 0
-                && ray.getDirection().dotProduct(n3) > 0){
+        if(Util.alignZero(t1) < 0 && Util.alignZero(t2) < 0
+                && Util.alignZero(t3) < 0){
             Plane plane = new Plane(p1, p2, p3);
             return plane.findIntersections(ray);
         }
+
 
         //else point does not exist
         return null;

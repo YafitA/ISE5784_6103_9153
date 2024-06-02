@@ -35,7 +35,7 @@ public class Tube extends RadialGeometry {
         double t = axis.getDirection().dotProduct(point.subtract(axis.getHead()));
 
         //axis.headPoint + t * axis.vector (or simply the head point if the projection (t) is Zero)
-        Point o = isZero(t) ? axis.getHead() : axis.getHead().add(axis.getDirection().scale(t));
+        Point o = isZero(t) ? axis.getHead() :  axis.getPoint(t);
 
         //normalize(given point - o)
         return point.subtract(o).normalize();
@@ -44,6 +44,6 @@ public class Tube extends RadialGeometry {
     @Override
     public List<Point> findIntersections(Ray ray) {
         //todo: bonus
-        return List.of();
+        return null;
     }
 }

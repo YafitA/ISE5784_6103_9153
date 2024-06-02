@@ -33,28 +33,18 @@ public class Cylinder extends Tube {
         //axis = p0 + dv
         Point p0 = axis.getHead();
         Vector v = axis.getDirection();
+
         //if it's the base's center point return  v
         if (point.equals(p0)) return v;
+
         //vector from the middle
         Vector u = point.subtract(p0);
         double t = v.dotProduct(u);
+
         //check if the point is on one of the bases
         //if the vectors (basePoint - Point) and the tube's ray vector are horizontal - the point is on the base
         if (isZero(t) || isZero(t - height)) return v;
 
-        //get the base Point of the first base
-        //point = axis.head + high * axis.vector
-        //Point basePoint1 = this.axis.getHead().add(this.axis.getDirection().scale(this.height));
-
-        //get the base Point of the second base
-        //point = axis.head
-//        Point basePoint2 = this.axis.getHead();
-//
-//        if (point.equals(basePoint1) || isZero(basePoint1.subtract(point).dotProduct(this.axis.getDirection())))
-//            return this.axis.getDirection();
-//
-//        if (point.equals(basePoint2) || isZero(basePoint2.subtract(point).dotProduct(this.axis.getDirection())))
-//            return this.axis.getDirection();
         //else - point is on wrapper
         return super.getNormal(point);
     }
@@ -62,6 +52,6 @@ public class Cylinder extends Tube {
     @Override
     public List<Point> findIntersections(Ray ray) {
         //todo: bonus
-        return List.of();
+        return null;
     }
 }

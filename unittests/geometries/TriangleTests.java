@@ -54,13 +54,13 @@ public class TriangleTests {
         // =============== Boundary Values Tests ==================
         // **** Group: the ray begins "before" the plane
         // TC04: Ray's line is on edge (0 point)
-        assertNull(triangle.findIntersections(new Ray(new Point(0.5,0,0), v001)),
+        assertNull(triangle.findIntersections(new Ray(new Point(0.5,0,-1), v001)),
                 "Ray's line is on edge");
         // TC05: Ray's line is in vertex (0 point)
-        assertNull(triangle.findIntersections(new Ray(p100, v001)),
+        assertNull(triangle.findIntersections(new Ray(new Point(1,0,-1), v001)),
                 "Ray's line is in vertex");
         // TC05: Ray's line is on edge's continuation (0 point)
-        assertNull(triangle.findIntersections(new Ray(new Point(2,0,0), v001)),
+        assertNull(triangle.findIntersections(new Ray(new Point(2,0,-1), v001)),
                 "Ray's line is on edge's continuation");
     }
 }
