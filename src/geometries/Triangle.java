@@ -46,7 +46,7 @@ public class Triangle extends Polygon {
 
         //if all dotProduct are > 0 then point is inside
         if ((Util.alignZero(t1) > 0 && Util.alignZero(t2) > 0 && Util.alignZero(t3) > 0) ||
-            (Util.alignZero(t1) < 0 && Util.alignZero(t2) < 0 && Util.alignZero(t3) < 0)) {
+                (Util.alignZero(t1) < 0 && Util.alignZero(t2) < 0 && Util.alignZero(t3) < 0)) {
             return plane.findIntersections(ray);
         }
 

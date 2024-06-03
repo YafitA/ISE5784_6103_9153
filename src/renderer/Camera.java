@@ -7,6 +7,27 @@ import primitives.*;
  * Implements the Builder design pattern for creating camera objects and the Cloneable interface.
  */
 public class Camera implements Cloneable{
+    /**
+     * The Builder class is used to construct instances of Camera
+     */
+    public static class Builder{
+
+        final private Camera camera;
+
+        /**
+         * default constructor
+         */
+        public Builder() {
+            this.camera = new Camera();
+        }
+
+        /**
+         * parameters constructor
+         */
+        public Builder(Camera camera) {
+            this.camera = camera;
+        }
+    }
 
     private Point position;
     private Vector right;
@@ -90,7 +111,7 @@ public class Camera implements Cloneable{
      * @return Builder
      */
     static public Builder getBuilder(){
-        return Bulder;
+        return Builder;
     }
 
     /**
