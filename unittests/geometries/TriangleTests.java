@@ -14,7 +14,7 @@ import static org.junit.jupiter.api.Assertions.*;
  */
 public class TriangleTests {
 
-    private final double DELTA = 0.000001;
+    private final static double DELTA = 0.000001;
 
     /**
      * Test method for {@link geometries.Triangle#getNormal(primitives.Point)}.
@@ -23,10 +23,16 @@ public class TriangleTests {
     public void testGetNormal() {
         // ============ Equivalence Partitions Tests ==============
         //TC01: ensure normal is correct
-        Triangle triangle = new Triangle(new Point(0, 0, 0), new Point(0, 1, 0), new Point(0, 0, 1));
-        assertEquals(new Vector(1, 0, 0),
-                triangle.getNormal(new Point(0, 0, 0)),
+        final Point p000=new Point(0, 0, 0);
+        final Point p010=new Point(0, 1, 0);
+        final Point p001=new Point(0, 0, 1);
+        Triangle triangle = new Triangle(p000, p010, p001);
+        final Vector exp=triangle.getNormal(p000);
+        assertTrue(exp.equals(new Vector(1, 0, 0)) || exp.equals(new Vector(-1, 0, 0)),
                 "ERROR: GetNormal() does not work correctly");
+        //ensure that the normal is orthogonal to the vector between the points
+        assertEquals(0, triangle.getNormal(p010).dotProduct(p000.subtract(p010)), DELTA);
+        assertEquals(0, triangle.getNormal(p000).dotProduct(p000.subtract(p001)), DELTA);
         // ensure |result| = 1
         assertEquals(1, triangle.getNormal(new Point(0, 0, 0)).length(), DELTA, "ERROR: Normal is len not 1");
     }

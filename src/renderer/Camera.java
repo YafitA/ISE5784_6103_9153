@@ -2,15 +2,18 @@ package renderer;
 
 import primitives.*;
 
+import static primitives.Util.alignZero;
+import static primitives.Util.isZero;
+
 /**
  * Represents a camera in a 3D space with a position and orientation vectors.
  * Implements the Builder design pattern for creating camera objects and the Cloneable interface.
  */
-public class Camera implements Cloneable{
+public class Camera implements Cloneable {
     /**
      * The Builder class is used to construct instances of Camera
      */
-    public static class Builder{
+    public static class Builder {
 
         final private Camera camera;
 
@@ -27,18 +30,74 @@ public class Camera implements Cloneable{
         public Builder(Camera camera) {
             this.camera = camera;
         }
+
+        /**
+         * sets camera's location
+         * @param p new location for camera
+         * @return this
+         */
+        public Builder setLocation(Point p){
+            camera.location = p;
+            return this;
+        }
+
+        /**
+         * set Direction for camera
+         * make sure the two vectors are align
+         * @param to new to Vector for camera
+         * @param up new up Vector for camera
+         * @return this
+         */
+        public Builder setDirection(Vector to, Vector up){
+            if (isZero(to.dotProduct(up))) throw new IllegalArgumentException("Vectors must be align");
+            camera.to = to.normalize();
+            camera.up = up.normalize();
+            return this;
+        }
+
+        /**
+         * set Vp Size
+         * @param width for Vp
+         * @param height for Vp
+         * @return this
+         */
+        public Builder setVpSize(double width, double height){
+            if(alignZero(width)<=0||alignZero(height)<=0) throw new IllegalArgumentException("width and/or height must be positive!");
+            camera.width = width;
+            camera.height = height;
+            return this;
+        }
+
+        /**
+         * set Vp Distance between camera and Vp
+         * @param distance between camera and Vp
+         * @return this
+         */
+        public Builder setVpDistance(double distance){
+            if(alignZero(distance)<=0) throw new IllegalArgumentException("distance must be positive!");
+            camera.distance = distance;
+            return this;
+        }
+
+        /**
+         * checks all camera parameters are valid
+         * @return camera
+         */
+        public Camera build(){
+
+        }
     }
 
-    private Point position;
+    private Point location;
     private Vector right;
     private Vector up;
     private Vector to;
-    private double viewPlaneHeight=0.0;
-    private double viewPlaneWidth=0.0;
-    private double viewPlaneDistance=0.0;
+    private double height = 0.0;
+    private double width = 0.0;
+    private double distance = 0.0;
 
     /**
-     *  Private constructor to create an item of type camera
+     * Private constructor to create an item of type camera
      */
     private Camera() {
     }
@@ -48,8 +107,8 @@ public class Camera implements Cloneable{
      *
      * @return the position of the camera.
      */
-    public Point getPosition() {
-        return position;
+    public Point getLocation() {
+        return location;
     }
 
     /**
@@ -108,10 +167,11 @@ public class Camera implements Cloneable{
 
     /**
      * Gets the builder
+     *
      * @return Builder
      */
     static public Builder getBuilder(){
-        return Builder;
+        return new Builder();
     }
 
     /**
@@ -121,13 +181,13 @@ public class Camera implements Cloneable{
      * @param nY Number of pixels in the view plane in the y-direction (height).
      * @param j  The pixel column index (x-coordinate) for which to construct the ray.
      * @param i  The pixel row index (y-coordinate) for which to construct the ray.
-     * @return   The constructed ray through the specified pixel.
-     *.
+     * @return The constructed ray through the specified pixel.
+     * .
      * This method considers the view plane's size and distance from the camera. The ray is constructed
      * through the center of the specified pixel in the view plane, taking into account the camera's
      * orientation vectors (right, up, and toward).
      */
-    public Ray constructRay(int nX, int nY, int j, int i){
+    public Ray constructRay(int nX, int nY, int j, int i) {
         return null;
     }
 

@@ -14,7 +14,6 @@ import static primitives.Util.isZero;
  */
 public class Plane implements Geometry {
 
-    @SuppressWarnings("unused") // TODO remove after it will have been used
     private final Point q;
 
     private final Vector normal;
@@ -75,12 +74,7 @@ public class Plane implements Geometry {
         //Calculate point t - where the ray hits the plane
         double t = (normal.dotProduct((q.subtract(ray.getHead())))) / nv;
 
-        //there are points hitting the plane
-        if (alignZero(t) > 0) {
-            return List.of(ray.getPoint(t));
-        }
-
-        //there are no points hitting the plane
-        return null;
+        //there are points hitting the plane OR there aren't
+        return alignZero(t) > 0 ? List.of(ray.getPoint(t)) : null;
     }
 }

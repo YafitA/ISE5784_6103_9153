@@ -7,11 +7,14 @@ import primitives.Vector;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * Unit tests for geometries.Geometries class
+ */
 class GeometriesTests {
 
-    final Sphere s = new Sphere(new Point(0, 1, 1), 0.5);
-    final Triangle t = new Triangle(new Point(-1, 0, 0), new Point(1, 0, 0), new Point(0, 2, 0));
-    final Plane p = new Plane(new Point(0, 0, 0.5), new Point(0, 2, 0.5), new Point(-1, 0, 0.5));
+    private final static Sphere s = new Sphere(new Point(0, 1, 1), 0.5);
+    private final static Triangle t = new Triangle(new Point(-1, 0, 0), new Point(1, 0, 0), new Point(0, 2, 0));
+    private final static Plane p = new Plane(new Point(0, 0, 0.5), new Point(0, 2, 0.5), new Point(-1, 0, 0.5));
 
     /**
      * Test method for {@link geometries.Geometries#findIntersections(Ray)}.
@@ -41,7 +44,6 @@ class GeometriesTests {
         // TC01: A few bodies are intersecting
         final Ray r01025 = new Ray(new Point(0, 0.25, 1), new Vector(0, 0, -1));
         assertEquals(2, geometries.findIntersections(r01025).size(), " a few bodies are intersected");
-
 
     }
 }

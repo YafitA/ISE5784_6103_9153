@@ -15,23 +15,23 @@ class PointTests {
     /**
      * First point for tests
      */
-    private static final Point p1 = new Point(1, 2, 3);
+    private final static Point p1 = new Point(1, 2, 3);
     /**
      * Second point for tests
      */
-    private static final Point p2 = new Point(2, 4, 6);
+    private final static Point p2 = new Point(2, 4, 6);
     /**
      * Third point for tests
      */
-    private static final Point p3 = new Point(2, 4, 5);
+    private final static Point p3 = new Point(2, 4, 5);
     /**
      * Vector for tests
      */
-    private static final Vector v1 = new Vector(1, 2, 3);
+    private final static Vector v1 = new Vector(1, 2, 3);
     /**
      * Delta value for accuracy when comparing the numbers of type 'double' in assertEquals
      */
-    private static final double DELTA = 0.00001;
+    private final static double DELTA = 0.00001;
 
     /**
      * Test method for {@link primitives.Point#add(primitives.Vector)}.

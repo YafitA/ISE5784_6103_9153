@@ -6,6 +6,8 @@ import primitives.*;
 
 import java.util.List;
 
+import static primitives.Util.alignZero;
+
 /**
  * class to present Sphere
  */
@@ -36,35 +38,21 @@ public class Sphere extends RadialGeometry {
         if (ray.getHead().equals(this.center)) {
             return List.of(ray.getPoint(this.radius));
         }
+
         Vector u = this.center.subtract(ray.getHead());
         double tm = u.dotProduct(ray.getDirection());
-
-        double d = Math.sqrt(u.lengthSquared() - tm * tm);
-        if (d >= this.radius)// No intersections
+        double dSquared = u.lengthSquared() - tm * tm;
+        double thSquared = this.radiusSquared - dSquared;
+        if (alignZero(thSquared) <= 0)// No intersections
             return null;
-        double th = Math.sqrt(this.radius * this.radius - d * d);
-        double t1 = tm - th;
-        double t2 = tm + th;
 
-        boolean t1Valid = Util.alignZero(t1) > 0;
-        boolean t2Valid = Util.alignZero(t2) > 0;
+        double th = Math.sqrt(thSquared);
+        double t2 = alignZero(tm + th);
+        if (t2 <= 0) return null;
 
-        if (t1Valid && t2Valid) {
-            // Both intersection points are valid
-            Point p1 = ray.getPoint(t1);
-            Point p2 = ray.getPoint(t2);
-            return List.of(p1, p2);
-        } else if (t1Valid) {
-            // Only the first intersection point is valid
-            Point p1 = ray.getPoint(t1);
-            return List.of(p1);
-        } else if (t2Valid) {
-            // Only the second intersection point is valid
-            Point p2 = ray.getPoint(t2);
-            return List.of(p2);
-        } else {
-            // No valid intersection points
-            return null;
-        }
+        double t1 = alignZero(tm - th);
+        return t1 <= 0
+                ? List.of(ray.getPoint(t2))
+                : List.of(ray.getPoint(t1), ray.getPoint(t2));
     }
 }

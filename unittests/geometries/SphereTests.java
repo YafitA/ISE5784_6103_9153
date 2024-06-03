@@ -13,8 +13,8 @@ import static org.junit.jupiter.api.Assertions.*;
  */
 public class SphereTests {
 
-    private final Point p001 = new Point(0, 0, 1);
-    private final Point p100 = new Point(1, 0, 0);
+    private final static Point p001 = new Point(0, 0, 1);
+    private final static Point p100 = new Point(1, 0, 0);
 
     /**
      * Test method for {@link geometries.Sphere#getNormal(primitives.Point)}.

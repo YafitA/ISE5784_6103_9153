@@ -59,10 +59,7 @@ public class Ray {
      * @return point p=p0+tv
      */
     public Point getPoint(double t) {
-        //p= p0 + tv
-        if (!Util.isZero(t))
-            return head.add(this.direction.scale(t));
-        else //if t is zero
-            return this.head;
+        //p= p0 or p0 + tv
+        return Util.isZero(t) ? this.head : head.add(this.direction.scale(t));
     }
 }
