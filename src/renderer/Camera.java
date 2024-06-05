@@ -93,7 +93,7 @@ public class Camera implements Cloneable {
 
             String msg = "";
             int numOfMissingParams=0;
-           if (isZero(this.camera.width)){
+            if (isZero(this.camera.width)){
                 msg+="Missing parameter: width.\n";
                 numOfMissingParams++;
             }
@@ -102,10 +102,15 @@ public class Camera implements Cloneable {
                 numOfMissingParams++;
             }
             if (isZero(this.camera.distance)){
-                msg+="Missing parameter: distance.\n"
+                msg+="Missing parameter: distance.\n";
                 numOfMissingParams++;
             }
             if(numOfMissingParams>0) throw new MissingResourceException("Missing render value","Camera",msg);
+
+            if (!isZero(camera.to.dotProduct(camera.up))) throw new IllegalArgumentException("Vectors must be align");
+            if(alignZero(camera.distance)<=0) throw new IllegalArgumentException("distance must be positive!");
+            if(alignZero(camera.width)<=0||alignZero(camera.height)<=0)
+                throw new IllegalArgumentException("width and/or height must be positive!");
 
             //calc missing information
             //todo check if cross product is normalized
@@ -222,7 +227,19 @@ public class Camera implements Cloneable {
      * orientation vectors (right, up, and toward).
      */
     public Ray constructRay(int nX, int nY, int j, int i) {
-        return null;
+        //calc center of vp
+        Point pIJ = location.add(to.scale(distance));
+
+        double yI = -1 * (i - (double)(nY-1)/2) * (height / nY);
+        double xJ = (j - (double)(nX-1)/2) * (width / nX);
+
+        //move point of pixel on vp
+        if(!isZero(xJ))
+            pIJ = pIJ.add(right.scale(xJ));
+        if(!isZero(yI))
+            pIJ = pIJ.add(up.scale(yI));
+
+        return new Ray(location, pIJ.subtract(location));
     }
 
     @Override
