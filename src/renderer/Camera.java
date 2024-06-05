@@ -2,6 +2,8 @@ package renderer;
 
 import primitives.*;
 
+import java.util.MissingResourceException;
+
 import static primitives.Util.alignZero;
 import static primitives.Util.isZero;
 
@@ -14,7 +16,7 @@ public class Camera implements Cloneable {
      * The Builder class is used to construct instances of Camera
      */
     public static class Builder {
-
+        /*** Camera in builder*/
         final private Camera camera;
 
         /**
@@ -49,9 +51,12 @@ public class Camera implements Cloneable {
          * @return this
          */
         public Builder setDirection(Vector to, Vector up){
-            if (isZero(to.dotProduct(up))) throw new IllegalArgumentException("Vectors must be align");
+            //check if vectors are aligned
+            if (!isZero(to.dotProduct(up))) throw new IllegalArgumentException("Vectors must be align");
+
             camera.to = to.normalize();
             camera.up = up.normalize();
+
             return this;
         }
 
@@ -62,7 +67,8 @@ public class Camera implements Cloneable {
          * @return this
          */
         public Builder setVpSize(double width, double height){
-            if(alignZero(width)<=0||alignZero(height)<=0) throw new IllegalArgumentException("width and/or height must be positive!");
+            if(alignZero(width)<=0||alignZero(height)<=0)
+                throw new IllegalArgumentException("width and/or height must be positive!");
             camera.width = width;
             camera.height = height;
             return this;
@@ -85,27 +91,55 @@ public class Camera implements Cloneable {
          */
         public Camera build(){
 
+            String msg = "";
+            int numOfMissingParams=0;
+           if (isZero(this.camera.width)){
+                msg+="Missing parameter: width.\n";
+                numOfMissingParams++;
+            }
+            if (isZero(this.camera.height)){
+                msg+="Missing parameter: height.\n";
+                numOfMissingParams++;
+            }
+            if (isZero(this.camera.distance)){
+                msg+="Missing parameter: distance.\n"
+                numOfMissingParams++;
+            }
+            if(numOfMissingParams>0) throw new MissingResourceException("Missing render value","Camera",msg);
+
+            //calc missing information
+            //todo check if cross product is normalized
+            camera.right=camera.to.crossProduct(camera.up).normalize();
+
+            return (Camera) camera.clone();
         }
     }
 
+    /**Point location for camera*/
     private Point location;
+    /**right direction vector of the camera*/
     private Vector right;
+    /**up direction vector of the camera*/
     private Vector up;
+    /**toward direction vector of the camera*/
     private Vector to;
+
+    /** View Plane (size: w x h) height*/
     private double height = 0.0;
+    /** View Plane (size: w x h) width*/
     private double width = 0.0;
+    /** the distance from the camera to the view plane*/
     private double distance = 0.0;
 
     /**
      * Private constructor to create an item of type camera
      */
-    private Camera() {
-    }
+    private Camera() {}
 
     /**
      * Gets the position of the camera.
      *
-     * @return the position of the camera.
+     * @return Point location for camera.
      */
     public Point getLocation() {
         return location;
@@ -143,8 +177,8 @@ public class Camera implements Cloneable {
      *
      * @return the height of the view plane.
      */
-    public double getViewPlaneHeight() {
-        return viewPlaneHeight;
+    public double getHeight() {
+        return height;
     }
 
     /**
@@ -152,8 +186,8 @@ public class Camera implements Cloneable {
      *
      * @return the width of the view plane.
      */
-    public double getViewPlaneWidth() {
-        return viewPlaneWidth;
+    public double getWidth() {
+        return width;
     }
 
     /**
@@ -161,8 +195,8 @@ public class Camera implements Cloneable {
      *
      * @return the distance from the camera to the view plane.
      */
-    public double getViewPlaneDistance() {
-        return viewPlaneDistance;
+    public double getDistance() {
+        return distance;
     }
 
     /**
