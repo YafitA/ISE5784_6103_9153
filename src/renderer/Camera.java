@@ -230,7 +230,7 @@ public class Camera implements Cloneable {
         //calc center of vp
         Point pIJ = location.add(to.scale(distance));
 
-        double yI = -1 * (i - (double)(nY-1)/2) * (height / nY);
+        double yI = - (i - (double)(nY-1)/2) * (height / nY);
         double xJ = (j - (double)(nX-1)/2) * (width / nX);
 
         //move point of pixel on vp
