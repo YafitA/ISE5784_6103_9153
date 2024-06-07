@@ -91,32 +91,46 @@ public class Camera implements Cloneable {
          */
         public Camera build(){
 
+            boolean isMissingParams=false;
             String msg = "";
-            int numOfMissingParams=0;
+
             if (isZero(this.camera.width)){
                 msg+="Missing parameter: width.\n";
-                numOfMissingParams++;
+                isMissingParams=true;
             }
             if (isZero(this.camera.height)){
                 msg+="Missing parameter: height.\n";
-                numOfMissingParams++;
+                isMissingParams=true;
             }
             if (isZero(this.camera.distance)){
                 msg+="Missing parameter: distance.\n";
-                numOfMissingParams++;
+                isMissingParams=true;
             }
-            if(numOfMissingParams>0) throw new MissingResourceException("Missing render value","Camera",msg);
+            if (this.camera.to==null){
+                msg+="Missing parameter: Vector to.\n";
+                isMissingParams=true;
+            }
+            if (this.camera.up==null){
+                msg+="Missing parameter: Vector up.\n";
+                isMissingParams=true;
+            }
+            if(isMissingParams)
+                throw new MissingResourceException("Missing render value(s)","Camera",msg);
 
             if (!isZero(camera.to.dotProduct(camera.up))) throw new IllegalArgumentException("Vectors must be align");
             if(alignZero(camera.distance)<=0) throw new IllegalArgumentException("distance must be positive!");
-            if(alignZero(camera.width)<=0||alignZero(camera.height)<=0)
-                throw new IllegalArgumentException("width and/or height must be positive!");
+            if(alignZero(camera.width)<=0||alignZero(camera.height)<=0) throw new IllegalArgumentException("width and/or height must be positive!");
 
             //calc missing information
-            //todo check if cross product is normalized
             camera.right=camera.to.crossProduct(camera.up).normalize();
 
-            return (Camera) camera.clone();
+            try {
+                return (Camera) camera.clone();
+            }
+            catch (java.lang.CloneNotSupportedException e){
+                throw new RuntimeException();
+            }
+
         }
     }
 
@@ -227,6 +241,7 @@ public class Camera implements Cloneable {
      * orientation vectors (right, up, and toward).
      */
     public Ray constructRay(int nX, int nY, int j, int i) {
+
         //calc center of vp
         Point pIJ = location.add(to.scale(distance));
 
@@ -242,14 +257,5 @@ public class Camera implements Cloneable {
         return new Ray(location, pIJ.subtract(location));
     }
 
-    @Override
-    public Camera clone() {
-        try {
-            Camera clone = (Camera) super.clone();
-            // TODO: copy mutable state here, so the clone can't change the internals of the original
-            return clone;
-        } catch (CloneNotSupportedException e) {
-            throw new AssertionError();
-        }
-    }
+
 }

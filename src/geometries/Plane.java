@@ -41,7 +41,6 @@ public class Plane implements Geometry {
      * @param q      point on the plane
      * @param normal normal to the plane
      */
-    @SuppressWarnings("unused") // TODO remove after it will have been used
     public Plane(Point q, Vector normal) {
         this.q = q;
         this.normal = normal.normalize();
