@@ -35,10 +35,11 @@ public class Camera implements Cloneable {
 
         /**
          * sets camera's location
+         *
          * @param p new location for camera
          * @return this
          */
-        public Builder setLocation(Point p){
+        public Builder setLocation(Point p) {
             camera.location = p;
             return this;
         }
@@ -46,11 +47,12 @@ public class Camera implements Cloneable {
         /**
          * set Direction for camera
          * make sure the two vectors are align
+         *
          * @param to new to Vector for camera
          * @param up new up Vector for camera
          * @return this
          */
-        public Builder setDirection(Vector to, Vector up){
+        public Builder setDirection(Vector to, Vector up) {
             //check if vectors are aligned
             if (!isZero(to.dotProduct(up))) throw new IllegalArgumentException("Vectors must be align");
 
@@ -62,12 +64,13 @@ public class Camera implements Cloneable {
 
         /**
          * set Vp Size
-         * @param width for Vp
+         *
+         * @param width  for Vp
          * @param height for Vp
          * @return this
          */
-        public Builder setVpSize(double width, double height){
-            if(alignZero(width)<=0||alignZero(height)<=0)
+        public Builder setVpSize(double width, double height) {
+            if (alignZero(width) <= 0 || alignZero(height) <= 0)
                 throw new IllegalArgumentException("width and/or height must be positive!");
             camera.width = width;
             camera.height = height;
@@ -76,84 +79,101 @@ public class Camera implements Cloneable {
 
         /**
          * set Vp Distance between camera and Vp
+         *
          * @param distance between camera and Vp
          * @return this
          */
-        public Builder setVpDistance(double distance){
-            if(alignZero(distance)<=0) throw new IllegalArgumentException("distance must be positive!");
+        public Builder setVpDistance(double distance) {
+            if (alignZero(distance) <= 0) throw new IllegalArgumentException("distance must be positive!");
             camera.distance = distance;
             return this;
         }
 
         /**
          * checks all camera parameters are valid
+         *
          * @return camera
          */
-        public Camera build(){
+        public Camera build() {
 
-            boolean isMissingParams=false;
+            boolean isMissingParams = false;
             String msg = "";
 
-            if (isZero(this.camera.width)){
-                msg+="Missing parameter: width.\n";
-                isMissingParams=true;
+            if (isZero(this.camera.width)) {
+                msg += "Missing parameter: width.\n";
+                isMissingParams = true;
             }
-            if (isZero(this.camera.height)){
-                msg+="Missing parameter: height.\n";
-                isMissingParams=true;
+            if (isZero(this.camera.height)) {
+                msg += "Missing parameter: height.\n";
+                isMissingParams = true;
             }
-            if (isZero(this.camera.distance)){
-                msg+="Missing parameter: distance.\n";
-                isMissingParams=true;
+            if (isZero(this.camera.distance)) {
+                msg += "Missing parameter: distance.\n";
+                isMissingParams = true;
             }
-            if (this.camera.to==null){
-                msg+="Missing parameter: Vector to.\n";
-                isMissingParams=true;
+            if (this.camera.to == null) {
+                msg += "Missing parameter: Vector to.\n";
+                isMissingParams = true;
             }
-            if (this.camera.up==null){
-                msg+="Missing parameter: Vector up.\n";
-                isMissingParams=true;
+            if (this.camera.up == null) {
+                msg += "Missing parameter: Vector up.\n";
+                isMissingParams = true;
             }
-            if(isMissingParams)
-                throw new MissingResourceException("Missing render value(s)","Camera",msg);
+            if (isMissingParams)
+                throw new MissingResourceException("Missing render value(s)", "Camera", msg);
 
             if (!isZero(camera.to.dotProduct(camera.up))) throw new IllegalArgumentException("Vectors must be align");
-            if(alignZero(camera.distance)<=0) throw new IllegalArgumentException("distance must be positive!");
-            if(alignZero(camera.width)<=0||alignZero(camera.height)<=0) throw new IllegalArgumentException("width and/or height must be positive!");
+            if (alignZero(camera.distance) <= 0) throw new IllegalArgumentException("distance must be positive!");
+            if (alignZero(camera.width) <= 0 || alignZero(camera.height) <= 0)
+                throw new IllegalArgumentException("width and/or height must be positive!");
 
             //calc missing information
-            camera.right=camera.to.crossProduct(camera.up).normalize();
+            camera.right = camera.to.crossProduct(camera.up).normalize();
 
             try {
                 return (Camera) camera.clone();
-            }
-            catch (java.lang.CloneNotSupportedException e){
+            } catch (java.lang.CloneNotSupportedException e) {
                 throw new RuntimeException();
             }
 
         }
     }
 
-    /**Point location for camera*/
+    /**
+     * Point location for camera
+     */
     private Point location;
-    /**right direction vector of the camera*/
+    /**
+     * right direction vector of the camera
+     */
     private Vector right;
-    /**up direction vector of the camera*/
+    /**
+     * up direction vector of the camera
+     */
     private Vector up;
-    /**toward direction vector of the camera*/
+    /**
+     * toward direction vector of the camera
+     */
     private Vector to;
 
-    /** View Plane (size: w x h) height*/
+    /**
+     * View Plane (size: w x h) height
+     */
     private double height = 0.0;
-    /** View Plane (size: w x h) width*/
+    /**
+     * View Plane (size: w x h) width
+     */
     private double width = 0.0;
-    /** the distance from the camera to the view plane*/
+    /**
+     * the distance from the camera to the view plane
+     */
     private double distance = 0.0;
 
     /**
      * Private constructor to create an item of type camera
      */
-    private Camera() {}
+    private Camera() {
+    }
 
     /**
      * Gets the position of the camera.
@@ -223,7 +243,7 @@ public class Camera implements Cloneable {
      *
      * @return Builder
      */
-    static public Builder getBuilder(){
+    static public Builder getBuilder() {
         return new Builder();
     }
 
@@ -245,13 +265,13 @@ public class Camera implements Cloneable {
         //calc center of vp
         Point pIJ = location.add(to.scale(distance));
 
-        double yI = - (i - (double)(nY-1)/2) * (height / nY);
-        double xJ = (j - (double)(nX-1)/2) * (width / nX);
+        double yI = -(i - (double) (nY - 1) / 2) * (height / nY);
+        double xJ = (j - (double) (nX - 1) / 2) * (width / nX);
 
         //move point of pixel on vp
-        if(!isZero(xJ))
+        if (!isZero(xJ))
             pIJ = pIJ.add(right.scale(xJ));
-        if(!isZero(yI))
+        if (!isZero(yI))
             pIJ = pIJ.add(up.scale(yI));
 
         return new Ray(location, pIJ.subtract(location));
