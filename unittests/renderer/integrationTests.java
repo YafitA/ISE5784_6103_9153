@@ -126,6 +126,7 @@ public class integrationTests {
         final Plane Plane3=new Plane(new Point(10,0,-10),new Point(0,10,-2),new Point(0,-50,-50));
         assertEquals(6,IntegrationPointsNumber(camera000,Plane3),
                 "wrong number of intersection with Plane");
+
     }
 
 }
