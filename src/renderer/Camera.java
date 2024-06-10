@@ -171,8 +171,7 @@ public class Camera implements Cloneable {
     /**
      * Private constructor to create an item of type camera
      */
-    private Camera() {
-    }
+    private Camera() {}
 
     /**
      * Gets the position of the camera.
