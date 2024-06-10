@@ -8,8 +8,6 @@ import primitives.Color;
  */
 class ImageWriterTests {
 
-
-
     /**
      * Test method for
      * {@link ImageWriter#writeToImage()}.
