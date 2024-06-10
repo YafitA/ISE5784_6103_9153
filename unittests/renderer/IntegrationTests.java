@@ -42,8 +42,8 @@ public class IntegrationTests {
     int integrationPointsNumber(int nX, int nY, Camera camera, Intersectable shape) {
         int numPoints = 0;
         Ray ray;
-        for (int j = 0; j < 3; j++) {
-            for (int i = 0; i < 3; i++) {
+        for (int j = 0; j < nX; j++) {
+            for (int i = 0; i < nY; i++) {
                 ray = camera.constructRay(nX, nY, j, i);
                 List<Point> intersections = shape.findIntersections(ray);
                 numPoints += (intersections != null) ? intersections.size() : 0;
