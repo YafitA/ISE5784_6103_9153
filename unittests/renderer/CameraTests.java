@@ -5,7 +5,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.Test;
 
 import primitives.*;
-import renderer.*;
 //import scene.Scene;
 
 /**
@@ -13,7 +12,7 @@ import renderer.*;
  *
  * @author Dan
  */
-class CameraTest {
+class CameraTests {
     /**
      * Camera builder for the tests
      */

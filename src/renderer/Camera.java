@@ -27,8 +27,10 @@ public class Camera implements Cloneable {
         }
 
         /**
-         * parameters constructor
+         * Parameter contractor
+         * @param camera Camera
          */
+        @SuppressWarnings("unused")
         public Builder(Camera camera) {
             this.camera = camera;
         }
@@ -95,11 +97,10 @@ public class Camera implements Cloneable {
          * @return camera
          */
         public Camera build() {
-
             boolean isMissingParams = false;
             String msg = "";
 
-            if (isZero(this.camera.width)) {
+            if (alignZero(this.camera.width) <= 0) {
                 msg += "Missing parameter: width.\n";
                 isMissingParams = true;
             }
@@ -124,18 +125,16 @@ public class Camera implements Cloneable {
 
             if (!isZero(camera.to.dotProduct(camera.up))) throw new IllegalArgumentException("Vectors must be align");
             if (alignZero(camera.distance) <= 0) throw new IllegalArgumentException("distance must be positive!");
-            if (alignZero(camera.width) <= 0 || alignZero(camera.height) <= 0)
-                throw new IllegalArgumentException("width and/or height must be positive!");
+            if (alignZero(camera.width) <= 0 || alignZero(camera.height) <= 0) throw new IllegalArgumentException("width and/or height must be positive!");
 
             //calc missing information
             camera.right = camera.to.crossProduct(camera.up).normalize();
 
             try {
                 return (Camera) camera.clone();
-            } catch (java.lang.CloneNotSupportedException e) {
-                throw new RuntimeException();
+            } catch (CloneNotSupportedException e) {
+                return null;
             }
-
         }
     }
 

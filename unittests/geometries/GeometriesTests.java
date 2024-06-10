@@ -12,8 +12,11 @@ import static org.junit.jupiter.api.Assertions.*;
  */
 class GeometriesTests {
 
+    /**Sphere for test*/
     private final static Sphere s = new Sphere(new Point(0, 1, 1), 0.5);
+    /**Triangle for test*/
     private final static Triangle t = new Triangle(new Point(-1, 0, 0), new Point(1, 0, 0), new Point(0, 2, 0));
+    /**Plane for test*/
     private final static Plane p = new Plane(new Point(0, 0, 0.5), new Point(0, 2, 0.5), new Point(-1, 0, 0.5));
 
     /**

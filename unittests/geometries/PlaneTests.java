@@ -16,6 +16,10 @@ import static org.junit.jupiter.api.Assertions.*;
  */
 public class PlaneTests {
 
+    /**
+     * Delta value for accuracy when comparing the numbers of type 'double' in
+     * assertEquals
+     */
     private final double DELTA = 0.000001;
 
     /**
@@ -56,7 +60,7 @@ public class PlaneTests {
     }
 
     /**
-     *
+     *Test method for {@link geometries.Plane#findIntersections(Ray)}.
      */
     @Test
     void testFindIntersections() {

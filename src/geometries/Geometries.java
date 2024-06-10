@@ -7,8 +7,12 @@ import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
+/**
+ * Class to represent a geometries
+ */
 public class Geometries implements Intersectable {
 
+    /**list of intersection*/
     private final List<Intersectable> intersectableList = new LinkedList<>();
 
     /**

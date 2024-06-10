@@ -13,7 +13,10 @@ import static org.junit.jupiter.api.Assertions.*;
  * Unit tests for geometries.Triangle class
  */
 public class TriangleTests {
-
+    /**
+     * Delta value for accuracy when comparing the numbers of type 'double' in
+     * assertEquals
+     */
     private final static double DELTA = 0.000001;
 
     /**
@@ -37,6 +40,9 @@ public class TriangleTests {
         assertEquals(1, triangle.getNormal(new Point(0, 0, 0)).length(), DELTA, "ERROR: Normal is len not 1");
     }
 
+    /**
+     * est method for {@link geometries.Triangle#findIntersections(Ray)}.
+     */
     @Test
     public void testFindIntersections() {
 

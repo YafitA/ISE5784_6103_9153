@@ -7,8 +7,11 @@ import static org.junit.jupiter.api.Assertions.*;
 /**
  * Unit tests for primitives.Vector class
  */
-public class VectorTest {
-
+public class VectorTests {
+    /**
+     * Delta value for accuracy when comparing the numbers of type 'double' in
+     * assertEquals
+     */
     private final static double DELTA = 0.000001;
 
     /**
