@@ -33,18 +33,17 @@ public class IntegrationTests {
 
     /**
      * Calculate the number of integration points between the camera's ray and the shape
-     * @param nX Number of pixels in the view plane in the x-direction (width).
-     * @param nY Number of pixels in the view plane in the y-direction (height).
+     *
      * @param camera Camera
-     * @param shape Shape
+     * @param shape  Shape
      * @return number of integration Points Number
      */
-    int integrationPointsNumber(int nX, int nY, Camera camera, Intersectable shape) {
+    int integrationPointsNumber(Camera camera, Intersectable shape) {
         int numPoints = 0;
         Ray ray;
-        for (int j = 0; j < nX; j++) {
-            for (int i = 0; i < nY; i++) {
-                ray = camera.constructRay(nX, nY, j, i);
+        for (int j = 0; j < 3; j++) {
+            for (int i = 0; i < 3; i++) {
+                ray = camera.constructRay(3, 3, j, i);
                 List<Point> intersections = shape.findIntersections(ray);
                 numPoints += (intersections != null) ? intersections.size() : 0;
             }
@@ -62,28 +61,28 @@ public class IntegrationTests {
 
         //TC01: test case r=1 (2 points)
         final Sphere sphere1 = new Sphere(new Point(0, 0, -3), 1);
-        assertEquals(2, integrationPointsNumber(3,3, camera000, sphere1),
+        assertEquals(2, integrationPointsNumber(camera000, sphere1),
                 "wrong number of intersection with sphere");
 
         //TC02: test case r=2.5 (18 points)
         final Camera camera2 = cameraBuilder.setLocation(new Point(0, 0, 0.5)).build();
         final Sphere sphere2 = new Sphere(new Point(0, 0, -2.5), 2.5);
-        assertEquals(18, integrationPointsNumber(3,3, camera2, sphere2),
+        assertEquals(18, integrationPointsNumber(camera2, sphere2),
                 "wrong number of intersection with sphere");
 
         //TC03: test case r=2 (10 points)
         final Sphere sphere3 = new Sphere(new Point(0, 0, -2), 2);
-        assertEquals(10, integrationPointsNumber(3,3,camera2, sphere3),
+        assertEquals(10, integrationPointsNumber(camera2, sphere3),
                 "wrong number of intersection with sphere");
 
         //TC04: test case r=4 (9 points)
         final Sphere sphere4 = new Sphere(new Point(0, 0, -0.5), 4);
-        assertEquals(9, integrationPointsNumber(3,3,camera2, sphere4),
+        assertEquals(9, integrationPointsNumber(camera2, sphere4),
                 "wrong number of intersection with sphere");
 
         //TC05: test case r=0.5 (0 point)
         final Sphere sphere5 = new Sphere(new Point(0, 0, 1), 0.5);
-        assertEquals(0, integrationPointsNumber(3,3,camera2, sphere5),
+        assertEquals(0, integrationPointsNumber(camera2, sphere5),
                 "wrong number of intersection with sphere");
     }
 
@@ -100,12 +99,12 @@ public class IntegrationTests {
 
         //TC01: test case small triangle (1 point)
         Triangle triangle1 = new Triangle(new Point(0, 1, -2), p1, p2);
-        assertEquals(1, integrationPointsNumber(3,3,camera000, triangle1),
+        assertEquals(1, integrationPointsNumber(camera000, triangle1),
                 "wrong number of intersection with triangle");
 
         //TC02: test case big triangle (2 points)
         Triangle triangle2 = new Triangle(new Point(0, 20, -2), p1, p2);
-        assertEquals(2, integrationPointsNumber(3,3,camera000, triangle2),
+        assertEquals(2, integrationPointsNumber(camera000, triangle2),
                 "wrong number of intersection with triangle");
     }
 
@@ -118,17 +117,17 @@ public class IntegrationTests {
     void testIntegrationPlane() {
         //TC01: Plane is on vp (9 points)
         final Plane Plane1 = new Plane(new Point(10, 0, -10), new Point(0, 10, -10), new Point(0, -10, -10));
-        assertEquals(9, integrationPointsNumber(3,3,camera000, Plane1),
+        assertEquals(9, integrationPointsNumber(camera000, Plane1),
                 "wrong number of intersection with Plane");
 
         //TC02: Plane cuts vp a small slope (9 points)
         final Plane Plane2 = new Plane(new Point(10, 0, -10), new Point(0, 10, -2), new Point(0, -10, -15));
-        assertEquals(9, integrationPointsNumber(3,3,camera000, Plane2),
+        assertEquals(9, integrationPointsNumber(camera000, Plane2),
                 "wrong number of intersection with Plane");
 
         //TC03: Plane cuts vp a big slope (6 points)
         final Plane Plane3 = new Plane(new Point(10, 0, -10), new Vector(0, 6, -5));
-        assertEquals(6, integrationPointsNumber(3,3,camera000, Plane3),
+        assertEquals(6, integrationPointsNumber(camera000, Plane3),
                 "wrong number of intersection with Plane");
 
     }
