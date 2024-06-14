@@ -12,6 +12,7 @@ import static primitives.Util.isZero;
  * Implements the Builder design pattern for creating camera objects and the Cloneable interface.
  */
 public class Camera implements Cloneable {
+
     /**
      * The Builder class is used to construct instances of Camera
      */
