@@ -1,5 +1,8 @@
 package primitives;
 
+import java.util.Comparator;
+import java.util.List;
+
 /**
  * Represents a ray in three-dimensional space.
  */
@@ -17,7 +20,6 @@ public class Ray {
      */
     public Ray(Point head, Vector direction) {
         this.head = head;
-        //Vector direction must be normalized
         this.direction = direction.normalize();
     }
 
@@ -61,5 +63,18 @@ public class Ray {
     public Point getPoint(double t) {
         //p= p0 or p0 + tv
         return Util.isZero(t) ? this.head : head.add(this.direction.scale(t));
+    }
+
+    /**
+     * Find the closest point to ray's head
+     * @param points collection
+     * @return point closest to ray's head
+     */
+    public Point findClosestPoint(List<Point> points){
+        //Go over points and find the point w\ the minimum distance to point head
+        //if list is empty - return null
+        return   points.stream()
+                .min(Comparator.comparingDouble(head::distance))
+                .orElse(null);
     }
 }

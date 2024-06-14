@@ -32,4 +32,8 @@ public class RayTests {
         double tZero = 0;
         assertEquals(head, ray.getPoint(tZero), "Zero distance test failed");
     }
+
+    @Test
+    void testFindClosestPoint() {
+    }
 }
