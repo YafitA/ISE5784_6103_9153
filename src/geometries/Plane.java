@@ -14,10 +14,14 @@ import static primitives.Util.isZero;
  */
 public class Plane implements Geometry {
 
-    /**point on the plane*/
+    /**
+     * point on the plane
+     */
     private final Point q;
 
-    /**normal to the plane*/
+    /**
+     * normal to the plane
+     */
     private final Vector normal;
 
     /**

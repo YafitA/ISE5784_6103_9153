@@ -3,7 +3,9 @@ package geometries;
 import primitives.Point;
 import primitives.Ray;
 import primitives.Vector;
+
 import java.util.List;
+
 import static primitives.Util.isZero;
 
 /**
@@ -11,7 +13,9 @@ import static primitives.Util.isZero;
  */
 public class Cylinder extends Tube {
 
-    /** Cylinder height */
+    /**
+     * Cylinder height
+     */
     private final double height;
 
     /**

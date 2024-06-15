@@ -7,9 +7,13 @@ import java.util.List;
  * Represents a ray in three-dimensional space.
  */
 public class Ray {
-    /**The starting point of the ray.*/
+    /**
+     * The starting point of the ray.
+     */
     private final Point head;
-    /**The direction vector of the ray.*/
+    /**
+     * The direction vector of the ray.
+     */
     private final Vector direction;
 
     /**
@@ -67,13 +71,14 @@ public class Ray {
 
     /**
      * Find the closest point to ray's head
+     *
      * @param points collection
      * @return point closest to ray's head
      */
-    public Point findClosestPoint(List<Point> points){
+    public Point findClosestPoint(List<Point> points) {
         //Go over points and find the point w\ the minimum distance to point head
         //if list is empty - return null
-        return   points.stream()
+        return points.stream()
                 .min(Comparator.comparingDouble(head::distance))
                 .orElse(null);
     }

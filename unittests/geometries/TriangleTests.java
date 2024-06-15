@@ -26,11 +26,11 @@ public class TriangleTests {
     public void testGetNormal() {
         // ============ Equivalence Partitions Tests ==============
         //TC01: ensure normal is correct
-        final Point p000=new Point(0, 0, 0);
-        final Point p010=new Point(0, 1, 0);
-        final Point p001=new Point(0, 0, 1);
+        final Point p000 = new Point(0, 0, 0);
+        final Point p010 = new Point(0, 1, 0);
+        final Point p001 = new Point(0, 0, 1);
         Triangle triangle = new Triangle(p000, p010, p001);
-        final Vector exp=triangle.getNormal(p000);
+        final Vector exp = triangle.getNormal(p000);
         assertTrue(exp.equals(new Vector(1, 0, 0)) || exp.equals(new Vector(-1, 0, 0)),
                 "ERROR: GetNormal() does not work correctly");
         //ensure that the normal is orthogonal to the vector between the points

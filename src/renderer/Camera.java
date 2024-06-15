@@ -29,6 +29,7 @@ public class Camera implements Cloneable {
 
         /**
          * Parameter contractor
+         *
          * @param camera Camera
          */
         @SuppressWarnings("unused")
@@ -126,7 +127,8 @@ public class Camera implements Cloneable {
 
             if (!isZero(camera.to.dotProduct(camera.up))) throw new IllegalArgumentException("Vectors must be align");
             if (alignZero(camera.distance) <= 0) throw new IllegalArgumentException("distance must be positive!");
-            if (alignZero(camera.width) <= 0 || alignZero(camera.height) <= 0) throw new IllegalArgumentException("width and/or height must be positive!");
+            if (alignZero(camera.width) <= 0 || alignZero(camera.height) <= 0)
+                throw new IllegalArgumentException("width and/or height must be positive!");
 
             //calc missing information
             camera.right = camera.to.crossProduct(camera.up).normalize();
@@ -172,7 +174,8 @@ public class Camera implements Cloneable {
     /**
      * Private constructor to create an item of type camera
      */
-    private Camera() {}
+    private Camera() {
+    }
 
     /**
      * Gets the position of the camera.

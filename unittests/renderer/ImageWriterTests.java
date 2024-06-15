@@ -4,7 +4,7 @@ import org.junit.jupiter.api.Test;
 import primitives.Color;
 
 /**
- *Test for ImageWriter class
+ * Test for ImageWriter class
  */
 class ImageWriterTests {
 
@@ -15,11 +15,11 @@ class ImageWriterTests {
     @Test
     void testWriteToImage() {
         //Create a 800x500 imageWriter
-        ImageWriter imageWriter=new ImageWriter("imageTest",800,500);
+        ImageWriter imageWriter = new ImageWriter("imageTest", 800, 500);
 
         //Colors to color the grid and the background
         Color gridColor = new Color(java.awt.Color.magenta);
-        Color backgroundColor=new Color(java.awt.Color.cyan);
+        Color backgroundColor = new Color(java.awt.Color.cyan);
 
         //coloring the image
         for (int i = 0; i < imageWriter.getNx(); i++) {
@@ -31,5 +31,4 @@ class ImageWriterTests {
         //producing the image file
         imageWriter.writeToImage();
     }
-
 }

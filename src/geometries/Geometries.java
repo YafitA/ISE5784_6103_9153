@@ -12,7 +12,9 @@ import java.util.List;
  */
 public class Geometries implements Intersectable {
 
-    /**list of intersection*/
+    /**
+     * list of intersection
+     */
     private final List<Intersectable> intersectableList = new LinkedList<>();
 
     /**

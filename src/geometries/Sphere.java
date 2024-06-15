@@ -13,7 +13,9 @@ import static primitives.Util.alignZero;
  */
 public class Sphere extends RadialGeometry {
 
-    /**the middle point*/
+    /**
+     * the middle point
+     */
     private final Point center;
 
     /**
