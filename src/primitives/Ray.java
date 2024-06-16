@@ -79,7 +79,6 @@ public class Ray {
         //Go over points and find the point w\ the minimum distance to point head
         //if list is empty - return null
         return points.stream()
-                .min(Comparator.comparingDouble(head::distance))
-                .orElse(null);
+                .min(Comparator.comparingDouble(head::distance)).orElse(null);
     }
 }

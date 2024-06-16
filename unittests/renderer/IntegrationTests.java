@@ -13,6 +13,8 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import scene.Scene;
+
 /**
  * Integration tests between creating rays from a camera and
  * calculating sections of a ray with geometric bodies
@@ -23,8 +25,8 @@ public class IntegrationTests {
      * Camera Builder
      */
     private final Camera.Builder cameraBuilder = Camera.getBuilder()
-            //.setRayTracer(new SimpleRayTracer(new Scene("Test")))
-            //.setImageWriter(new ImageWriter("Test", 1, 1))
+            .setRayTracer(new SimpleRayTracer(new Scene("Test")))
+            .setImageWriter(new ImageWriter("Test", 1, 1))
             .setLocation(Point.ZERO)
             .setDirection(new Vector(0, 0, -1), new Vector(0, 1, 0))
             .setVpDistance(1)
