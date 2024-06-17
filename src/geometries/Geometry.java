@@ -16,6 +16,7 @@ public abstract class Geometry extends Intersectable {
 
     /**
      * gets emission's value
+     *
      * @return emission
      */
     public Color getEmission() {
@@ -24,7 +25,8 @@ public abstract class Geometry extends Intersectable {
 
     /**
      * set Emission
-     * @param emission  New emission color
+     *
+     * @param emission New emission color
      * @return this
      */
     public Geometry setEmission(Color emission) {

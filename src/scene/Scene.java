@@ -13,7 +13,7 @@ public class Scene {
     /**
      * Scene's name
      */
-    public String name;
+    public final String name;
     /**
      * background's color
      */

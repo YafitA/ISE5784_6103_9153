@@ -11,7 +11,7 @@ public abstract class RayTracerBase {
     /**
      * Scene parameter
      */
-    protected Scene scene;
+    protected final Scene scene;
 
     /**
      * Ray Tracer Base constructor accepting scene parameter
