@@ -81,4 +81,6 @@ public class Ray {
         return points.stream()
                 .min(Comparator.comparingDouble(head::distance)).orElse(null);
     }
+
+
 }

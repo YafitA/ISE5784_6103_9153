@@ -10,7 +10,7 @@ import java.util.List;
 /**
  * Class to represent a geometries
  */
-public class Geometries implements Intersectable {
+public class Geometries extends Intersectable {
 
     /**
      * list of intersection

@@ -12,7 +12,7 @@ import static primitives.Util.isZero;
 /**
  * class to present a plane
  */
-public class Plane implements Geometry {
+public class Plane extends Geometry {
 
     /**
      * point on the plane
