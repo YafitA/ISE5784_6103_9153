@@ -7,7 +7,7 @@ import primitives.Vector;
 import java.util.List;
 
 /**
- *  represent intersect
+ * represent intersect
  */
 public abstract class Intersectable {
 
@@ -29,7 +29,7 @@ public abstract class Intersectable {
             if (this == obj)
                 return true;
             return (obj instanceof GeoPoint other) &&
-                    this.geometry== other.geometry &&
+                    this.geometry == other.geometry &&
                     this.point.equals(other.point);
         }
 
@@ -43,8 +43,9 @@ public abstract class Intersectable {
 
         /**
          * Create a GeoPoint object
-         * @param geometry  geometry body
-         * @param point Point
+         *
+         * @param geometry geometry body
+         * @param point    Point
          */
         public GeoPoint(Geometry geometry, Point point) {
             this.geometry = geometry;
@@ -62,19 +63,21 @@ public abstract class Intersectable {
 
     /**
      * find Geo Intersections
+     *
      * @param ray
      * @return
      */
-    public List<GeoPoint> findGeoIntersections(Ray ray){
+    public List<GeoPoint> findGeoIntersections(Ray ray) {
         return findGeoIntersectionsHelper(ray);
     }
 
     /**
-     * findGeoIntersectionsHelper
-     * @param ray ray
-     * @return List<GeoPoint>
+     * TODO
+     *
+     * @param ray TODO
+     * @return TODO
      */
-    protected List<GeoPoint> findGeoIntersectionsHelper(Ray ray){
+    protected List<GeoPoint> findGeoIntersectionsHelper(Ray ray) {
         return null;
     }
 
