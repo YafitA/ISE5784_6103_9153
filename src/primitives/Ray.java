@@ -76,10 +76,25 @@ public class Ray {
      * @return point closest to ray's head
      */
     public Point findClosestPoint(List<Point> points) {
-        //Go over points and find the point w\ the minimum distance to point head
         //if list is empty - return null
-        return points.stream()
-                .min(Comparator.comparingDouble(head::distance)).orElse(null);
+        if (points.isEmpty()) {
+            return null;
+        }
+
+        //We initialize the values for comparison
+        Point closestPoint = null;
+        double minDistance = Double.MAX_VALUE;
+
+        //Go over points and find the point w\ the minimum distance to point head
+        for (Point point : points) {
+            double distance = head.distance(point);
+            if (distance < minDistance) {
+                minDistance = distance;
+                closestPoint = point;
+            }
+        }
+
+        return closestPoint;
     }
 
 
