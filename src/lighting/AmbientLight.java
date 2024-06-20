@@ -7,12 +7,8 @@ import primitives.Color;
 /**
  * Class represents an ambient Light
  */
-public class AmbientLight {
+public class AmbientLight extends Light {
 
-    /**
-     * Ambient light intensity
-     */
-    final private Color intensity;
 
     /**
      * Ambient light color black
@@ -26,7 +22,7 @@ public class AmbientLight {
      * @param kA Fill light attenuation coefficient (Double3)
      */
     public AmbientLight(Color iA, Double3 kA) {
-        intensity = iA.scale(kA);
+        super(iA.scale(kA));
     }
 
     /**
@@ -36,15 +32,7 @@ public class AmbientLight {
      * @param kA Fill light attenuation coefficient (double)
      */
     public AmbientLight(Color iA, double kA) {
-        intensity = iA.scale(kA);
+        super(iA.scale(kA));
     }
 
-    /**
-     * Get Intensity value
-     *
-     * @return Ambient light intensity
-     */
-    public Color getIntensity() {
-        return this.intensity;
-    }
 }

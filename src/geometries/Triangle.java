@@ -6,6 +6,7 @@ import primitives.Util;
 import primitives.Vector;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static primitives.Util.alignZero;
 
@@ -26,7 +27,7 @@ public class Triangle extends Polygon {
     }
 
     @Override
-    public List<Point> findIntersections(Ray ray) {
+    protected List<GeoPoint> findGeoIntersectionsHelper(Ray ray) {
 
         var intersection = plane.findIntersections(ray);
         if (intersection == null) return null;
@@ -52,6 +53,8 @@ public class Triangle extends Polygon {
         double t3 = alignZero(v.dotProduct(n3));
         if (t1 * t3 <= 0) return null;
 
-        return intersection;
+        return   intersection.stream()
+                .map(point -> new GeoPoint(this, point))
+                .toList();
     }
 }
