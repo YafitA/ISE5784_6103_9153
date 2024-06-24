@@ -35,19 +35,19 @@ public class SpotLight extends PointLight{
         this.direction=direction;
     }
 
-    @Override
-    public PointLight setKc(double kC) {
+
+    public SpotLight setKc(double kC) {
         return (SpotLight)super.setKc(kC);
     }
 
-    @Override
-    public PointLight setKl(double kL) {
+
+    public SpotLight setKl(double kL) {
         return (SpotLight)super.setKl(kL);
     }
 
     //TODO
-    @Override
-    public PointLight setKq(double kQ) {
+
+    public SpotLight setKq(double kQ) {
         return (SpotLight)super.setKl(kQ);
     }
 }
