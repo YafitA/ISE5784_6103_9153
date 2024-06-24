@@ -31,7 +31,7 @@ public class PointLight extends Light implements LightSource {
     }
 
     /**
-     * Set Kc
+     * Set Kc with given parameter
      *
      * @param kC factor
      */
@@ -41,7 +41,7 @@ public class PointLight extends Light implements LightSource {
     }
 
     /**
-     * Set Kl
+     * Set Kl with given parameter
      *
      * @param kL factor
      */
@@ -51,7 +51,7 @@ public class PointLight extends Light implements LightSource {
     }
 
     /**
-     * Set Kq
+     * Set Kq with given parameter
      *
      * @param kQ factor
      */
