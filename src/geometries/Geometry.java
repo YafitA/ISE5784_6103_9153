@@ -18,7 +18,7 @@ public abstract class Geometry extends Intersectable {
     /**
      * The geometry's material
      */
-    private Material material=new Material();
+    private Material material = new Material();
 
     /**
      * gets emission's value
@@ -31,6 +31,7 @@ public abstract class Geometry extends Intersectable {
 
     /**
      * getter for Material
+     *
      * @return material
      */
     public Material getMaterial() {
@@ -50,7 +51,8 @@ public abstract class Geometry extends Intersectable {
 
     /**
      * setter for Material
-     * @param material  The geometry's material
+     *
+     * @param material The geometry's material
      * @return updated geometry
      */
     public Geometry setMaterial(Material material) {

@@ -50,20 +50,39 @@ public class Camera implements Cloneable {
             return this;
         }
 
-        /**
-         * set Direction for camera
-         * make sure the two vectors are align
-         *
-         * @param to new to Vector for camera
-         * @param up new up Vector for camera
-         * @return this
-         */
-        public Builder setDirection(Vector to, Vector up) {
-            //check if vectors are aligned
-            if (!isZero(to.dotProduct(up))) throw new IllegalArgumentException("Vectors must be align");
+//        /**
+//         * set Direction for camera
+//         * make sure the two vectors are align
+//         *
+//         * @param to new to Vector for camera
+//         * @param up new up Vector for camera
+//         * @return this
+//         */
+//        public Builder setDirection(Vector to, Vector up) {
+//            //check if vectors are aligned
+//            if (!isZero(to.dotProduct(up))) throw new IllegalArgumentException("Vectors must be align");
+//
+//            camera.to = to.normalize();
+//            camera.up = up.normalize();
+//
+//            return this;
+//        }
 
-            camera.to = to.normalize();
-            camera.up = up.normalize();
+        /**
+         * set Direction for camera with a target point
+         *
+         * @param to target point where the camera is directed to
+         * @param up where is the "up" direction of the camera to
+         * @return the builder itself
+         */
+        public Builder setDirection(Point to, Vector up) {
+            //check if vectors are aligned
+            if (camera.location == null) throw new IllegalArgumentException("Please set the camera location first");
+
+            camera.to = to.subtract(camera.location).normalize();
+            up = up.normalize();
+            camera.right = camera.to.crossProduct(up).normalize();
+            camera.up = camera.right.crossProduct(camera.to).normalize();
 
             return this;
         }

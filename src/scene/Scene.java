@@ -33,7 +33,7 @@ public class Scene {
     /**
      * List of LightSources
      */
-    public List<LightSource> lights=new LinkedList<>();
+    public List<LightSource> lights = new LinkedList<>();
 
 
     /**
@@ -81,6 +81,7 @@ public class Scene {
 
     /**
      * set List of LightSources
+     *
      * @param lights List of LightSources
      * @return this
      */

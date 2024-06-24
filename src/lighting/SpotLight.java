@@ -6,7 +6,7 @@ import primitives.Vector;
 
 import static primitives.Util.alignZero;
 
-public class SpotLight extends PointLight{
+public class SpotLight extends PointLight {
     /**
      * Spotlight's direction
      */
@@ -19,8 +19,8 @@ public class SpotLight extends PointLight{
 
     @Override
     public Color getIntensity(Point p) {
-        double dotProduct=alignZero(this.direction.dotProduct(getL(p)));
-        return super.getIntensity(p).scale(dotProduct>0?dotProduct:0);
+        double dotProduct = alignZero(this.direction.dotProduct(getL(p)));
+        return super.getIntensity(p).scale(dotProduct > 0 ? dotProduct : 0);
     }
 
     /**
@@ -32,22 +32,22 @@ public class SpotLight extends PointLight{
      */
     public SpotLight(Color intensity, Point position, Vector direction) {
         super(intensity, position);
-        this.direction=direction;
+        this.direction = direction;
     }
 
-
+    @Override
     public SpotLight setKc(double kC) {
-        return (SpotLight)super.setKc(kC);
+        return (SpotLight) super.setKc(kC);
     }
 
-
+    @Override
     public SpotLight setKl(double kL) {
-        return (SpotLight)super.setKl(kL);
+        return (SpotLight) super.setKl(kL);
     }
 
     //TODO
-
+    @Override
     public SpotLight setKq(double kQ) {
-        return (SpotLight)super.setKl(kQ);
+        return (SpotLight) super.setKl(kQ);
     }
 }
