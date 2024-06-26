@@ -7,20 +7,21 @@ import primitives.Vector;
 import static primitives.Util.alignZero;
 
 public class SpotLight extends PointLight {
+
+
     /**
      * Spotlight's direction
      */
     private Vector direction;
-
-    @Override
-    public Vector getL(Point p) {
-        return super.getL(p);
-    }
+    /**
+     * Narrowness of spotlight
+     */
+    private int narrowness = 1;
 
     @Override
     public Color getIntensity(Point p) {
-        double dotProduct = alignZero(this.direction.dotProduct(getL(p)));
-        return super.getIntensity(p).scale(dotProduct > 0 ? dotProduct : 0);
+        double scalar = alignZero(this.direction.dotProduct(getL(p)));
+        return scalar <=0? Color.BLACK : super.getIntensity(p).scale(Math.pow(scalar,narrowness));
     }
 
     /**
@@ -45,9 +46,13 @@ public class SpotLight extends PointLight {
         return (SpotLight) super.setKl(kL);
     }
 
-    //TODO
     @Override
     public SpotLight setKq(double kQ) {
         return (SpotLight) super.setKl(kQ);
+    }
+
+    public SpotLight setNarrowBeam(int narrowness) {
+        this.narrowness = narrowness;
+        return this;
     }
 }
