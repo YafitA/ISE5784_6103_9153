@@ -6,6 +6,9 @@ import primitives.Vector;
 
 import static primitives.Util.alignZero;
 
+/**
+ * class SpotLight
+ */
 public class SpotLight extends PointLight {
 
 
@@ -13,15 +16,16 @@ public class SpotLight extends PointLight {
      * Spotlight's direction
      */
     private Vector direction;
+
     /**
      * Narrowness of spotlight
      */
-    private int narrowness = 1;
+    private int narrowBeam = 1;
 
     @Override
     public Color getIntensity(Point p) {
-        double scalar = alignZero(this.direction.dotProduct(getL(p)));
-        return scalar <=0? Color.BLACK : super.getIntensity(p).scale(Math.pow(scalar,narrowness));
+        double dotProduct = alignZero(direction.dotProduct(getL(p)));
+        return super.getIntensity().scale(dotProduct > 0 ? Math.pow(dotProduct, narrowBeam) : 0);
     }
 
     /**
@@ -37,22 +41,27 @@ public class SpotLight extends PointLight {
     }
 
     @Override
-    public SpotLight setKc(double kC) {
-        return (SpotLight) super.setKc(kC);
+    public SpotLight setKC(double kC) {
+        return (SpotLight) super.setKC(kC);
     }
 
     @Override
-    public SpotLight setKl(double kL) {
-        return (SpotLight) super.setKl(kL);
+    public SpotLight setKL(double kL) {
+        return (SpotLight) super.setKL(kL);
     }
 
     @Override
-    public SpotLight setKq(double kQ) {
-        return (SpotLight) super.setKl(kQ);
+    public SpotLight setKQ(double kQ) {
+        return (SpotLight) super.setKQ(kQ);
     }
 
-    public SpotLight setNarrowBeam(int narrowness) {
-        this.narrowness = narrowness;
+    /**
+     * Setter for NarrowBeam
+     * @param narrowBeam Narrowness of spotlight
+     * @return the SpotLight itself
+     */
+    public SpotLight setNarrowBeam(int narrowBeam) {
+        this.narrowBeam = narrowBeam;
         return this;
     }
 }

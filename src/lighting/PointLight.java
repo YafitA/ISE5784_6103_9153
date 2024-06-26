@@ -2,6 +2,7 @@ package lighting;
 
 import primitives.Color;
 import primitives.Point;
+import primitives.Util;
 import primitives.Vector;
 
 /**
@@ -15,14 +16,27 @@ public class PointLight extends Light implements LightSource {
     protected Point position;
 
     /**
-     * 3 factors
+     * The constant attenuation factor.
+     * This factor determines the constant attenuation of the light.
      */
-    private double kC = 1, kL = 0, kQ = 0;
+    private double kC = 1d;
+
+    /**
+     * The linear attenuation factor.
+     * This factor determines the linear attenuation of the light.
+     */
+    private double kL = 0d;
+
+    /**
+     * The quadratic attenuation factor.
+     * This factor determines the quadratic attenuation of the light.
+     */
+    private double kQ = 0d;
 
     /**
      * Create an object of type PointLight
      *
-     * @param intensity Light's intensity
+     * @param intensity Light's color intensity
      * @param position  Light's position
      */
     public PointLight(Color intensity, Point position) {
@@ -31,43 +45,43 @@ public class PointLight extends Light implements LightSource {
     }
 
     /**
-     * Set Kc with given parameter
-     *
-     * @param kC factor
+     * Setter for kC
+     * @param kC constant factor
+     * @return the PointLight itself
      */
-    public PointLight setKc(double kC) {
+    public PointLight setKC(double kC) {
         this.kC = kC;
         return this;
     }
 
     /**
-     * Set Kl with given parameter
-     *
-     * @param kL factor
+     * setter for kL
+     * @param kL linear factor
+     * @return the PointLight itself
      */
-    public PointLight setKl(double kL) {
+    public PointLight setKL(double kL) {
         this.kL = kL;
         return this;
     }
 
     /**
-     * Set Kq with given parameter
-     *
-     * @param kQ factor
+     * setter for kQ
+     * @param kQ quadratic factor
+     * @return the PointLight itself
      */
-    public PointLight setKq(double kQ) {
+    public PointLight setKQ(double kQ) {
         this.kQ = kQ;
         return this;
     }
 
     @Override
     public Color getIntensity(Point p) {
-        double dSq = position.distanceSquared(p);
-        return super.getIntensity().scale(1d / (kC + kL * Math.sqrt(dSq) + kQ * dSq));
+        double d = position.distance(p);
+        return super.getIntensity().scale(Util.alignZero(1d / (kC + kL * d + kQ * d * d)));
     }
 
     @Override
     public Vector getL(Point p) {
-        return position.subtract(p).normalize();
+        return p.subtract(position).normalize();
     }
 }

@@ -33,10 +33,10 @@ public class SimpleRayTracer extends RayTracerBase {
     }
 
     /**
-     * calc color of given point
-     *
-     * @param intersection point to calc its color
-     * @return point's color
+     * Calculate the color of the intersection between the ray at the given point on a geometry
+     * @param intersection a given point and geometry
+     * @param ray a given ray
+     * @return color at point
      */
     private Color calcColor(GeoPoint intersection, Ray ray) {
         return scene.ambientLight.getIntensity()
@@ -45,7 +45,8 @@ public class SimpleRayTracer extends RayTracerBase {
 
     /**
      * calculate the color between the ray and the point
-     * @param gp point and geometry
+     *
+     * @param gp  point and geometry
      * @param ray a given ray
      * @return color
      */
@@ -73,28 +74,30 @@ public class SimpleRayTracer extends RayTracerBase {
 
     /**
      * calculate Specular
+     *
      * @param material material of body
      * @param n        normal between point and geometry
      * @param l        Vector between lightSource and point
      * @param nl       angle
      * @param v        ray's direction
-     * @return         Specular
+     * @return Specular
      */
     private Double3 calcSpecular(Material material, Vector n, Vector l, double nl, Vector v) {
-       Vector r=l.subtract(n.scale(nl*2));
-       double num=-v.dotProduct(r);
-       num=num>0?Math.pow(num,material.nShininess):0;
+        Vector r = l.subtract(n.scale(nl * 2));
+        double num = -v.dotProduct(r);
+        num = num > 0 ? Math.pow(num, material.nShininess) : 0;
         return material.kS.scale(num);
     }
 
     /**
      * Calculate the diffusion
+     *
      * @param material material of body
      * @param nl       angle
      * @return diffusion
      */
     private Double3 calcDiffusive(Material material, double nl) {
-        return material.Kd.scale(Math.abs(nl));
+        return material.kD.scale(Math.abs(nl));
     }
 
 

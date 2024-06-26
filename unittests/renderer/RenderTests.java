@@ -52,7 +52,6 @@ public class RenderTests {
                 .writeToImage();
     }
 
-//todo: Stage 6 test - remove after impl
 
     /**
      * Produce a scene with basic 3D model - including individual lights of the

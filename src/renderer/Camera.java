@@ -43,7 +43,7 @@ public class Camera implements Cloneable {
          * sets camera's location
          *
          * @param p new location for camera
-         * @return this
+         * @return the builder itself
          */
         public Builder setLocation(Point p) {
             camera.location = p;
@@ -92,7 +92,7 @@ public class Camera implements Cloneable {
          *
          * @param width  for Vp
          * @param height for Vp
-         * @return this
+         * @return the builder itself
          */
         public Builder setVpSize(double width, double height) {
             if (alignZero(width) <= 0 || alignZero(height) <= 0)
@@ -106,7 +106,7 @@ public class Camera implements Cloneable {
          * set Vp Distance between camera and Vp
          *
          * @param distance between camera and Vp
-         * @return this
+         * @return the builder itself
          */
         public Builder setVpDistance(double distance) {
             if (alignZero(distance) <= 0) throw new IllegalArgumentException("distance must be positive!");
@@ -323,12 +323,11 @@ public class Camera implements Cloneable {
      * orientation vectors (right, up, and toward).
      */
     public Ray constructRay(int nX, int nY, int j, int i) {
-
         //calc center of vp
         Point pIJ = location.add(to.scale(distance));
 
-        double yI = -(i - (double) (nY - 1) / 2) * (height / nY);
-        double xJ = (j - (double) (nX - 1) / 2) * (width / nX);
+        double xJ = (j - (nX - 1) / 2d) * (width / nX);
+        double yI = -(i - (nY - 1) / 2d) * (height / nY);
 
         //move point of pixel on vp
         if (!isZero(xJ))
@@ -345,11 +344,11 @@ public class Camera implements Cloneable {
      * @return the camera
      */
     public Camera renderImage() {
-        int nx = imageWriter.getNx();
         int ny = imageWriter.getNy();
+        int nx = imageWriter.getNx();
 
-        for (int i = 0; i < ny; i++) {
-            for (int j = 0; j < nx; j++) {
+        for (int i = 0; i < nx; i++) {
+            for (int j = 0; j < ny; j++) {
                 //for each pixel it will cast ray
                 castRay(nx, ny, i, j);
             }

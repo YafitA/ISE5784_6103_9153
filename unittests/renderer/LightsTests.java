@@ -1,4 +1,4 @@
-//todo: Stage 6 test - remove after impl
+
 package renderer;
 
 import static java.awt.Color.*;
@@ -34,6 +34,7 @@ public class LightsTests {
             .setLocation(new Point(0, 0, 1000))
             .setDirection(Point.ZERO, Vector.Y)
             .setVpSize(150, 150).setVpDistance(1000);
+
     /**
      * Second camera builder for some of the tests
      */
@@ -68,7 +69,7 @@ public class LightsTests {
     /**
      * Material for some of the geometries in the tests
      */
-    private final Material material = new Material().setKd(KD3).setKs(KS3).setShininess(SHININESS);
+    private final Material material = new Material().setKD(KD3).setKS(KS3).setShininess(SHININESS);
     /**
      * Light color for tests with triangles
      */
@@ -126,7 +127,7 @@ public class LightsTests {
      * The sphere in appropriate tests
      */
     private final Geometry sphere = new Sphere(sphereCenter, SPHERE_RADIUS)
-            .setEmission(sphereColor).setMaterial(new Material().setKd(KD).setKs(KS).setShininess(SHININESS));
+            .setEmission(sphereColor).setMaterial(new Material().setKD(KD).setKS(KS).setShininess(SHININESS));
     /**
      * The first triangle in appropriate tests
      */
@@ -159,7 +160,7 @@ public class LightsTests {
     public void spherePoint() {
         scene1.geometries.add(sphere);
         scene1.lights.add(new PointLight(sphereLightColor, sphereLightPosition)
-                .setKl(0.001).setKq(0.0002));
+                .setKL(0.001).setKQ(0.0002));
 
         camera1.setImageWriter(new ImageWriter("lightSpherePoint", 500, 500))
                 .build()
@@ -174,7 +175,7 @@ public class LightsTests {
     public void sphereSpot() {
         scene1.geometries.add(sphere);
         scene1.lights.add(new SpotLight(sphereLightColor, sphereLightPosition, sphereLightDirection)
-                .setKl(0.001).setKq(0.0001));
+                .setKL(0.001).setKQ(0.0001));
 
         camera1.setImageWriter(new ImageWriter("lightSphereSpot", 500, 500))
                 .build()
@@ -203,7 +204,7 @@ public class LightsTests {
     public void trianglesPoint() {
         scene2.geometries.add(triangle1, triangle2);
         scene2.lights.add(new PointLight(trianglesLightColor, trianglesLightPosition)
-                .setKl(0.001).setKq(0.0002));
+                .setKL(0.001).setKQ(0.0002));
 
         camera2.setImageWriter(new ImageWriter("lightTrianglesPoint", 500, 500)) //
                 .build() //
@@ -218,7 +219,7 @@ public class LightsTests {
     public void trianglesSpot() {
         scene2.geometries.add(triangle1, triangle2);
         scene2.lights.add(new SpotLight(trianglesLightColor, trianglesLightPosition, trianglesLightDirection)
-                .setKl(0.001).setKq(0.0001));
+                .setKL(0.001).setKQ(0.0001));
 
         camera2.setImageWriter(new ImageWriter("lightTrianglesSpot", 500, 500))
                 .build()
@@ -234,7 +235,7 @@ public class LightsTests {
         scene1.geometries.add(sphere);
         scene1.lights
                 .add(new SpotLight(sphereLightColor, sphereLightPosition, new Vector(1, 1, -0.5))
-                        .setKl(0.001).setKq(0.00004).setNarrowBeam(10));
+                        .setKL(0.001).setKQ(0.00004).setNarrowBeam(10));
 
         camera1.setImageWriter(new ImageWriter("lightSphereSpotSharp", 500, 500))
                 .build()
@@ -249,7 +250,7 @@ public class LightsTests {
     public void trianglesSpotSharp() {
         scene2.geometries.add(triangle1, triangle2);
         scene2.lights.add(new SpotLight(trianglesLightColor, trianglesLightPosition, trianglesLightDirection)
-                .setKl(0.001).setKq(0.00004).setNarrowBeam(10));
+                .setKL(0.001).setKQ(0.00004).setNarrowBeam(10));
 
         camera2.setImageWriter(new ImageWriter("lightTrianglesSpotSharp", 500, 500))
                 .build()

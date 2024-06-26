@@ -4,6 +4,9 @@ import primitives.Color;
 import primitives.Point;
 import primitives.Vector;
 
+/**
+ * Class for directionalLight
+ */
 public class DirectionalLight extends Light implements LightSource {
 
     /**
@@ -24,7 +27,7 @@ public class DirectionalLight extends Light implements LightSource {
 
     @Override
     public Color getIntensity(Point p) {
-        return this.intensity;
+        return super.getIntensity();
     }
 
     @Override

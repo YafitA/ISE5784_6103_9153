@@ -13,7 +13,7 @@ public class AmbientLight extends Light {
     /**
      * Ambient light color black
      */
-    static public AmbientLight NONE = new AmbientLight(Color.BLACK, 0);
+    static public AmbientLight NONE = new AmbientLight(Color.BLACK, Double3.ZERO);
 
     /**
      * Params constructor

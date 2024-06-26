@@ -9,7 +9,7 @@ public class Material {
      * The attenuation coefficients of the components
      * diffusive and specular of the model.
      */
-    public Double3 Kd = Double3.ZERO, kS = Double3.ZERO;
+    public Double3 kD = Double3.ZERO, kS = Double3.ZERO;
 
     /**
      * The level of concentration of the lightning (the component
@@ -21,7 +21,7 @@ public class Material {
      * setter for nShininess
      *
      * @param nShininess the component specular
-     * @return this
+     * @return the Material itself
      */
     public Material setShininess(int nShininess) {
         this.nShininess = nShininess;
@@ -32,9 +32,9 @@ public class Material {
      * setter for kS
      *
      * @param kS component specular
-     * @return this
+     * @return the Material itself
      */
-    public Material setKs(Double3 kS) {
+    public Material setKS(Double3 kS) {
         this.kS = kS;
         return this;
     }
@@ -42,11 +42,11 @@ public class Material {
     /**
      * Setter for kD
      *
-     * @param Kd component diffusive
-     * @return this
+     * @param kD component diffusive
+     * @return the Material itself
      */
-    public Material setKd(Double3 Kd) {
-        this.Kd = Kd;
+    public Material setKD(Double3 kD) {
+        this.kD = kD;
         return this;
     }
 
@@ -54,9 +54,9 @@ public class Material {
      * setter for kS
      *
      * @param kS component specular
-     * @return this
+     * @return the Material itself
      */
-    public Material setKs(double kS) {
+    public Material setKS(double kS) {
         this.kS = new Double3(kS);
         return this;
     }
@@ -64,11 +64,11 @@ public class Material {
     /**
      * Setter for kD
      *
-     * @param Kd component diffusive
-     * @return this
+     * @param kD component diffusive
+     * @return the Material itself
      */
-    public Material setKd(double Kd) {
-        this.Kd = new Double3(Kd);
+    public Material setKD(double kD) {
+        this.kD = new Double3(kD);
         return this;
     }
 

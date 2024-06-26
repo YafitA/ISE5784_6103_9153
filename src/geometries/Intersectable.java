@@ -35,9 +35,9 @@ public abstract class Intersectable {
 
         @Override
         public String toString() {
-            return "GeoPoint{" +
-                    "geometry=" + geometry +
-                    ", point=" + point +
+            return "GeoPoint {" +
+                    "geometry = " + geometry +
+                    ", point = " + point +
                     '}';
         }
 
