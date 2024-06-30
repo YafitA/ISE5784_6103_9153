@@ -34,8 +34,9 @@ public class SimpleRayTracer extends RayTracerBase {
 
     /**
      * Calculate the color of the intersection between the ray at the given point on a geometry
+     *
      * @param intersection a given point and geometry
-     * @param ray a given ray
+     * @param ray          a given ray
      * @return color at point
      */
     private Color calcColor(GeoPoint intersection, Ray ray) {

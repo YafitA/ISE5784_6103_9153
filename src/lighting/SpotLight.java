@@ -23,7 +23,6 @@ public class SpotLight extends PointLight {
     private double narrowBeam = 1;
 
 
-
     /**
      * Create an object of type PointLight
      *
@@ -59,6 +58,7 @@ public class SpotLight extends PointLight {
 
     /**
      * Setter for NarrowBeam
+     *
      * @param narrowBeam Narrowness of spotlight
      * @return the SpotLight itself
      */

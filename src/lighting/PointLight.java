@@ -46,6 +46,7 @@ public class PointLight extends Light implements LightSource {
 
     /**
      * Setter for kC
+     *
      * @param kC constant factor
      * @return the PointLight itself
      */
@@ -56,6 +57,7 @@ public class PointLight extends Light implements LightSource {
 
     /**
      * setter for kL
+     *
      * @param kL linear factor
      * @return the PointLight itself
      */
@@ -66,6 +68,7 @@ public class PointLight extends Light implements LightSource {
 
     /**
      * setter for kQ
+     *
      * @param kQ quadratic factor
      * @return the PointLight itself
      */
