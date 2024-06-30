@@ -85,8 +85,7 @@ public class SimpleRayTracer extends RayTracerBase {
     private Double3 calcSpecular(Material material, Vector n, Vector l, double nl, Vector v) {
         Vector r = l.subtract(n.scale(nl * 2));
         double num = -v.dotProduct(r);
-        num = num > 0 ? Math.pow(num, material.nShininess) : 0;
-        return material.kS.scale(num);
+        return num > 0 ? material.kS.scale(Math.pow(num, material.nShininess)) : Double3.ZERO;
     }
 
     /**

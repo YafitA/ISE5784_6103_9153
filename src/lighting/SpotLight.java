@@ -20,13 +20,9 @@ public class SpotLight extends PointLight {
     /**
      * Narrowness of spotlight
      */
-    private int narrowBeam = 1;
+    private double narrowBeam = 1;
 
-    @Override
-    public Color getIntensity(Point p) {
-        double dotProduct = alignZero(direction.dotProduct(getL(p)));
-        return super.getIntensity().scale(dotProduct > 0 ? Math.pow(dotProduct, narrowBeam) : 0);
-    }
+
 
     /**
      * Create an object of type PointLight
@@ -37,7 +33,7 @@ public class SpotLight extends PointLight {
      */
     public SpotLight(Color intensity, Point position, Vector direction) {
         super(intensity, position);
-        this.direction = direction;
+        this.direction = direction.normalize();
     }
 
     @Override
@@ -55,13 +51,108 @@ public class SpotLight extends PointLight {
         return (SpotLight) super.setKQ(kQ);
     }
 
+    @Override
+    public Color getIntensity(Point p) {
+        double dotProduct = alignZero(direction.dotProduct(getL(p)));
+        return super.getIntensity().scale(dotProduct > 0 ? Math.pow(dotProduct, narrowBeam) : 0);
+    }
+
     /**
      * Setter for NarrowBeam
      * @param narrowBeam Narrowness of spotlight
      * @return the SpotLight itself
      */
-    public SpotLight setNarrowBeam(int narrowBeam) {
+    public SpotLight setNarrowBeam(double narrowBeam) {
         this.narrowBeam = narrowBeam;
         return this;
     }
 }
+//package lighting;
+//
+//import primitives.*;
+//
+///**
+// * The SpotLight class represents a spot light source in the scene. A spot light
+// * source has a specific position and direction, and its intensity diminishes
+// * with distance and angle from the direction.
+// */
+//public class SpotLight extends PointLight {
+//
+//    /** The direction of the spot light. */
+//    private Vector direction;
+//
+//    /** The narrow beam factor of the spot light. Default is 1. */
+//    private double narrowBeam = 1;
+//
+//    /**
+//     * Constructs a SpotLight with the specified intensity, position, and direction.
+//     *
+//     * @param intensity The intensity (color) of the spot light.
+//     * @param position  The position of the spot light.
+//     * @param direction The direction of the spot light.
+//     */
+//    public SpotLight(Color intensity, Point position, Vector direction) {
+//        super(intensity, position);
+//        this.direction = direction.normalize();
+//    }
+//
+//    /**
+//     * Sets the constant attenuation factor (kC) of the spot light.
+//     *
+//     * @param kC The constant attenuation factor.
+//     * @return The SpotLight object itself for method chaining.
+//     */
+//    @Override
+//    public SpotLight setKC(double kC) {
+//        return (SpotLight) super.setKC(kC);
+//    }
+//
+//    /**
+//     * Sets the linear attenuation factor (kL) of the spot light.
+//     *
+//     * @param kL The linear attenuation factor.
+//     * @return The SpotLight object itself for method chaining.
+//     */
+//    @Override
+//    public SpotLight setKL(double kL) {
+//        return (SpotLight) super.setKL(kL);
+//    }
+//
+//    /**
+//     * Sets the quadratic attenuation factor (kQ) of the spot light.
+//     *
+//     * @param kQ The quadratic attenuation factor.
+//     * @return The SpotLight object itself for method chaining.
+//     */
+//    @Override
+//    public SpotLight setKQ(double kQ) {
+//        return (SpotLight) super.setKQ(kQ);
+//    }
+//
+//    /**
+//     * Calculates the intensity (color) of the light at the specified point.
+//     *
+//     * @param p The point at which to calculate the light intensity.
+//     * @return The intensity of the light at the specified point.
+//     */
+//    @Override
+//    public Color getIntensity(Point p) {
+//        return super.getIntensity(p).scale(Math.pow(Math.max(0, direction.dotProduct(super.getL(p))), narrowBeam));
+//    }
+//
+//    /**
+//     * Sets the narrow beam factor of the spot light.
+//     *
+//     * @param narrowBeam The narrow beam factor.
+//     * @return The SpotLight object itself for method chaining.
+//     */
+//    public SpotLight setNarrowBeam(double narrowBeam) {
+//        this.narrowBeam = narrowBeam;
+//        return this;
+//    }
+//
+////    @Override
+////    public double getDistance(Point point) {
+////        return position.distance(point);
+////    }
+//}
