@@ -36,17 +36,15 @@ public class Sphere extends RadialGeometry {
 
     @Override
     protected List<GeoPoint> findGeoIntersectionsHelper(Ray ray) {
-
         //Ray starts at the center of sphere
-        if (ray.getHead().equals(this.center)) {
+        if (ray.getHead().equals(this.center))
             return List.of(new GeoPoint(this, ray.getPoint(this.radius)));
-        }
 
         Vector u = this.center.subtract(ray.getHead());
         double tm = u.dotProduct(ray.getDirection());
         double dSquared = u.lengthSquared() - tm * tm;
         double thSquared = this.radiusSquared - dSquared;
-        if (alignZero(thSquared) <= 0)// No intersections
+        if (alignZero(thSquared) <= 0) // No intersections
             return null;
 
         double th = Math.sqrt(thSquared);

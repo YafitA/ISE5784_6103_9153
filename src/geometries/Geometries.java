@@ -48,16 +48,14 @@ public class Geometries extends Intersectable {
 
         //go over the list of shapes
         for (Intersectable item : intersectableList) {
-
-            List<GeoPoint> itemIntersections = item.findGeoIntersectionsHelper(ray);
-
-            //check if findIntersectionsHelper returned points and
+            List<GeoPoint> itemIntersections = item.findGeoIntersections(ray);
+            // check if findIntersectionsHelper returned points and
             // if intersectionsPoints is empty if so initialize an empty list
             if (itemIntersections != null) {
-                if (intersectionsPoints == null) {
-                    intersectionsPoints = new LinkedList<>();
-                }
-                intersectionsPoints.addAll(itemIntersections);
+                if (intersectionsPoints == null)
+                    intersectionsPoints = new LinkedList<>(itemIntersections);
+                else
+                    intersectionsPoints.addAll(itemIntersections);
             }
         }
 

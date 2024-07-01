@@ -78,17 +78,16 @@ public class Ray {
      */
     public GeoPoint findClosestGeoPoint(List<GeoPoint> geoPoints) {
         //if list is empty - return null
-        if (geoPoints.isEmpty()) {
+        if (geoPoints == null || geoPoints.isEmpty())
             return null;
-        }
 
         //We initialize the values for comparison
         GeoPoint closestGeoPoint = null;
-        double minDistance = Double.MAX_VALUE;
+        double minDistance = Double.POSITIVE_INFINITY;
 
         //Go over points and find the point w\ the minimum distance to point head
         for (GeoPoint geoPoint : geoPoints) {
-            double distance = head.distance(geoPoint.point);
+            double distance = head.distanceSquared(geoPoint.point);
             if (distance < minDistance) {
                 minDistance = distance;
                 closestGeoPoint = geoPoint;

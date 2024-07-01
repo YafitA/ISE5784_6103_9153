@@ -1,14 +1,10 @@
 package geometries;
 
-import primitives.Point;
-import primitives.Ray;
-import primitives.Util;
-import primitives.Vector;
+import primitives.*;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
-import static primitives.Util.alignZero;
+import static primitives.Util.*;
 
 /**
  * class to present triangle
@@ -53,8 +49,6 @@ public class Triangle extends Polygon {
         double t3 = alignZero(v.dotProduct(n3));
         if (t1 * t3 <= 0) return null;
 
-        return intersection.stream()
-                .map(point -> new GeoPoint(this, point))
-                .toList();
+        return List.of(new GeoPoint(this, intersection.getFirst()));
     }
 }

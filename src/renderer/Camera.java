@@ -63,6 +63,7 @@ public class Camera implements Cloneable {
      *
      * @return Point location for camera.
      */
+    @SuppressWarnings("unused")
     public Point getLocation() {
         return location;
     }
@@ -72,6 +73,7 @@ public class Camera implements Cloneable {
      *
      * @return the right direction vector of the camera.
      */
+    @SuppressWarnings("unused")
     public Vector getRight() {
         return right;
     }
@@ -81,6 +83,7 @@ public class Camera implements Cloneable {
      *
      * @return the up direction vector of the camera.
      */
+    @SuppressWarnings("unused")
     public Vector getUp() {
         return up;
     }
@@ -90,6 +93,7 @@ public class Camera implements Cloneable {
      *
      * @return the forward direction vector of the camera.
      */
+    @SuppressWarnings("unused")
     public Vector getTo() {
         return to;
     }
@@ -99,6 +103,7 @@ public class Camera implements Cloneable {
      *
      * @return the height of the view plane.
      */
+    @SuppressWarnings("unused")
     public double getHeight() {
         return height;
     }
@@ -108,6 +113,7 @@ public class Camera implements Cloneable {
      *
      * @return the width of the view plane.
      */
+    @SuppressWarnings("unused")
     public double getWidth() {
         return width;
     }
@@ -117,6 +123,7 @@ public class Camera implements Cloneable {
      *
      * @return the distance from the camera to the view plane.
      */
+    @SuppressWarnings("unused")
     public double getDistance() {
         return distance;
     }
@@ -266,23 +273,23 @@ public class Camera implements Cloneable {
             return this;
         }
 
-//        /**
-//         * set Direction for camera
-//         * make sure the two vectors are align
-//         *
-//         * @param to new to Vector for camera
-//         * @param up new up Vector for camera
-//         * @return this
-//         */
-//        public Builder setDirection(Vector to, Vector up) {
-//            //check if vectors are aligned
-//            if (!isZero(to.dotProduct(up))) throw new IllegalArgumentException("Vectors must be align");
-//
-//            camera.to = to.normalize();
-//            camera.up = up.normalize();
-//
-//            return this;
-//        }
+        /**
+         * set Direction for camera
+         * make sure the two vectors are align
+         *
+         * @param to new to Vector for camera
+         * @param up new up Vector for camera
+         * @return this
+         */
+        public Builder setDirection(Vector to, Vector up) {
+            //check if vectors are aligned
+            if (!isZero(to.dotProduct(up))) throw new IllegalArgumentException("Vectors must be align");
+
+            camera.to = to.normalize();
+            camera.up = up.normalize();
+
+            return this;
+        }
 
         /**
          * set Direction for camera with a target point

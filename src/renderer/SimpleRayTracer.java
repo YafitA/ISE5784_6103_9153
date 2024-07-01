@@ -1,16 +1,12 @@
 package renderer;
 
-
-import geometries.Intersectable;
 import lighting.LightSource;
 import primitives.*;
 import scene.Scene;
 import geometries.Intersectable.GeoPoint;
 
-
-import java.util.List;
-
-import static primitives.Util.alignZero;
+import static java.lang.Math.*;
+import static primitives.Util.*;
 
 /**
  * class that extends RayTracerBase to represent Simple Ray Tracer
@@ -28,8 +24,8 @@ public class SimpleRayTracer extends RayTracerBase {
 
     @Override
     public Color traceRay(Ray ray) {
-        List<GeoPoint> intersections = scene.geometries.findGeoIntersections(ray);
-        return (intersections == null) ? scene.background : calcColor(ray.findClosestGeoPoint(intersections), ray);
+        var intersection = ray.findClosestGeoPoint(scene.geometries.findGeoIntersections(ray));
+        return intersection == null ? scene.background : calcColor(intersection, ray);
     }
 
     /**
@@ -65,9 +61,7 @@ public class SimpleRayTracer extends RayTracerBase {
             double nl = alignZero(n.dotProduct(l));
             if (nl * nv > 0) { // sign(nl) == sign(nv)
                 Color iL = lightSource.getIntensity(gp.point);
-                color = color.add(
-                        iL.scale(calcDiffusive(material, nl)),
-                        iL.scale(calcSpecular(material, n, l, nl, v)));
+                color = color.add(iL.scale(calcDiffusive(material, nl).add(calcSpecular(material, n, l, nl, v))));
             }
         }
         return color;
@@ -85,8 +79,8 @@ public class SimpleRayTracer extends RayTracerBase {
      */
     private Double3 calcSpecular(Material material, Vector n, Vector l, double nl, Vector v) {
         Vector r = l.subtract(n.scale(nl * 2));
-        double num = -v.dotProduct(r);
-        return num > 0 ? material.kS.scale(Math.pow(num, material.nShininess)) : Double3.ZERO;
+        double minusVR = -alignZero(v.dotProduct(r));
+        return minusVR > 0 ? material.kS.scale(Math.pow(minusVR, material.nShininess)) : Double3.ZERO;
     }
 
     /**
@@ -97,8 +91,7 @@ public class SimpleRayTracer extends RayTracerBase {
      * @return diffusion
      */
     private Double3 calcDiffusive(Material material, double nl) {
-        return material.kD.scale(Math.abs(nl));
+        return material.kD.scale(abs(nl));
     }
-
 
 }

@@ -6,8 +6,6 @@ import primitives.Vector;
 
 import java.util.List;
 
-import static primitives.Util.isZero;
-
 /**
  * class to present Tube
  */

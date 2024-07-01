@@ -2,6 +2,7 @@ package renderer;
 
 import org.junit.jupiter.api.Test;
 import primitives.Color;
+import static java.awt.Color.*;
 
 /**
  * Test for ImageWriter class
@@ -14,20 +15,17 @@ class ImageWriterTests {
      */
     @Test
     void testWriteToImage() {
+        final int nX = 801, nY = 501, step = 50;
         //Create a 800x500 imageWriter
-        ImageWriter imageWriter = new ImageWriter("imageTest", 800, 500);
-
-        int nX = imageWriter.getNx();
-        int nY = imageWriter.getNy();
+        ImageWriter imageWriter = new ImageWriter("imageTest", nX, nY);
 
         //Colors to color the grid and the background
-        Color gridColor = new Color(java.awt.Color.magenta);
-        Color backgroundColor = new Color(java.awt.Color.cyan);
-
+        Color gridColor = new Color(MAGENTA);
+        Color bgColor = new Color(CYAN);
         //coloring the image
         for (int i = 0; i < nX; i++) {
             for (int j = 0; j < nY; j++) {
-                imageWriter.writePixel(i, j, i % 50 == 0 || j % 50 == 0 ? gridColor : backgroundColor);
+                imageWriter.writePixel(i, j, i % step == 0 || j % step == 0 ? gridColor : bgColor);
             }
         }
 

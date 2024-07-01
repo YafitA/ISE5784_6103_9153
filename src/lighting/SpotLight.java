@@ -15,7 +15,7 @@ public class SpotLight extends PointLight {
     /**
      * Spotlight's direction
      */
-    private Vector direction;
+    private final Vector direction;
 
     /**
      * Narrowness of spotlight
@@ -50,19 +50,18 @@ public class SpotLight extends PointLight {
         return (SpotLight) super.setKQ(kQ);
     }
 
-
     @Override
     public Color getIntensity(Point p) {
-        return super.getIntensity(p).scale(Math.pow(Math.max(0, direction.dotProduct(super.getL(p))), narrowBeam));
-
+        final double dirL = alignZero(direction.dotProduct(super.getL(p)));
+        return dirL <= 0 ? Color.BLACK : super.getIntensity(p).scale(Math.pow(dirL, narrowBeam));
     }
 
-        /**
-         * Setter for NarrowBeam
-         *
-         * @param narrowBeam Narrowness of spotlight
-         * @return the SpotLight itself
-         */
+    /**
+     * Setter for NarrowBeam
+     *
+     * @param narrowBeam Narrowness of spotlight
+     * @return the SpotLight itself
+     */
     public SpotLight setNarrowBeam(double narrowBeam) {
         this.narrowBeam = narrowBeam;
         return this;
