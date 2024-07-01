@@ -14,6 +14,222 @@ import static primitives.Util.isZero;
 public class Camera implements Cloneable {
 
     /**
+     * Point location for camera
+     */
+    private Point location;
+    /**
+     * right direction vector of the camera
+     */
+    private Vector right;
+    /**
+     * up direction vector of the camera
+     */
+    private Vector up;
+    /**
+     * toward direction vector of the camera
+     */
+    private Vector to;
+    /**
+     * View Plane (size: w x h) height
+     */
+    private double height = 0.0;
+    /**
+     * View Plane (size: w x h) width
+     */
+    private double width = 0.0;
+    /**
+     * the distance from the camera to the view plane
+     */
+    private double distance = 0.0;
+
+    /**
+     * the image writer
+     */
+    private ImageWriter imageWriter;
+    /**
+     * the ray tracer base
+     */
+    private RayTracerBase rayTracer;
+
+    /**
+     * Private constructor to create an item of type camera
+     */
+    private Camera() {
+    }
+
+
+    /**
+     * Gets the position of the camera.
+     *
+     * @return Point location for camera.
+     */
+    public Point getLocation() {
+        return location;
+    }
+
+    /**
+     * Gets the right direction vector of the camera.
+     *
+     * @return the right direction vector of the camera.
+     */
+    public Vector getRight() {
+        return right;
+    }
+
+    /**
+     * Gets the up direction vector of the camera.
+     *
+     * @return the up direction vector of the camera.
+     */
+    public Vector getUp() {
+        return up;
+    }
+
+    /**
+     * Gets the forward direction vector of the camera.
+     *
+     * @return the forward direction vector of the camera.
+     */
+    public Vector getTo() {
+        return to;
+    }
+
+    /**
+     * Gets the height of the view plane.
+     *
+     * @return the height of the view plane.
+     */
+    public double getHeight() {
+        return height;
+    }
+
+    /**
+     * Gets the width of the view plane.
+     *
+     * @return the width of the view plane.
+     */
+    public double getWidth() {
+        return width;
+    }
+
+    /**
+     * Gets the distance from the camera to the view plane.
+     *
+     * @return the distance from the camera to the view plane.
+     */
+    public double getDistance() {
+        return distance;
+    }
+
+    /**
+     * Gets the builder
+     *
+     * @return Builder
+     */
+    static public Builder getBuilder() {
+        return new Builder();
+    }
+
+    /**
+     * Constructs a ray through a specific pixel in the view plane.
+     *
+     * @param nX Number of pixels in the view plane in the x-direction (width).
+     * @param nY Number of pixels in the view plane in the y-direction (height).
+     * @param j  The pixel column index (x-coordinate) for which to construct the ray.
+     * @param i  The pixel row index (y-coordinate) for which to construct the ray.
+     * @return The constructed ray through the specified pixel.
+     * .
+     * This method considers the view plane's size and distance from the camera. The ray is constructed
+     * through the center of the specified pixel in the view plane, taking into account the camera's
+     * orientation vectors (right, up, and toward).
+     */
+    public Ray constructRay(int nX, int nY, int j, int i) {
+        //calc center of vp
+        Point pIJ = location.add(to.scale(distance));
+
+        double yI = -(i - (nY - 1) / 2d) * (height / nY);
+        double xJ = (j - (nX - 1) / 2d) * (width / nX);
+
+        //move point of pixel on vp
+        if (!isZero(xJ))
+            pIJ = pIJ.add(right.scale(xJ));
+        if (!isZero(yI))
+            pIJ = pIJ.add(up.scale(yI));
+
+        return new Ray(location, pIJ.subtract(location));
+    }
+
+    /**
+     * Render the image
+     *
+     * @return the camera
+     */
+    public Camera renderImage() {
+        int ny = imageWriter.getNy();
+        int nx = imageWriter.getNx();
+
+        for (int i = 0; i < ny; i++)
+            for (int j = 0; j < nx; j++)
+                castRay(nx, ny, j, i);
+
+
+        return this;
+    }
+
+    /**
+     * Print a grid on the vp
+     *
+     * @param interval the interval between the lines
+     * @param color    the color of the grid
+     * @return the camera
+     */
+    public Camera printGrid(int interval, Color color) {
+        int nx = imageWriter.getNx();
+        int ny = imageWriter.getNy();
+        int i, j;
+
+        for (i = 0; i < ny; i += interval) {
+            for (j = 0; j < nx; j++) {
+                imageWriter.writePixel(i, j, color);
+            }
+        }
+        for (i = 0; i < nx; i += interval) {
+            for (j = 0; j < ny; j++) {
+                imageWriter.writePixel(j, i, color);
+            }
+        }
+
+        return this;
+    }
+
+    /**
+     * Write the image to a file
+     *
+     * @return the camera
+     */
+    public Camera writeToImage() {
+        imageWriter.writeToImage();
+        return this;
+    }
+
+    /**
+     * cast a ray from the camera to a given pixel
+     *
+     * @param nX     size of webcam in X
+     * @param nY     size of webcam in Y
+     * @param column the x index of the pixel
+     * @param row    the y index of the pixel
+     */
+    private void castRay(int nX, int nY, int column, int row) {
+        //a ray through the center of the pixel
+        Ray ray = constructRay(nX, nY, column, row);
+        //color of pixel
+        Color color = rayTracer.traceRay(ray);
+        //coloring the pixel
+        imageWriter.writePixel(column, row, color);
+    }
+
+    /**
      * The Builder class is used to construct instances of Camera
      */
     public static class Builder {
@@ -109,7 +325,8 @@ public class Camera implements Cloneable {
          * @return the builder itself
          */
         public Builder setVpDistance(double distance) {
-            if (alignZero(distance) <= 0) throw new IllegalArgumentException("distance must be positive!");
+            if (alignZero(distance) <= 0)
+                throw new IllegalArgumentException("distance must be positive!");
             camera.distance = distance;
             return this;
         }
@@ -192,222 +409,4 @@ public class Camera implements Cloneable {
             }
         }
     }
-
-    /**
-     * Point location for camera
-     */
-    private Point location;
-    /**
-     * right direction vector of the camera
-     */
-    private Vector right;
-    /**
-     * up direction vector of the camera
-     */
-    private Vector up;
-    /**
-     * toward direction vector of the camera
-     */
-    private Vector to;
-    /**
-     * View Plane (size: w x h) height
-     */
-    private double height = 0.0;
-    /**
-     * View Plane (size: w x h) width
-     */
-    private double width = 0.0;
-    /**
-     * the distance from the camera to the view plane
-     */
-    private double distance = 0.0;
-
-    /**
-     * the image writer
-     */
-    private ImageWriter imageWriter;
-    /**
-     * the ray tracer base
-     */
-    private RayTracerBase rayTracer;
-
-    /**
-     * Private constructor to create an item of type camera
-     */
-    private Camera() {
-    }
-
-    /**
-     * Gets the position of the camera.
-     *
-     * @return Point location for camera.
-     */
-    public Point getLocation() {
-        return location;
-    }
-
-    /**
-     * Gets the right direction vector of the camera.
-     *
-     * @return the right direction vector of the camera.
-     */
-    public Vector getRight() {
-        return right;
-    }
-
-    /**
-     * Gets the up direction vector of the camera.
-     *
-     * @return the up direction vector of the camera.
-     */
-    public Vector getUp() {
-        return up;
-    }
-
-    /**
-     * Gets the forward direction vector of the camera.
-     *
-     * @return the forward direction vector of the camera.
-     */
-    public Vector getTo() {
-        return to;
-    }
-
-    /**
-     * Gets the height of the view plane.
-     *
-     * @return the height of the view plane.
-     */
-    public double getHeight() {
-        return height;
-    }
-
-    /**
-     * Gets the width of the view plane.
-     *
-     * @return the width of the view plane.
-     */
-    public double getWidth() {
-        return width;
-    }
-
-    /**
-     * Gets the distance from the camera to the view plane.
-     *
-     * @return the distance from the camera to the view plane.
-     */
-    public double getDistance() {
-        return distance;
-    }
-
-    /**
-     * Gets the builder
-     *
-     * @return Builder
-     */
-    static public Builder getBuilder() {
-        return new Builder();
-    }
-
-    /**
-     * Constructs a ray through a specific pixel in the view plane.
-     *
-     * @param nX Number of pixels in the view plane in the x-direction (width).
-     * @param nY Number of pixels in the view plane in the y-direction (height).
-     * @param j  The pixel column index (x-coordinate) for which to construct the ray.
-     * @param i  The pixel row index (y-coordinate) for which to construct the ray.
-     * @return The constructed ray through the specified pixel.
-     * .
-     * This method considers the view plane's size and distance from the camera. The ray is constructed
-     * through the center of the specified pixel in the view plane, taking into account the camera's
-     * orientation vectors (right, up, and toward).
-     */
-    public Ray constructRay(int nX, int nY, int j, int i) {
-        //calc center of vp
-        Point pIJ = location.add(to.scale(distance));
-
-        double xJ = (j - (nX - 1) / 2d) * (width / nX);
-        double yI = -(i - (nY - 1) / 2d) * (height / nY);
-
-        //move point of pixel on vp
-        if (!isZero(xJ))
-            pIJ = pIJ.add(right.scale(xJ));
-        if (!isZero(yI))
-            pIJ = pIJ.add(up.scale(yI));
-
-        return new Ray(location, pIJ.subtract(location));
-    }
-
-    /**
-     * Render the image
-     *
-     * @return the camera
-     */
-    public Camera renderImage() {
-        int ny = imageWriter.getNy();
-        int nx = imageWriter.getNx();
-
-        for (int i = 0; i < nx; i++) {
-            for (int j = 0; j < ny; j++) {
-                //for each pixel it will cast ray
-                castRay(nx, ny, i, j);
-            }
-        }
-
-        return this;
-    }
-
-    /**
-     * Print a grid on the vp
-     *
-     * @param interval the interval between the lines
-     * @param color    the color of the grid
-     * @return the camera
-     */
-    public Camera printGrid(int interval, Color color) {
-        int nx = imageWriter.getNx();
-        int ny = imageWriter.getNy();
-        int i, j;
-
-        for (i = 0; i < ny; i += interval) {
-            for (j = 0; j < nx; j++) {
-                imageWriter.writePixel(j, i, color);
-            }
-        }
-        for (i = 0; i < nx; i += interval) {
-            for (j = 0; j < ny; j++) {
-                imageWriter.writePixel(i, j, color);
-            }
-        }
-
-        return this;
-    }
-
-    /**
-     * Write the image to a file
-     *
-     * @return the camera
-     */
-    public Camera writeToImage() {
-        imageWriter.writeToImage();
-        return this;
-    }
-
-    /**
-     * cast a ray from the camera to a given pixel
-     *
-     * @param nX     size of webcam in X
-     * @param nY     size of webcam in Y
-     * @param column the x index of the pixel
-     * @param row    the y index of the pixel
-     */
-    private void castRay(int nX, int nY, int column, int row) {
-        //a ray through the center of the pixel
-        Ray ray = constructRay(nX, nY, column, row);
-        //color of pixel
-        Color color = rayTracer.traceRay(ray);
-        //coloring the pixel
-        imageWriter.writePixel(row, column, color);
-    }
-
 }
