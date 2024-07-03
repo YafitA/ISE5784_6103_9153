@@ -12,7 +12,7 @@ import java.util.List;
 public abstract class Intersectable {
 
     /**
-     * Represent GeoPoint
+     * Represent GeoPoint a point with a shape
      */
     public static class GeoPoint {
         /**
@@ -71,15 +71,27 @@ public abstract class Intersectable {
      * @return list of points and shapes
      */
     public final List<GeoPoint> findGeoIntersections(Ray ray) {
-        return findGeoIntersectionsHelper(ray);
+        return findGeoIntersectionsHelper(ray, Double.POSITIVE_INFINITY);
+    }
+
+    /**
+     * find all GeoPoints that intersect with a ray limited by max distance
+     *
+     * @param ray intersecting ray
+     * @param maxDistance the given maximum distance
+     * @return list of points and shapes
+     */
+    public final List<GeoPoint> findGeoIntersections(Ray ray, double maxDistance) {
+        return findGeoIntersectionsHelper(ray, maxDistance);
     }
 
     /**
      * A helper method to find Geo Intersections
      *
      * @param ray intersecting ray
+     * @param maxDistance the given maximum distance
      * @return list of points and shapes
      */
-    protected abstract List<GeoPoint> findGeoIntersectionsHelper(Ray ray);
+    protected abstract List<GeoPoint> findGeoIntersectionsHelper(Ray ray, double maxDistance);
 
 }

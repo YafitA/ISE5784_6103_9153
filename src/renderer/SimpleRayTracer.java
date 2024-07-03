@@ -14,6 +14,13 @@ import static primitives.Util.*;
 public class SimpleRayTracer extends RayTracerBase {
 
     /**
+     * constant for the size of moving the beginning of rays for shading rays
+     * (its value can be reduced according to the orders of magnitude of the shapes
+     * in the picture so that the shift is not visible in the picture)
+     */
+    private static final double DELTA = 0.1;
+
+    /**
      * Ray Tracer Base constructor accepting scene parameter
      *
      * @param scene to put in scene parameter
@@ -94,4 +101,11 @@ public class SimpleRayTracer extends RayTracerBase {
         return material.kD.scale(abs(nl));
     }
 
+    private boolean unshaded(GeoPoint gp, LightSource ls, Vector l, Vector n) {
+//        Vector delta = n.scale(n.dotProduct(ls.getL(gp.point)) > 0 ? DELTA : -DELTA);
+//        Point point = gp.point.add(delta);
+//        Ray shadowRay = new Ray(point, ls.getL(gp.point));
+return true;
+
+    }
 }

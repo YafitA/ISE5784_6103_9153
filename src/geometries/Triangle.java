@@ -23,10 +23,9 @@ public class Triangle extends Polygon {
     }
 
     @Override
-    protected List<GeoPoint> findGeoIntersectionsHelper(Ray ray) {
-
-        var intersection = plane.findIntersections(ray);
-        if (intersection == null) return null;
+    protected List<GeoPoint> findGeoIntersectionsHelper(Ray ray, double maxDistance) {
+        List<GeoPoint> intersections = plane.findGeoIntersectionsHelper(ray, maxDistance);
+        if (intersections == null) return null;
 
         Point ph = ray.getHead();
         Vector v = ray.getDirection();
@@ -49,6 +48,6 @@ public class Triangle extends Polygon {
         double t3 = alignZero(v.dotProduct(n3));
         if (t1 * t3 <= 0) return null;
 
-        return List.of(new GeoPoint(this, intersection.getFirst()));
+        return List.of(new GeoPoint(this, intersections.getFirst().point));
     }
 }
