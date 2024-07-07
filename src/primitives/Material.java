@@ -5,6 +5,7 @@ package primitives;
  */
 public class Material {
 
+
     /**
      * The attenuation coefficients of the components
      * diffusive and specular of the model.
@@ -16,6 +17,57 @@ public class Material {
      * specular).
      */
     public int nShininess = 0;
+
+    /**
+     * Attenuation coefficient of transparency
+     */
+    public Double3 kT = Double3.ZERO;
+
+    /**
+     * attenuation coefficient of reflection
+     */
+    public Double3 kR = Double3.ZERO;
+
+
+    /**
+     * setter in a builder design for kR
+     * @param kR attenuation coefficient of reflection
+     * @return the new material
+     */
+    public Material setKR(Double3 kR) {
+        this.kR = kR;
+        return this;
+    }
+
+    /**
+     * setter in a builder design for kT
+     * @param kT Attenuation coefficient of transparency
+     * @return the new material
+     */
+    public Material setKT(Double3 kT) {
+        this.kT = kT;
+        return this;
+    }
+
+    /**
+     * setter in a builder design for kR
+     * @param kR attenuation coefficient of reflection
+     * @return the new material
+     */
+    public Material setKR(double kR) {
+        this.kR = new Double3(kR);
+        return this;
+    }
+
+    /**
+     * setter in a builder design for kT
+     * @param kT Attenuation coefficient of transparency
+     * @return the new material
+     */
+    public Material setKT(double kT) {
+        this.kT = new Double3(kT);
+        return this;
+    }
 
     /**
      * setter for nShininess
