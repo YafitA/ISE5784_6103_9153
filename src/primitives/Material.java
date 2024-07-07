@@ -71,5 +71,4 @@ public class Material {
         this.kD = new Double3(kD);
         return this;
     }
-
 }

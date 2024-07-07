@@ -66,7 +66,7 @@ public class SimpleRayTracer extends RayTracerBase {
         for (LightSource lightSource : scene.lights) {
             Vector l = lightSource.getL(gp.point);
             double nl = alignZero(n.dotProduct(l));
-            if (nl * nv > 0) { // sign(nl) == sign(nv)
+            if ((nl * nv > 0) && unshaded(gp, l, n, nl, lightSource)){ // sign(nl) == sign(nv)
                 Color iL = lightSource.getIntensity(gp.point);
                 color = color.add(iL.scale(calcDiffusive(material, nl).add(calcSpecular(material, n, l, nl, v))));
             }
@@ -97,15 +97,24 @@ public class SimpleRayTracer extends RayTracerBase {
      * @param nl       angle
      * @return diffusion
      */
-    private Double3 calcDiffusive(Material material, double nl) {
+    private Double3 calcDiffusive(Material material, double nl)
+    {
         return material.kD.scale(abs(nl));
     }
 
-    private boolean unshaded(GeoPoint gp, LightSource ls, Vector l, Vector n) {
-//        Vector delta = n.scale(n.dotProduct(ls.getL(gp.point)) > 0 ? DELTA : -DELTA);
-//        Point point = gp.point.add(delta);
-//        Ray shadowRay = new Ray(point, ls.getL(gp.point));
-return true;
-
+    /**
+     * Check if the point is shaded
+     * @param gp the point and its body
+     * @param l vector from the source or to the point
+     * @param n the normal to the point
+     * @param nl the max distance
+     * @param light the Light source
+     * @return true if the point is unshaded and false if its shaded
+     */
+    private boolean unshaded(GeoPoint gp, Vector l, Vector n, double nl, LightSource light) {
+        Vector lightDir = l.scale(-1);
+        Ray lightRay = new Ray(gp.point.add(n.scale(nl < 0 ? DELTA : -DELTA)), lightDir);
+        return scene.geometries.findGeoIntersections(lightRay, light.getDistance(gp.point)) == null;
     }
+
 }
