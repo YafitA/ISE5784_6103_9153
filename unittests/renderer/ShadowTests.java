@@ -17,8 +17,8 @@ public class ShadowTests {
     private final Scene          scene      = new Scene("Test scene");
     /** Camera builder of the tests */
     private final Camera.Builder camera     = Camera.getBuilder()
-            .setDirection(Point.ZERO, Vector.Y)
             .setLocation(new Point(0, 0, 1000)).setVpDistance(1000)
+            .setDirection(Point.ZERO, Vector.Y)
             .setVpSize(200, 200)
             .setRayTracer(new SimpleRayTracer(scene));
 
@@ -56,7 +56,7 @@ public class ShadowTests {
     @Test
     public void sphereTriangleMove1() {
         sphereTriangleHelper("shadowSphereTriangleMove2", //
-                new Triangle(new Point(-50, -20, 0), new Point(-20, -50, 0), new Point(-48, -48, -4)), //
+                new Triangle(new Point(-55, -25, 0), new Point(-25, -55, 0), new Point(-53, -53, -4)), //
         new Point(-100, -100, 200));
     }
 
@@ -64,7 +64,7 @@ public class ShadowTests {
     @Test
     public void sphereTriangleMove2() {
         sphereTriangleHelper("shadowSphereTriangleMove1", //
-                new Triangle(new Point(-60, -30, 0), new Point(-30, -60, 0), new Point(-58, -58, -4)), //
+                new Triangle(new Point(-65, -35, 0), new Point(-35, -65, 0), new Point(-63, -63, -4)), //
         new Point(-100, -100, 200));
     }
 
@@ -73,7 +73,7 @@ public class ShadowTests {
     public void sphereTriangleSpot1() {
         sphereTriangleHelper("shadowSphereTriangleSpot1", //
                 new Triangle(new Point(-70, -40, 0), new Point(-40, -70, 0), new Point(-68, -68, -4)), //
-                new Point(-85, -85, 105));
+                new Point(-80, -80, 100));
     }
 
     /** Sphere-Triangle shading - move spot even more close */
