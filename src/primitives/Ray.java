@@ -4,6 +4,8 @@ import geometries.Intersectable.GeoPoint;
 
 import java.util.List;
 
+import static primitives.Util.isZero;
+
 /**
  * Represents a ray in three-dimensional space.
  */
@@ -17,6 +19,8 @@ public class Ray {
      */
     private final Vector direction;
 
+    public static final double DELTA = 0.00001;
+
     /**
      * Constructs a Ray object with the specified starting point and direction.
      *
@@ -26,6 +30,19 @@ public class Ray {
     public Ray(Point head, Vector direction) {
         this.head = head;
         this.direction = direction.normalize();
+    }
+
+    /**
+     * creates a ray from point and two vectors
+     *
+     * @param p0 The starting point of the ray.
+     * @param dir the direction vector of the ray.
+     * @param normal the normal vector of the ray.
+     */
+    public Ray(Point p0, Vector dir, Vector normal) {
+        double res = dir.dotProduct(normal);
+        this.head = isZero(res) ? p0 : res > 0 ? p0.add(normal.scale(DELTA)) : p0.add(normal.scale(-DELTA));
+        this.direction = dir.normalize();
     }
 
     @Override
@@ -67,7 +84,7 @@ public class Ray {
      */
     public Point getPoint(double t) {
         //p= p0 or p0 + tv
-        return Util.isZero(t) ? this.head : head.add(this.direction.scale(t));
+        return isZero(t) ? this.head : head.add(this.direction.scale(t));
     }
 
     /**

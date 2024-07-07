@@ -4,9 +4,7 @@
 //package renderer;
 //
 //import static java.awt.Color.*;
-//
 //import org.junit.jupiter.api.Test;
-//
 //import geometries.Sphere;
 //import geometries.Triangle;
 //import lighting.AmbientLight;
