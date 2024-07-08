@@ -50,4 +50,5 @@ public class Triangle extends Polygon {
 
         return List.of(new GeoPoint(this, intersections.getFirst().point));
     }
+
 }

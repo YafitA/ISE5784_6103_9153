@@ -80,6 +80,6 @@ public class Plane extends Geometry {
         double t = (normal.dotProduct((q.subtract(ray.getHead())))) / nv;
 
         //there are points hitting the plane OR there aren't
-        return alignZero(t) > 0&&alignZero(t - maxDistance) < 0 ? List.of(new GeoPoint(this, ray.getPoint(t))) : null;
+        return alignZero(t) > 0 && alignZero(t - maxDistance) < 0 ? List.of(new GeoPoint(this, ray.getPoint(t))) : null;
     }
 }

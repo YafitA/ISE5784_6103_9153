@@ -85,7 +85,7 @@ public class SimpleRayTracer extends RayTracerBase {
      */
     private Ray constructReflectedRay(GeoPoint gp, Vector direction, Vector n) {
         Vector mirror = direction.subtract(n.scale(direction.dotProduct(n) * 2));
-        return new Ray(gp.point, mirror);
+        return new Ray(gp.point, mirror, n);
 
     }
 
@@ -125,18 +125,8 @@ public class SimpleRayTracer extends RayTracerBase {
         Vector v = ray.getDirection();
         Vector n = gp.geometry.getNormal(gp.point);
 
-        Color color = Color.BLACK;
-        Double3 kkr = k.product(material.kR);
-        Double3 kkt = k.product(material.kT);
-
-        if (!(kkr.lowerThan(MIN_CALC_COLOR_K)))
-            color = color.add(calcGlobalEffects(constructReflectedRay(gp, v, n), level, material.kR, kkr));
-        if (!(kkt.lowerThan(MIN_CALC_COLOR_K)))
-            color = color.add(calcGlobalEffects(constructRefractedRay(gp, v, n), level, material.kT, kkt));
-
-//        return calcGlobalEffects(constructReflectedRay(gp, v, n), level, k, material.kR)
-//                .add(calcGlobalEffects(constructRefractedRay(gp, v, n), level, k, material.kT));
-        return color;
+        return calcGlobalEffect(constructReflectedRay(gp, v, n), level, k, material.kR)
+                .add(calcGlobalEffect(constructRefractedRay(gp, v, n), level, k, material.kT));
     }
 
     /**
@@ -148,7 +138,7 @@ public class SimpleRayTracer extends RayTracerBase {
      * @param kx    the color of the effect
      * @return the color at the point
      */
-    private Color calcGlobalEffects(Ray ray, int level, Double3 k, Double3 kx) {
+    private Color calcGlobalEffect(Ray ray, int level, Double3 k, Double3 kx) {
         Double3 kkx = k.product(kx);
         if (kkx.lowerThan(MIN_CALC_COLOR_K))
             return Color.BLACK;
@@ -156,7 +146,7 @@ public class SimpleRayTracer extends RayTracerBase {
         if (gp == null)
             return scene.background.scale(kx);
         return isZero(gp.geometry.getNormal(gp.point).dotProduct(ray.getDirection())) ? Color.BLACK
-                : calcColor(gp, ray, level - 1, kkx);
+                : calcColor(gp, ray, level - 1, kkx).scale(kx);
     }
 
     /**
@@ -179,10 +169,6 @@ public class SimpleRayTracer extends RayTracerBase {
             Vector l = lightSource.getL(gp.point);
             double nl = alignZero(n.dotProduct(l));
 
-//            if ((nl * nv > 0) && unshaded(gp, l, n, nl, lightSource)){ // sign(nl) == sign(nv)
-//                Color iL = lightSource.getIntensity(gp.point);
-//                color = color.add(iL.scale(calcDiffusive(material, nl).add(calcSpecular(material, n, l, nl, v))));
-//            }
             if (nl * nv > 0) {
                 Double3 ktr = transparency(gp, l, n, lightSource);
                 if (!ktr.product(k).lowerThan(MIN_CALC_COLOR_K)) {
@@ -195,6 +181,32 @@ public class SimpleRayTracer extends RayTracerBase {
     }
 
     /**
+     * Calculate the transparency of the point
+     *
+     * @param gp    the point
+     * @param l     the light vector
+     * @param n     the normal at the point
+     * @param light the light source
+     * @return the transparency of the point
+     */
+    private Double3 transparency(GeoPoint gp, Vector l, Vector n, LightSource light) {
+        Ray lightRay = new Ray(gp.point, l.scale(-1), n); // from point to light source
+        var intersections = scene.geometries.findGeoIntersections(lightRay, light.getDistance(gp.point));
+        Double3 ktr = Double3.ONE;
+
+        if (intersections == null)
+            return ktr;
+
+        for (GeoPoint p : intersections) {
+            ktr = ktr.product(p.geometry.getMaterial().kT);
+            if (ktr.lowerThan(MIN_CALC_COLOR_K))
+                return Double3.ZERO;
+        }
+
+        return ktr;
+    }
+
+    /**
      * Check if the point is shaded
      * @param gp the point and its body
      * @param l vector from the source or to the point
@@ -203,6 +215,8 @@ public class SimpleRayTracer extends RayTracerBase {
      * @param light the Light source
      * @return true if the point is unshaded and false if its shaded
      */
+    @SuppressWarnings("unused")
+    @Deprecated(forRemoval = true)
     private boolean unshaded(GeoPoint gp, Vector l, Vector n, double nl, LightSource light) {
         Vector lightDir = l.scale(-1);
         Ray lightRay = new Ray(gp.point.add(n.scale(nl < 0 ? DELTA : -DELTA)), lightDir);

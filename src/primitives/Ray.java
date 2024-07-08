@@ -19,7 +19,7 @@ public class Ray {
      */
     private final Vector direction;
 
-    public static final double DELTA = 0.00001;
+    public static final double DELTA = 0.1;
 
     /**
      * Constructs a Ray object with the specified starting point and direction.
@@ -41,7 +41,7 @@ public class Ray {
      */
     public Ray(Point p0, Vector dir, Vector normal) {
         double res = dir.dotProduct(normal);
-        this.head = isZero(res) ? p0 : res > 0 ? p0.add(normal.scale(DELTA)) : p0.add(normal.scale(-DELTA));
+        this.head = p0.add(normal.scale(res >= 0 ? DELTA : -DELTA));
         this.direction = dir.normalize();
     }
 

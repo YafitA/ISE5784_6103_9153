@@ -243,7 +243,10 @@ public class LightsTests {
         scene2.lights.add(new PointLight(trianglesLightColor, trianglesLightPosition)
                 .setKL(0.001).setKQ(0.0002));
 
-        camera2.setImageWriter(new ImageWriter("lightTrianglesPoint", 500, 500)) //
+        camera2 //
+                .setImageWriter(new ImageWriter("lightTrianglesPoint", 500, 500)) //
+//                .setImageWriter(new ImageWriter("lightSpherePoint", 1, 1)) // debug
+//                .setDirection(new Point(-50,50,0), Vector.Y) // debug
                 .build() //
                 .renderImage() //
                 .writeToImage(); //
