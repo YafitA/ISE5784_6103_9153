@@ -5,12 +5,9 @@ package renderer;
 
 import static java.awt.Color.*;
 
-import geometries.Geometry;
-import geometries.Polygon;
+import geometries.*;
 import lighting.PointLight;
 import org.junit.jupiter.api.Test;
-import geometries.Sphere;
-import geometries.Triangle;
 import lighting.AmbientLight;
 import lighting.SpotLight;
 import primitives.*;
@@ -27,7 +24,7 @@ public class ReflectionRefractionTests {
     private final Camera.Builder cameraBuilder = Camera.getBuilder()
             .setRayTracer(new SimpleRayTracer(scene));
 
-    /** Produce a picture of a sphere lighted by a spot light */
+    /** Produce a picture of a sphere lighted by a spotlight */
     @Test
     public void twoSpheres() {
         scene.geometries.add(
@@ -78,7 +75,7 @@ public class ReflectionRefractionTests {
                 .writeToImage();
     }
 
-    /** Produce a picture of a two triangles lighted by a spot light with a
+    /** Produce a picture of two triangles lighted by a spotlight with a
      * partially
      * transparent Sphere producing partial shadow */
     @Test
@@ -224,4 +221,106 @@ public class ReflectionRefractionTests {
 
         cam.renderImage().writeToImage();
     }
+
+
+    @Test
+    public void variousShapes() {
+         final Scene scene = new Scene("variousShapes Test scene");
+         final Camera.Builder cameraBuilder = Camera.getBuilder()
+                .setRayTracer(new SimpleRayTracer(scene));
+
+
+        scene.geometries.add(
+                // Add a sphere
+                new Sphere(new Point(0, 0, -50), 50d).setEmission(new Color(BLUE))
+                        .setMaterial(new Material().setKD(0.4).setKS(0.3).setShininess(100).setKT(0.3)),
+                // Add a plane
+                new Plane(new Point(0, -50, 0), new Vector(0, 1, 0)).setEmission(new Color(100, 50, 20))
+                        .setMaterial(new Material().setKD(0.25).setKS(0.25).setShininess(20)),
+                // Add a triangle
+                new Triangle(new Point(-150, -150, -115), new Point(150, -150, -135), new Point(75, 75, -150))
+                        .setEmission(new Color(20, 20, 20))
+                        .setMaterial(new Material().setKD(0.5).setKS(0.5).setShininess(60)),
+                // Add a polygon
+                new Polygon(new Point(0, 50, 0), new Point(50, 50, 0), new Point(50, 50, -50), new Point(0, 50, -50))
+                        .setEmission(new Color(0, 100, 0))
+                        .setMaterial(new Material().setKD(0.4).setKS(0.3).setShininess(100))
+        );
+        scene.setAmbientLight(new AmbientLight(new Color(WHITE), 0.15));
+        scene.lights.add(
+                new SpotLight(new Color(700, 400, 400), new Point(60, 50, 0), new Vector(0, 0, -1))
+                        .setKL(4E-5).setKQ(2E-7));
+        scene.lights.add(
+                new PointLight(new Color(500, 300, 300), new Point(0, 100, 100))
+                        .setKL(0.0001).setKQ(0.00001));
+
+        cameraBuilder.setLocation(new Point(0, 0, 1000)).setVpDistance(1000).setDirection(Point.ZERO, Vector.Y)
+                .setVpSize(200, 200)
+                .setImageWriter(new ImageWriter("variousShapes", 600, 600))
+                .build()
+                .renderImage()
+                .writeToImage();
+    }
+
+
+
+
+
+
+        @Test
+        public void createHouseScene() {
+             final Scene scene = new Scene("House Scene");
+             final Camera.Builder cameraBuilder = Camera.getBuilder()
+                    .setRayTracer(new SimpleRayTracer(scene));
+
+            // Add the house base (rectangle)
+            scene.geometries.add(
+                    new Polygon(new Point(-100, -50, -100), new Point(100, -50, -100), new Point(100, -50, 100), new Point(-100, -50, 100))
+                            .setEmission(new Color(139, 69, 19)) // Brown color for the house base
+                            .setMaterial(new Material().setKD(0.5).setKS(0.5).setShininess(30))
+            );
+
+            // Add the roof (triangle)
+            scene.geometries.add(
+                    new Triangle(new Point(-100, -50, -100), new Point(100, -50, -100), new Point(0, 50, -50))
+                            .setEmission(new Color(165, 42, 42)) // Red color for the roof
+                            .setMaterial(new Material().setKD(0.5).setKS(0.5).setShininess(30)),
+                    new Triangle(new Point(-100, -50, 100), new Point(100, -50, 100), new Point(0, 50, 50))
+                            .setEmission(new Color(165, 42, 42)) // Red color for the roof
+                            .setMaterial(new Material().setKD(0.5).setKS(0.5).setShininess(30))
+            );
+
+            // Add a sphere (garden ball or sun)
+            scene.geometries.add(
+                    new Sphere(new Point(0, 100, -150), 30d).setEmission(new Color(YELLOW)) // Yellow color for the sun
+                            .setMaterial(new Material().setKD(0.5).setKS(0.5).setShininess(100))
+            );
+
+            // Add a plane (ground)
+            scene.geometries.add(
+                    new Plane(new Point(0, -50, 0), new Vector(0, 1, 0)).setEmission(new Color(34, 139, 34)) // Green color for the ground
+                            .setMaterial(new Material().setKD(0.25).setKS(0.25).setShininess(20))
+            );
+
+            // Set ambient light
+            scene.setAmbientLight(new AmbientLight(new Color(WHITE), 0.15));
+
+            // Add lights
+            scene.lights.add(
+                    new SpotLight(new Color(700, 400, 400), new Point(60, 50, 0), new Vector(0, 0, -1))
+                            .setKL(4E-5).setKQ(2E-7));
+            scene.lights.add(
+                    new PointLight(new Color(500, 300, 300), new Point(0, 100, 100))
+                            .setKL(0.0001).setKQ(0.00001));
+
+            // Set up the camera
+            cameraBuilder.setLocation(new Point(0, 0, 500)).setVpDistance(500).setDirection(Point.ZERO, Vector.Y)
+                    .setVpSize(300, 300)
+                    .setImageWriter(new ImageWriter("houseScene", 600, 600))
+                    .build()
+                    .renderImage()
+                    .writeToImage();
+        }
+
+
 }

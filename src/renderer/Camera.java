@@ -415,5 +415,19 @@ public class Camera implements Cloneable {
                 return null;
             }
         }
+
+        /**
+         * sets the camera direction to look at a specified point p
+         * @param p point to looks at
+         * @return new camera
+         */
+        public Builder lookAt(Point p) {
+            camera.to = p.subtract(camera.location).normalize();
+            // vector Y with little angle, so it will be perpendicular to vTo
+            camera.right = Vector.Y.crossProduct(camera.to).normalize();
+            camera.up = camera.right.crossProduct(camera.to).normalize();
+            return this;
+        }
+
     }
 }
