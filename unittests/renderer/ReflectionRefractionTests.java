@@ -322,5 +322,66 @@ public class ReflectionRefractionTests {
                     .writeToImage();
         }
 
+    @Test
+    public void createMilkyWayScene() {
+
+        Color[] colors = {
+                new Color(255, 0, 255),
+                new Color(0, 0, 255),
+                new Color(255, 255, 0),
+                new Color(0, 255, 0),
+                new Color(255, 0,0) };
+
+        // Add stars as spheres with varying sizes and colors
+        double N = 15;  // number of spheres in the spiral
+        double R = 500; // radius of the spiral
+
+//        for (int i = 0; i < 100; i++) {
+//            double x = Math.sqrt(R) * Math.cos(2 * Math.PI * i / N);
+//            double y = Math.sqrt(R) * Math.sin(2 * Math.PI * i / N);
+//            double radius = Math.random() * 25 + 5;
+//            Point position = new Point(x, y, i*5);
+//            scene.geometries.add(new Sphere(position, radius)
+//                    .setEmission(colors[i % colors.length])
+//                    .setMaterial(new Material().setKD(0.5).setKS(0.5).setShininess(100).setKR(0.15)));
+//            R += 2000;
+//        }
+        double[] radiuses= {0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,0.66};
+        double[] xs=       {0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,0.66};
+        double[] ys=       {0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,0.66};
+        double[] zs=       {0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,0.66};
+        // Add nebulae as semi-transparent spheres with emissive colors
+        for (int i = 0; i < 10; i++) {
+            double radius = radiuses[i] * 200 + 100;
+            Point position = new Point(xs[i]  * 2000 - 1000, ys[i]  * 2000 - 1000, zs[i]  * -1000 - 500);
+            scene.geometries.add(new Sphere(position, radius)
+                    .setEmission(colors[i % colors.length])
+                    .setMaterial(new Material().setKD(0.2).setKS(0.2).setShininess(50).setKT(0.5).setKR(0.15)));
+        }
+
+        // Add ambient light
+        scene.setAmbientLight(new AmbientLight(new Color(WHITE), 0.1));
+
+        // Add spotlights to simulate cosmic light sources
+        scene.lights.add(new SpotLight(new Color(700, 400, 400), new Point(500, 500, -100), new Vector(-1, -1, -1))
+                .setKL(4E-5).setKQ(2E-7));
+        scene.lights.add(new PointLight(new Color(500, 300, 300), new Point(0, 1000, -500))
+                .setKL(0.0001).setKQ(0.00001));
+
+        scene.setBackground(new Color(64, 64,200));
+
+        // bubble sphere around the spiral
+//        scene.geometries.add(new Sphere(new Point(0, 0, 0), 1000)
+//                .setEmission(new Color(0, 0, 127)).setMaterial(new Material().setKD(0.5).setKS(0.5).setShininess(100).setKT(0.8)));
+
+        // Set up the camera
+        cameraBuilder.setLocation(new Point(0, 0, 2000)).setVpDistance(2000).setDirection(Point.ZERO, Vector.Y)
+                .setVpSize(2000, 2000)
+                .setImageWriter(new ImageWriter("milkyWayScene", 1000, 1000))
+                .build()
+                .renderImage()
+                .writeToImage();
+    }
+
 
 }
