@@ -19,6 +19,9 @@ public class Ray {
      */
     private final Vector direction;
 
+    /**
+     * fot calculation
+     */
     public static final double DELTA = 0.1;
 
     /**
@@ -35,8 +38,8 @@ public class Ray {
     /**
      * creates a ray from point and two vectors
      *
-     * @param p0 The starting point of the ray.
-     * @param dir the direction vector of the ray.
+     * @param p0     The starting point of the ray.
+     * @param dir    the direction vector of the ray.
      * @param normal the normal vector of the ray.
      */
     public Ray(Point p0, Vector dir, Vector normal) {

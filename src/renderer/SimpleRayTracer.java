@@ -154,6 +154,7 @@ public class SimpleRayTracer extends RayTracerBase {
      *
      * @param gp  point and geometry
      * @param ray a given ray
+     * @param k the attenuation coefficient
      * @return the color at the point
      */
     private Color calcLocalEffects(GeoPoint gp, Ray ray, Double3 k) {
@@ -208,10 +209,11 @@ public class SimpleRayTracer extends RayTracerBase {
 
     /**
      * Check if the point is shaded
-     * @param gp the point and its body
-     * @param l vector from the source or to the point
-     * @param n the normal to the point
-     * @param nl the max distance
+     *
+     * @param gp    the point and its body
+     * @param l     vector from the source or to the point
+     * @param n     the normal to the point
+     * @param nl    the max distance
      * @param light the Light source
      * @return true if the point is unshaded and false if its shaded
      */
@@ -221,7 +223,7 @@ public class SimpleRayTracer extends RayTracerBase {
         Vector lightDir = l.scale(-1);
         Ray lightRay = new Ray(gp.point.add(n.scale(nl < 0 ? DELTA : -DELTA)), lightDir);
 
-        var intersections =scene.geometries.findGeoIntersections(lightRay, light.getDistance(gp.point));
+        var intersections = scene.geometries.findGeoIntersections(lightRay, light.getDistance(gp.point));
         //if no intersections it's unshaded
         if (intersections == null)
             return true;
@@ -257,8 +259,7 @@ public class SimpleRayTracer extends RayTracerBase {
      * @param nl       angle
      * @return diffusion
      */
-    private Double3 calcDiffusive(Material material, double nl)
-    {
+    private Double3 calcDiffusive(Material material, double nl) {
         return material.kD.scale(abs(nl));
     }
 

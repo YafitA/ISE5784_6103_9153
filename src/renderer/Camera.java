@@ -418,6 +418,7 @@ public class Camera implements Cloneable {
 
         /**
          * sets the camera direction to look at a specified point p
+         *
          * @param p point to looks at
          * @return new camera
          */

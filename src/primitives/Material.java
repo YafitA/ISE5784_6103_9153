@@ -31,6 +31,7 @@ public class Material {
 
     /**
      * setter in a builder design for kR
+     *
      * @param kR attenuation coefficient of reflection
      * @return the new material
      */
@@ -41,6 +42,7 @@ public class Material {
 
     /**
      * setter in a builder design for kT
+     *
      * @param kT Attenuation coefficient of transparency
      * @return the new material
      */
@@ -51,6 +53,7 @@ public class Material {
 
     /**
      * setter in a builder design for kR
+     *
      * @param kR attenuation coefficient of reflection
      * @return the new material
      */
@@ -61,6 +64,7 @@ public class Material {
 
     /**
      * setter in a builder design for kT
+     *
      * @param kT Attenuation coefficient of transparency
      * @return the new material
      */

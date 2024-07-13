@@ -77,7 +77,7 @@ public abstract class Intersectable {
     /**
      * find all GeoPoints that intersect with a ray limited by max distance
      *
-     * @param ray intersecting ray
+     * @param ray         intersecting ray
      * @param maxDistance the given maximum distance
      * @return list of points and shapes
      */
@@ -88,7 +88,7 @@ public abstract class Intersectable {
     /**
      * A helper method to find Geo Intersections
      *
-     * @param ray intersecting ray
+     * @param ray         intersecting ray
      * @param maxDistance the given maximum distance
      * @return list of points and shapes
      */

@@ -94,4 +94,16 @@ public class Point {
         double d3Dis = this.xyz.d3 - p.xyz.d3;
         return d1Dis * d1Dis + d2Dis * d2Dis + d3Dis * d3Dis;
     }
+
+    /**
+     * Scales the coordinates of this point by a given factor.
+     * This method multiplies each coordinate (x, y, z) of this point by the given factor
+     * and returns a new point with the scaled coordinates.
+     *
+     * @param factor the factor by which to scale the coordinates of this point
+     * @return a new {@code Point} object with the scaled coordinates
+     */
+    public Point scale(double factor) {
+        return new Point(this.xyz.d1 * factor, this.xyz.d2 * factor, this.xyz.d3 * factor);
+    }
 }
