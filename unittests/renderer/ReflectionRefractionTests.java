@@ -160,7 +160,7 @@ public class ReflectionRefractionTests {
         // Set up the camera
         cameraBuilder.setLocation(new Point(0, 0, 2000)).setVpDistance(2000).setDirection(Point.ZERO, Vector.Y)
                 .setVpSize(2000, 2000)
-                .setImageWriter(new ImageWriter("ourTest", 1000, 1000))
+                .setImageWriter(new ImageWriter("OurTest", 1000, 1000))
                 .build()
                 .renderImage()
                 .writeToImage();
