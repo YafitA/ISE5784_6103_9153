@@ -14,23 +14,17 @@ import static primitives.Util.*;
 public class SimpleRayTracer extends RayTracerBase {
 
     /**
-     * constant for the size of moving the beginning of rays for shading rays
-     * (its value can be reduced according to the orders of magnitude of the shapes
-     * in the picture so that the shift is not visible in the picture)
-     */
-    private static final double DELTA = 0.1;
-    /**
      * For recursion stop term
      */
     private static final int MAX_CALC_COLOR_LEVEL = 10;
     /**
      * For recursion stop term
      */
-    private static final double MIN_CALC_COLOR_K = 0.001;
+    private static final Double3 MIN_CALC_COLOR_K = new Double3(0.001);
     /**
      * The initial value of k
      */
-    private static final double INITIAL_K = 1;
+    private static final Double3 INITIAL_K = Double3.ONE;
 
 
     /**
@@ -57,7 +51,7 @@ public class SimpleRayTracer extends RayTracerBase {
      */
     private Color calcColor(GeoPoint intersection, Ray ray) {
 //        return scene.ambientLight.getIntensity().add(calcLocalEffects(intersection, ray));
-        return calcColor(intersection, ray, MAX_CALC_COLOR_LEVEL, new Double3(INITIAL_K))
+        return calcColor(intersection, ray, MAX_CALC_COLOR_LEVEL, INITIAL_K)
                 .add(scene.ambientLight.getIntensity());
     }
 
@@ -86,7 +80,6 @@ public class SimpleRayTracer extends RayTracerBase {
     private Ray constructReflectedRay(GeoPoint gp, Vector direction, Vector n) {
         Vector mirror = direction.subtract(n.scale(direction.dotProduct(n) * 2));
         return new Ray(gp.point, mirror, n);
-
     }
 
     /**
@@ -142,11 +135,9 @@ public class SimpleRayTracer extends RayTracerBase {
         Double3 kkx = k.product(kx);
         if (kkx.lowerThan(MIN_CALC_COLOR_K))
             return Color.BLACK;
+
         GeoPoint gp = findClosestIntersection(ray);
-        if (gp == null)
-            return scene.background.scale(kx);
-        return isZero(gp.geometry.getNormal(gp.point).dotProduct(ray.getDirection())) ? Color.BLACK
-                : calcColor(gp, ray, level - 1, kkx).scale(kx);
+        return (gp == null ? scene.background : calcColor(gp, ray, level - 1, kkx)).scale(kx);
     }
 
     /**
@@ -191,10 +182,9 @@ public class SimpleRayTracer extends RayTracerBase {
      * @return the transparency of the point
      */
     private Double3 transparency(GeoPoint gp, Vector l, Vector n, LightSource light) {
+        Double3 ktr = Double3.ONE;
         Ray lightRay = new Ray(gp.point, l.scale(-1), n); // from point to light source
         var intersections = scene.geometries.findGeoIntersections(lightRay, light.getDistance(gp.point));
-        Double3 ktr = Double3.ONE;
-
         if (intersections == null)
             return ktr;
 
@@ -213,16 +203,13 @@ public class SimpleRayTracer extends RayTracerBase {
      * @param gp    the point and its body
      * @param l     vector from the source or to the point
      * @param n     the normal to the point
-     * @param nl    the max distance
      * @param light the Light source
      * @return true if the point is unshaded and false if its shaded
      */
     @SuppressWarnings("unused")
     @Deprecated(forRemoval = true)
-    private boolean unshaded(GeoPoint gp, Vector l, Vector n, double nl, LightSource light) {
-        Vector lightDir = l.scale(-1);
-        Ray lightRay = new Ray(gp.point.add(n.scale(nl < 0 ? DELTA : -DELTA)), lightDir);
-
+    private boolean unshaded(GeoPoint gp, Vector l, Vector n, LightSource light) {
+        Ray lightRay = new Ray(gp.point, l.scale(-1), n); // from point to light source
         var intersections = scene.geometries.findGeoIntersections(lightRay, light.getDistance(gp.point));
         //if no intersections it's unshaded
         if (intersections == null)

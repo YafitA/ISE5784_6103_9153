@@ -39,13 +39,13 @@ public class Ray {
      * creates a ray from point and two vectors
      *
      * @param p0     The starting point of the ray.
-     * @param dir    the direction vector of the ray.
+     * @param dir    the direction vector of the ray. must be normalized (length = 1)
      * @param normal the normal vector of the ray.
      */
     public Ray(Point p0, Vector dir, Vector normal) {
         double res = dir.dotProduct(normal);
         this.head = p0.add(normal.scale(res >= 0 ? DELTA : -DELTA));
-        this.direction = dir.normalize();
+        this.direction = dir;
     }
 
     @Override

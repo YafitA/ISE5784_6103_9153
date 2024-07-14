@@ -9,7 +9,6 @@ import primitives.Color;
  */
 public class AmbientLight extends Light {
 
-
     /**
      * Ambient light color black
      */
