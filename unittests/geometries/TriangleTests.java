@@ -46,6 +46,7 @@ public class TriangleTests {
     @Test
     public void testFindIntersections() {
 
+        // Define vertices and triangle
         final Point p100 = new Point(1, 0, 0);
         final Triangle triangle = new Triangle(new Point(-1, 0, 0), p100, new Point(0, 2, 0));
         final Vector v001 = new Vector(0, 0, 1);
@@ -74,5 +75,46 @@ public class TriangleTests {
         // TC05: Ray's line is on edge's continuation (0 point)
         assertNull(triangle.findIntersections(new Ray(new Point(2, 0, -1), v001)),
                 "Ray's line is on edge's continuation");
+    }
+
+    /**
+     * Test method for {@link geometries.Triangle#findGeoIntersections(Ray, double)}.
+     */
+    @Test
+    public void testFindGeoIntersectionsHelper() {
+
+        // Define vertices and triangle
+        final Point p100 = new Point(1, 0, 0);
+        final Triangle triangle = new Triangle(new Point(-1, 0, 0), p100, new Point(0, 2, 0));
+        final Vector v001 = new Vector(0, 0, 1);
+
+        double maxDistance = 10.0;
+
+        // ============ Equivalence Partitions Tests ==============
+        // TC01: Ray's line is inside polygon/triangle (1 point)
+        final var result1 = triangle.findGeoIntersections(new Ray(new Point(0, 1, -1), v001), maxDistance);
+        final var exp1 = List.of(new Intersectable.GeoPoint(triangle, new Point(0, 1, 0)));
+        assertEquals(1, result1.size(), "Wrong number of points");
+        assertEquals(exp1, result1, "Ray's line is inside polygon/triangle");
+        // TC02: Ray's line is Outside against edge (0 points)
+        assertNull(triangle.findGeoIntersections(new Ray(new Point(0, -1, -1), v001), maxDistance),
+                "Ray's line is Outside against edge");
+        // TC03: Ray's line is Outside against vertex (0 points)
+        assertNull(triangle.findGeoIntersections(new Ray(new Point(0, 3, 0), v001), maxDistance),
+                "Ray's line is Outside against edge");
+
+        // =============== Boundary Values Tests ==================
+        // **** Group: the ray begins "before" the plane
+        // TC04: Ray's line is on edge (0 point)
+        assertNull(triangle.findGeoIntersections(new Ray(new Point(0.5, 0, -1), v001), maxDistance),
+                "Ray's line is on edge");
+        // TC05: Ray's line is in vertex (0 point)
+        assertNull(triangle.findGeoIntersections(new Ray(new Point(1, 0, -1), v001), maxDistance),
+                "Ray's line is in vertex");
+        // TC05: Ray's line is on edge's continuation (0 point)
+        assertNull(triangle.findGeoIntersections(new Ray(new Point(2, 0, -1), v001), maxDistance),
+                "Ray's line is on edge's continuation");
+
+
     }
 }
