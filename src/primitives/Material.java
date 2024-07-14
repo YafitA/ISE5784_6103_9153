@@ -7,11 +7,15 @@ public class Material {
 
 
     /**
-     * The attenuation coefficients of the components
-     * diffusive and specular of the model.
+     * The attenuation coefficient of diffusive
      */
-    public Double3 kD = Double3.ZERO, kS = Double3.ZERO;
 
+    public Double3 kD = Double3.ZERO;
+    /**
+     * The attenuation coefficients of specular
+     */
+
+    public Double3 kS = Double3.ZERO;
     /**
      * The level of concentration of the lightning (the component
      * specular).

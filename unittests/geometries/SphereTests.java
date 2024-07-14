@@ -2,7 +2,6 @@ package geometries;
 
 import org.junit.jupiter.api.Test;
 import primitives.*;
-
 import java.util.Comparator;
 import java.util.List;
 
@@ -140,4 +139,59 @@ public class SphereTests {
         assertNull(sphere.findIntersections(new Ray(p300, new Vector(0, 2, 0))),
                 "Ray's line is outside, ray is orthogonal to ray start to sphere's center line");
     }
+
+    /**
+     * test method for {@link geometries.Sphere#findGeoIntersectionsHelper(primitives.Ray, double)}.
+     */
+    @Test
+    void testFindGeoIntersectionsHelper() {
+        Sphere sphere = new Sphere(new Point(0, 0, 0), 1.0); // Sphere centered at origin with radius 1
+        Ray ray;
+        List<Intersectable.GeoPoint> intersections;
+
+        // Test case 1: Ray starts at the center of the sphere
+        ray = new Ray(new Point(0, 0, 0), new Vector(1, 0, 0));
+        intersections = sphere.findGeoIntersectionsHelper(ray, 2.0);
+        assertNotNull(intersections);
+        assertEquals(1, intersections.size());
+        assertEquals(new Point(1, 0, 0), intersections.get(0).point);
+
+        // Test case 2: Ray intersects the sphere at two points
+        ray = new Ray(new Point(-2, 0, 0), new Vector(1, 0, 0));
+        intersections = sphere.findGeoIntersectionsHelper(ray, 5.0);
+        assertNotNull(intersections);
+        assertEquals(2, intersections.size());
+        assertTrue(intersections.contains(new Intersectable.GeoPoint(sphere, new Point(-1, 0, 0))));
+        assertTrue(intersections.contains(new Intersectable.GeoPoint(sphere, new Point(1, 0, 0))));
+
+        // Test case 3: Ray is tangent to the sphere
+        ray = new Ray(new Point(1, 1, 0), new Vector(0, -1, 0));
+        intersections = sphere.findGeoIntersectionsHelper(ray, 2.0);
+        assertNull(intersections);
+
+        // Test case 4: Ray misses the sphere
+        ray = new Ray(new Point(2, 2, 0), new Vector(1, 1, 0));
+        intersections = sphere.findGeoIntersectionsHelper(ray, 5.0);
+        assertNull(intersections);
+
+        // Test case 5: Ray starts inside the sphere
+        ray = new Ray(new Point(0.5, 0, 0), new Vector(1, 0, 0));
+        intersections = sphere.findGeoIntersectionsHelper(ray, 2.0);
+        assertNotNull(intersections);
+        assertEquals(1, intersections.size());
+        assertEquals(new Point(1, 0, 0), intersections.get(0).point);
+
+        // Test case 6: Ray intersects the sphere but maxDistance limits the intersection
+        ray = new Ray(new Point(-2, 0, 0), new Vector(1, 0, 0));
+        intersections = sphere.findGeoIntersectionsHelper(ray, 0.5);
+        assertNull(intersections);
+
+        // Test case 7: Ray intersects the sphere with one intersection point within maxDistance
+        ray = new Ray(new Point(-2, 0, 0), new Vector(1, 0, 0));
+        intersections = sphere.findGeoIntersectionsHelper(ray, 2.5);
+        assertNotNull(intersections);
+        assertEquals(1, intersections.size());
+        assertEquals(new Point(-1, 0, 0), intersections.get(0).point);
+    }
+
 }
