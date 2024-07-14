@@ -154,7 +154,7 @@ public class SimpleRayTracer extends RayTracerBase {
      *
      * @param gp  point and geometry
      * @param ray a given ray
-     * @param k the attenuation coefficient
+     * @param k   the attenuation coefficient
      * @return the color at the point
      */
     private Color calcLocalEffects(GeoPoint gp, Ray ray, Double3 k) {

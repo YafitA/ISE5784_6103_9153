@@ -171,7 +171,7 @@ public class ReflectionRefractionTests {
      * The large pyramids are located at the right-bottom and left-top positions, and the small pyramids are inside the large ones.
      * for ourTest test
      *
-     * @param scene the scene to which the pyramids are added
+     * @param scene  the scene to which the pyramids are added
      * @param colors an array of colors used for the emission of the pyramids
      */
     private void addPyramidsToScene(Scene scene, Color[] colors) {
