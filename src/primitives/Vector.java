@@ -126,4 +126,19 @@ public class Vector extends Point {
         return this.scale(1.0 / this.length());
     }
 
+    /**
+     * Creates a normal vector to this vector.
+     *
+     * @return a vector normal to this vector.
+     */
+    public Vector createNormal() {
+        // If the X component of this vector is zero, return a vector in the direction of the X-axis.
+        if (Util.isZero(this.xyz.d1))
+            return new Vector(1, 0, 0);
+
+        // Otherwise, create a vector in the YZ plane using the Y and X components of this vector.
+        // Then normalize the vector.
+        return new Vector(this.xyz.d2, -this.xyz.d1, 0).normalize();
+    }
+
 }

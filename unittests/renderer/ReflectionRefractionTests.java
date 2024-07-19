@@ -4,7 +4,6 @@
 package renderer;
 
 import static java.awt.Color.*;
-
 import geometries.*;
 import lighting.PointLight;
 import org.junit.jupiter.api.Test;
