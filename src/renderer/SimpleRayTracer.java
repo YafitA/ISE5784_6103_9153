@@ -127,6 +127,8 @@ public class SimpleRayTracer extends RayTracerBase {
     /**
      * Calculate the global effects at a point
      *
+     * @param material the material of the body
+     * @param n normal
      * @param ray   the ray to calculate the color for
      * @param level the level of the recursion
      * @param k     the color at the point
@@ -138,10 +140,7 @@ public class SimpleRayTracer extends RayTracerBase {
         if (kkx.lowerThan(MIN_CALC_COLOR_K))
             return Color.BLACK;
 
-        //GeoPoint gp = findClosestIntersection(ray);
-        //return (gp == null ? scene.background : calcColor(gp, ray, level - 1, kkx)).scale(kx);
-
-        var rays = ray.generateBeam(n, material.blurGlassRadius, material.blurGlassDistance, material.numOfRays);
+        var rays = ray.generateBeamOfRays(n, material.blurGlassEffectRadius, material.blurGlassEffectDistance, material.numOfBlurRays);
         return calcAverageColor(rays, level - 1, kkx).scale(kx);
     }
 
@@ -257,12 +256,15 @@ public class SimpleRayTracer extends RayTracerBase {
     }
 
     /**
-     * Calculates the average color resulting from a list of rays.
+     * Calculates the average color from a list of rays.
+     * This method traces each ray, finds the closest intersection,
+     * and computes the color at that intersection. It then averages
+     * the colors from all rays.
      *
-     * @param rays the list of rays for which to calculate the average color
-     * @param level the current recursion level for color calculation
-     * @param kkx a factor used for adjusting the color intensity
-     * @return the average color resulting from the list of rays
+     * @param rays  the list of rays to trace
+     * @param level the recursion level for reflection/refraction calculations
+     * @param kkx   a parameter for attenuation or some other purpose (context-dependent)
+     * @return the average color computed from all rays
      */
     Color calcAverageColor(List<Ray> rays, int level, Double3 kkx) {
         Color color = Color.BLACK;
@@ -274,5 +276,6 @@ public class SimpleRayTracer extends RayTracerBase {
 
         return color.reduce(rays.size());
     }
+
 }
 

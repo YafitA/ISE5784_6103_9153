@@ -3,16 +3,23 @@ package renderer;
 import geometries.Plane;
 import geometries.Polygon;
 import geometries.Sphere;
+import geometries.Triangle;
 import lighting.AmbientLight;
 import lighting.DirectionalLight;
 import lighting.SpotLight;
 import org.junit.jupiter.api.Test;
 import primitives.*;
 import scene.Scene;
+
+import java.util.List;
+
 import static java.awt.Color.*;
 import static java.awt.Color.white;
 
-public class MiniProject1 {
+/**
+ * Test class for glossy surface and diffusive glass
+ */
+public class MiniProject1Tests {
 
     /**
      * Scene for the tests
@@ -21,19 +28,21 @@ public class MiniProject1 {
     /**
      * Camera builder for the tests with triangles
      */
-    private final Camera.Builder cameraBuilder = Camera.getBuilder()
-            .setRayTracer(new SimpleRayTracer(scene));
+    private final Camera.Builder cameraBuilder = Camera.getBuilder().setRayTracer(new SimpleRayTracer(scene));
 
 
+    /**
+     * Test for glossy surface and diffusive glass
+     */
     @Test
     public void testBlurryGlass() {
+
         scene.setAmbientLight(new AmbientLight(new Color(lightGray).reduce(2), new Double3(0.15)));
 
         for (int i = -4; i < 6; i += 2) {
             scene.geometries.add(
                     new Sphere(new Point(5 * i, -1.50, -3), 3).setEmission(new Color(red).reduce(4).reduce(2.2))
                             .setMaterial(new Material().setKD(0.2).setKS(1).setShininess(80).setKT(0)),
-
                     new Sphere(new Point(5 * i, 5, 3), 3).setEmission(new Color(pink).reduce(2.2))
                             .setMaterial(new Material().setKD(0.2).setKS(1).setShininess(80).setKT(0)),
                     new Sphere(new Point(5 * i, -8, -8), 3).setEmission(new Color(blue).reduce(2.2))
@@ -61,12 +70,15 @@ public class MiniProject1 {
                 .setDirection(Vector.Y, Vector.Z)
                 .setVpSize(200, 200)
                 .setVpDistance(1000)
-                .setImageWriter(new ImageWriter("blurryGlass2", 500, 500))
+                .setImageWriter(new ImageWriter("blurryGlass1", 500, 500))
                 .setRayTracer(new SimpleRayTracer(scene))
                 .build()
                 .renderImage()
                 .writeToImage();
     }
+
+
+
 
 
 }

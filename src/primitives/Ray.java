@@ -1,8 +1,10 @@
 package primitives;
 
 import geometries.Intersectable.GeoPoint;
+
 import java.util.LinkedList;
 import java.util.List;
+
 import static primitives.Util.*;
 
 /**
@@ -130,17 +132,19 @@ public class Ray {
     /**
      * Generates a beam of rays within a given radius and distance from the original ray.
      *
-     * @param n the normal vector to the surface
-     * @param radius the radius within which to generate the rays
-     * @param distance the distance from the starting point of the ray to the target plane
+     * @param n         the normal vector to the surface
+     * @param radius    the radius within which to generate the rays
+     * @param distance  the distance from the starting point of the ray to the target plane
      * @param numOfRays the number of rays to generate in the beam
      * @return a list of rays within the specified radius and distance
      */
-    public List<Ray> generateBeam(Vector n, double radius, double distance, int numOfRays) {
-        List<Ray> rays = new LinkedList<Ray>();
-        rays.add(this); // Including the main ray
-        if (numOfRays == 1 || isZero(radius))// The component (glossy surface /diffuse glass) is turned off
-            return rays;
+    public List<Ray> generateBeamOfRays(Vector n, double radius, double distance, int numOfRays) {
+        // The component (glossy surface /diffuse glass) is turned off
+        if (numOfRays == 1 || isZero(radius))
+            return List.of(this);
+
+        List<Ray> beamOfRays = new LinkedList<Ray>();
+        beamOfRays.add(this);
 
         // the 2 vectors that create the virtual grid for the beam
         // a vector normal to the current direction
@@ -149,7 +153,7 @@ public class Ray {
         Vector nY = direction.crossProduct(nX);
 
         //point in the center of the target plane
-        Point centerCircle = this.getPoint(distance);
+        Point centerOfCircle = this.getPoint(distance);
         Point randomPoint;
         Vector v12;
 
@@ -158,21 +162,17 @@ public class Ray {
         double nv = n.dotProduct(direction);
 
         for (int i = 1; i < numOfRays; i++) {
-            randomPoint = centerCircle;
+            randomPoint = centerOfCircle;
             rand_x = random(-radius, radius);
             rand_y = randomSign() * Math.sqrt(radius * radius - rand_x * rand_x);
 
             try {
                 randomPoint = randomPoint.add(nX.scale(rand_x));
-            }
-            catch (Exception ex) {
-            }
+            } catch (Exception ignore) {}
 
             try {
                 randomPoint = randomPoint.add(nY.scale(rand_y));
-            }
-            catch (Exception ex) {
-            }
+            } catch (Exception ignore) {}
 
             v12 = randomPoint.subtract(head).normalize();
 
@@ -180,13 +180,13 @@ public class Ray {
             double nt = alignZero(n.dotProduct(v12));
 
             // if they have the same sign, the new ray is added to the list
-            if (nv * nt > 0) {
-                rays.add(new Ray(head, v12));
+            if (compareSign(nv,nt)) {
+                beamOfRays.add(new Ray(head, v12));
             }
             radius -= delta_radius;
         }
 
-        return rays;
+        return beamOfRays;
     }
 
 }
