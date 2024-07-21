@@ -5,31 +5,40 @@ package primitives;
  */
 public class Material {
 
-
     /**
-     * The attenuation coefficient of diffusive
+     * Reflection factor
      */
-
-    public Double3 kD = Double3.ZERO;
-    /**
-     * The attenuation coefficients of specular
-     */
-
-    public Double3 kS = Double3.ZERO;
-    /**
-     * The level of concentration of the lightning (the component specular).
-     */
-    public int nShininess = 0;
+    public Double3 kR = Double3.ZERO;
 
     /**
-     * Attenuation coefficient of transparency
+     * Transparency factor
      */
     public Double3 kT = Double3.ZERO;
 
     /**
-     * attenuation coefficient of reflection
+     * Speculates factor
      */
-    public Double3 kR = Double3.ZERO;
+    public Double3 kS = Double3.ZERO;
+
+    /**
+     * Diffuseness factor
+     */
+    public Double3 kD = Double3.ZERO;
+
+    /**
+     * Glossiness factor
+     */
+    public Double3 kG = Double3.ZERO;
+
+    /**
+     * Blurriness factor
+     */
+    public Double3 kB = Double3.ZERO;
+
+    /**
+     * The level of concentration of the lightning (the component specular).
+     */
+    public int nShininess = 0;
 
     // Parameters for glossy surface and diffusive glass affect
     /**
@@ -48,9 +57,9 @@ public class Material {
     public double blurGlassEffectRadius = 0;
 
     /**
-     * setter in a builder design for kR
+     * setter in a builder design for Reflection factor
      *
-     * @param kR attenuation coefficient of reflection
+     * @param kR Reflection factor
      * @return the new material
      */
     public Material setKR(Double3 kR) {
@@ -59,20 +68,9 @@ public class Material {
     }
 
     /**
-     * setter in a builder design for kT
+     * setter in a builder design for Reflection factor
      *
-     * @param kT Attenuation coefficient of transparency
-     * @return the new material
-     */
-    public Material setKT(Double3 kT) {
-        this.kT = kT;
-        return this;
-    }
-
-    /**
-     * setter in a builder design for kR
-     *
-     * @param kR attenuation coefficient of reflection
+     * @param kR Reflection factor
      * @return the new material
      */
     public Material setKR(double kR) {
@@ -81,13 +79,112 @@ public class Material {
     }
 
     /**
-     * setter in a builder design for kT
+     * setter in a builder design for Transparency factor
      *
-     * @param kT Attenuation coefficient of transparency
+     * @param kT Transparency factor
+     * @return the new material
+     */
+    public Material setKT(Double3 kT) {
+        this.kT = kT;
+        return this;
+    }
+
+    /**
+     * setter in a builder design for Transparency factor
+     *
+     * @param kT Transparency factor
      * @return the new material
      */
     public Material setKT(double kT) {
         this.kT = new Double3(kT);
+        return this;
+    }
+
+    /**
+     * setter in a builder design for Speculates factor
+     *
+     * @param kS Speculates factor
+     * @return the Material itself
+     */
+    public Material setKS(Double3 kS) {
+        this.kS = kS;
+        return this;
+    }
+
+    /**
+     * setter in a builder design for Speculates factor
+     *
+     * @param kS Speculates factor
+     * @return the Material itself
+     */
+    public Material setKS(double kS) {
+        this.kS = new Double3(kS);
+        return this;
+    }
+
+    /**
+     * Setter in a builder design for Diffuseness factor
+     *
+     * @param kD Diffuseness factor
+     * @return the Material itself
+     */
+    public Material setKD(Double3 kD) {
+        this.kD = kD;
+        return this;
+    }
+
+    /**
+     * Setter in a builder design for Diffuseness factor
+     *
+     * @param kD Diffuseness factor
+     * @return the Material itself
+     */
+    public Material setKD(double kD) {
+        this.kD = new Double3(kD);
+        return this;
+    }
+
+    /**
+     * Setter in a builder design for Glossiness factor
+     *
+     * @param kG Glossiness factor
+     * @return the Material itself
+     */
+    public Material setKG(Double3 kG) {
+        this.kG = kG;
+        return this;
+    }
+
+    /**
+     * Setter in a builder design for Glossiness factor
+     *
+     * @param kG Glossiness factor
+     * @return the Material itself
+     */
+    public Material setKG(double kG) {
+        this.kG = new Double3(kG);
+        return this;
+    }
+
+    /**
+     * Setter in a builder design for Blurriness factor
+     *
+     * @param kB Blurriness factor
+     * @return the Material itself
+     */
+    public Material setKB(Double3 kB) {
+        this.kB = kB;
+        return this;
+    }
+
+    /**
+     * Setter in a builder design for Blurriness factor
+     *
+     * @param kB Blurriness factor
+     * @return the Material itself
+     */
+    public Material setKB(double kB) {
+        this.kB = new Double3(kB);
         return this;
     }
 
@@ -99,50 +196,6 @@ public class Material {
      */
     public Material setShininess(int nShininess) {
         this.nShininess = nShininess;
-        return this;
-    }
-
-    /**
-     * setter for kS
-     *
-     * @param kS component specular
-     * @return the Material itself
-     */
-    public Material setKS(Double3 kS) {
-        this.kS = kS;
-        return this;
-    }
-
-    /**
-     * Setter for kD
-     *
-     * @param kD component diffusive
-     * @return the Material itself
-     */
-    public Material setKD(Double3 kD) {
-        this.kD = kD;
-        return this;
-    }
-
-    /**
-     * setter for kS
-     *
-     * @param kS component specular
-     * @return the Material itself
-     */
-    public Material setKS(double kS) {
-        this.kS = new Double3(kS);
-        return this;
-    }
-
-    /**
-     * Setter for kD
-     *
-     * @param kD component diffusive
-     * @return the Material itself
-     */
-    public Material setKD(double kD) {
-        this.kD = new Double3(kD);
         return this;
     }
 
