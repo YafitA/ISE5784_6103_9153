@@ -191,9 +191,9 @@ public class Material {
     /**
      * Sets the parameters for glossy surface and diffusive glass affect.
      *
-     * @param numOfBlurRays            The number of rays to set for glossy surface and diffusive glass affect.
-     * @param blurGlassEffectDistance  The distance to set for glossy surface and diffusive glass affect.
-     * @param blurGlassEffectRadius    The radius to set for glossy surface and diffusive glass affect.
+     * @param numOfBlurRays           The number of rays to set for glossy surface and diffusive glass affect.
+     * @param blurGlassEffectDistance The distance to set for glossy surface and diffusive glass affect.
+     * @param blurGlassEffectRadius   The radius to set for glossy surface and diffusive glass affect.
      * @return The new material object.
      * @throws IllegalArgumentException if any of the parameters is invalid.
      */

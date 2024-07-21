@@ -21,7 +21,8 @@ public final class Util {
     /**
      * Don't let anyone instantiate this class.
      */
-    private Util() {}
+    private Util() {
+    }
 
     /**
      * {@code double} data format in memory (bit level):<br>
@@ -70,7 +71,7 @@ public final class Util {
      * @return true if the numbers have the same sign
      */
     public static boolean compareSign(double n1, double n2) {
-        return n1 * n2>0;
+        return n1 * n2 > 0;
     }
 
     /**
@@ -86,6 +87,7 @@ public final class Util {
 
     /**
      * Provide the number -1 or 1 randomly
+     *
      * @return random sign -/+
      */
     public static int randomSign() {

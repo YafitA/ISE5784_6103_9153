@@ -128,11 +128,11 @@ public class SimpleRayTracer extends RayTracerBase {
      * Calculate the global effects at a point
      *
      * @param material the material of the body
-     * @param n normal
-     * @param ray   the ray to calculate the color for
-     * @param level the level of the recursion
-     * @param k     the color at the point
-     * @param kx    the color of the effect
+     * @param n        normal
+     * @param ray      the ray to calculate the color for
+     * @param level    the level of the recursion
+     * @param k        the color at the point
+     * @param kx       the color of the effect
      * @return the color at the point
      */
     private Color calcGlobalEffect(Material material, Vector n, Ray ray, int level, Double3 k, Double3 kx) {

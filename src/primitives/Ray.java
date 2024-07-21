@@ -168,11 +168,13 @@ public class Ray {
 
             try {
                 randomPoint = randomPoint.add(nX.scale(rand_x));
-            } catch (Exception ignore) {}
+            } catch (Exception ignore) {
+            }
 
             try {
                 randomPoint = randomPoint.add(nY.scale(rand_y));
-            } catch (Exception ignore) {}
+            } catch (Exception ignore) {
+            }
 
             v12 = randomPoint.subtract(head).normalize();
 
@@ -180,7 +182,7 @@ public class Ray {
             double nt = alignZero(n.dotProduct(v12));
 
             // if they have the same sign, the new ray is added to the list
-            if (compareSign(nv,nt)) {
+            if (compareSign(nv, nt)) {
                 beamOfRays.add(new Ray(head, v12));
             }
             radius -= delta_radius;

@@ -106,4 +106,31 @@ public class Point {
     public Point scale(double factor) {
         return new Point(this.xyz.d1 * factor, this.xyz.d2 * factor, this.xyz.d3 * factor);
     }
+
+    /**
+     * Getter for x
+     *
+     * @return x value
+     */
+    public double getX() {
+        return this.xyz.d1;
+    }
+
+    /**
+     * Getter for y
+     *
+     * @return y value
+     */
+    public double getY() {
+        return this.xyz.d2;
+    }
+
+    /**
+     * Getter for z
+     *
+     * @return z value
+     */
+    public double getZ() {
+        return this.xyz.d3;
+    }
 }
