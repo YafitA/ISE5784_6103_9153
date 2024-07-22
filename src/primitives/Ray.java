@@ -139,7 +139,7 @@ public class Ray {
      * @return a list of rays within the specified radius and distance
      */
     public List<Ray> generateBeamOfRays(Vector n, double radius, double distance, int numOfRays) {
-        // The component (glossy surface /diffuse glass) is turned off
+        // The component (glossy surface / diffuse glass) is turned off
         if (numOfRays == 1 || isZero(radius))
             return List.of(this);
 
@@ -154,29 +154,30 @@ public class Ray {
 
         //point in the center of the target plane
         Point centerOfCircle = this.getPoint(distance);
-        Point randomPoint;
         Vector v12;
+        Point randPoint;
 
-        double rand_x, rand_y, delta_radius = radius / (numOfRays - 1);
+        double rand_x, rand_y;
+        double delta_radius = radius / (numOfRays - 1);
         // the dot product of the normal vector n and the direction vector of the main ray
         double nv = n.dotProduct(direction);
 
         for (int i = 1; i < numOfRays; i++) {
-            randomPoint = centerOfCircle;
+            randPoint = centerOfCircle;
             rand_x = random(-radius, radius);
             rand_y = randomSign() * Math.sqrt(radius * radius - rand_x * rand_x);
 
             try {
-                randomPoint = randomPoint.add(nX.scale(rand_x));
+                randPoint = randPoint.add(nX.scale(rand_x));
             } catch (Exception ignore) {
             }
 
             try {
-                randomPoint = randomPoint.add(nY.scale(rand_y));
+                randPoint = randPoint.add(nY.scale(rand_y));
             } catch (Exception ignore) {
             }
 
-            v12 = randomPoint.subtract(head).normalize();
+            v12 = randPoint.subtract(head).normalize();
 
             // the dot product of the normal vector n and the direction vector v12 of each generated ray
             double nt = alignZero(n.dotProduct(v12));

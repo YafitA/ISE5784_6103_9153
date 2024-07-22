@@ -25,15 +25,6 @@ public class Material {
      */
     public Double3 kD = Double3.ZERO;
 
-    /**
-     * Glossiness factor
-     */
-    public Double3 kG = Double3.ZERO;
-
-    /**
-     * Blurriness factor
-     */
-    public Double3 kB = Double3.ZERO;
 
     /**
      * The level of concentration of the lightning (the component specular).
@@ -144,49 +135,7 @@ public class Material {
         return this;
     }
 
-    /**
-     * Setter in a builder design for Glossiness factor
-     *
-     * @param kG Glossiness factor
-     * @return the Material itself
-     */
-    public Material setKG(Double3 kG) {
-        this.kG = kG;
-        return this;
-    }
 
-    /**
-     * Setter in a builder design for Glossiness factor
-     *
-     * @param kG Glossiness factor
-     * @return the Material itself
-     */
-    public Material setKG(double kG) {
-        this.kG = new Double3(kG);
-        return this;
-    }
-
-    /**
-     * Setter in a builder design for Blurriness factor
-     *
-     * @param kB Blurriness factor
-     * @return the Material itself
-     */
-    public Material setKB(Double3 kB) {
-        this.kB = kB;
-        return this;
-    }
-
-    /**
-     * Setter in a builder design for Blurriness factor
-     *
-     * @param kB Blurriness factor
-     * @return the Material itself
-     */
-    public Material setKB(double kB) {
-        this.kB = new Double3(kB);
-        return this;
-    }
 
     /**
      * setter for nShininess

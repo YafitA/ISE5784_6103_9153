@@ -11,7 +11,6 @@ import org.junit.jupiter.api.Test;
 import primitives.*;
 import scene.Scene;
 
-import java.util.List;
 
 import static java.awt.Color.*;
 import static java.awt.Color.white;
@@ -31,6 +30,11 @@ public class MiniProject1Tests {
     private final Camera.Builder cameraBuilder = Camera.getBuilder().setRayTracer(new SimpleRayTracer(scene));
 
     /**
+     * A param that'll turn on/off the affect
+     */
+    private final Boolean isAffectOn = true;
+
+    /**
      * Test for glossy surface
      */
     @Test
@@ -39,11 +43,6 @@ public class MiniProject1Tests {
         scene.setAmbientLight(new AmbientLight(new Color(WHITE), new Double3(0.15)));
 
         Point a = new Point(-4, -5, -11);
-        Point b = new Point(-4, -5, 5);
-        Point c = new Point(4, -5, 5);
-        Point d = new Point(4, -5, -11);
-        Point e = new Point(12, -5, 5);
-        Point f = new Point(12, -5, -11);
 
         // Define colors
         Color red = new Color(java.awt.Color.RED);
@@ -71,12 +70,15 @@ public class MiniProject1Tests {
             }
         }
 
+        //add plane with glossy surface
         scene.geometries.add(new Plane(new Point(1, 10, 1), new Point(2, 10, 1), new Point(5, 10, 0))
                 .setEmission(new Color(pink).reduce(3))
-                .setMaterial(new Material().setKD(0.2).setShininess(0).setKR(20).setKG(100).setKT(0.5).setKB(100)
-                        .setBlurGlass(10, 30, 1))
+                .setMaterial(new Material().setKD(0.2).setShininess(0).setKR(20).setKT(0.5)
+                        .setBlurGlass(isAffectOn ? 10 : 1, 30, 1)
+                )
         );
 
+        //add lighting
         scene.lights.add(new DirectionalLight(new Color(white).reduce(1.3), new Vector(-0.4, 1, 0)));
         scene.lights.add(new SpotLight(new Color(white).reduce(2), new Point(20.43303, -7.37104, 13.77329),
                 new Vector(-20.43, 7.37, -13.77)).setKL(0.6));
@@ -101,6 +103,7 @@ public class MiniProject1Tests {
 
         scene.setAmbientLight(new AmbientLight(new Color(lightGray), new Double3(0.15)));
 
+        //edges for triangles
         Point a = new Point(-4, -5, -11);
         Point b = new Point(-4, -5, 5);
         Point c = new Point(4, -5, 5);
@@ -108,23 +111,22 @@ public class MiniProject1Tests {
         Point e = new Point(12, -5, 5);
         Point f = new Point(12, -5, -11);
 
-        int i = 0;
 
+        //add four triangles
         scene.geometries.add(
 
                 new Triangle(a, b, c).setEmission(new Color(250, 235, 215).reduce(2.5))
                         .setMaterial(new Material().setKD(0.001).setKS(0.002).setShininess(1).setKT(0.95)
-                                .setBlurGlass(i == 4 ? 1 : 20, 0.3 * (i + 5), 1)),
+                                .setBlurGlass(isAffectOn ? 20 : 1, 0.3 * 5, 1)),
                 new Triangle(a, b, d).setEmission(new Color(250, 235, 215).reduce(2.5))
                         .setMaterial(new Material().setKD(0.001).setKS(0.002).setShininess(1).setKT(0.95)
-                                .setBlurGlass(i == 4 ? 1 : 20, 0.3 * (i + 5), 1)),
-
+                                .setBlurGlass(isAffectOn ? 20 : 1, 0.3 * 5, 1)),
                 new Triangle(c, e, f).setEmission(new Color(250, 235, 215).reduce(2.5))
                         .setMaterial(new Material().setKD(0.001).setKS(0.002).setShininess(1).setKT(0.95)
-                                .setBlurGlass(i == 4 ? 1 : 20, 0.3 * (i + 5), 1)),
+                                .setBlurGlass(isAffectOn ? 20 : 1, 0.3 * 5, 1)),
                 new Triangle(d, e, f).setEmission(new Color(250, 235, 215).reduce(2.5))
                         .setMaterial(new Material().setKD(0.001).setKS(0.002).setShininess(1).setKT(0.95)
-                                .setBlurGlass(i == 4 ? 1 : 20, 0.3 * (i + 5), 1))
+                                .setBlurGlass(isAffectOn ? 20 : 1, 0.3 * 5, 1))
         );
 
         // Define colors
@@ -153,11 +155,13 @@ public class MiniProject1Tests {
             }
         }
 
+        //add plane
         scene.geometries.add(new Plane(new Point(1, 10, 1), new Point(2, 10, 1), new Point(5, 10, 0))
                 .setEmission(new Color(pink).reduce(3))
                 .setMaterial(new Material().setKD(0.2).setShininess(100).setKR(0.5))
         );
 
+        //add lighting
         scene.lights.add(new DirectionalLight(new Color(white).reduce(1.3), new Vector(-0.4, 1, 0)));
         scene.lights.add(new SpotLight(new Color(white).reduce(2), new Point(20.43303, -7.37104, 13.77329),
                 new Vector(-20.43, 7.37, -13.77)).setKL(0.6));
