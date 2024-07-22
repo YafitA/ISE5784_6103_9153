@@ -1,7 +1,6 @@
 package renderer;
 
 import geometries.Plane;
-import geometries.Polygon;
 import geometries.Sphere;
 import geometries.Triangle;
 import lighting.AmbientLight;
@@ -11,9 +10,7 @@ import org.junit.jupiter.api.Test;
 import primitives.*;
 import scene.Scene;
 
-
 import static java.awt.Color.*;
-import static java.awt.Color.white;
 
 /**
  * Test class for glossy surface and diffusive glass
@@ -73,8 +70,8 @@ public class MiniProject1Tests {
         //add plane with glossy surface
         scene.geometries.add(new Plane(new Point(1, 10, 1), new Point(2, 10, 1), new Point(5, 10, 0))
                 .setEmission(new Color(pink).reduce(3))
-                .setMaterial(new Material().setKD(0.2).setShininess(0).setKR(20).setKT(0.5)
-                        .setBlurGlass(isAffectOn ? 10 : 1, 30, 1)
+                .setMaterial(new Material().setKD(0.2).setShininess(1000).setKR(0.8).setKS(0.8)
+                        .setBlurGlass(isAffectOn ? 300 : 1, 10, 2)
                 )
         );
 
@@ -117,21 +114,21 @@ public class MiniProject1Tests {
 
                 new Triangle(a, b, c).setEmission(new Color(250, 235, 215).reduce(2.5))
                         .setMaterial(new Material().setKD(0.001).setKS(0.002).setShininess(1).setKT(0.95)
-                                .setBlurGlass(isAffectOn ? 20 : 1, 0.3 * 5, 1)),
+                                .setBlurGlass(isAffectOn ? 300 : 1, 1, 0.3)),
                 new Triangle(a, b, d).setEmission(new Color(250, 235, 215).reduce(2.5))
                         .setMaterial(new Material().setKD(0.001).setKS(0.002).setShininess(1).setKT(0.95)
-                                .setBlurGlass(isAffectOn ? 20 : 1, 0.3 * 5, 1)),
+                                .setBlurGlass(isAffectOn ? 300 : 1, 1, 0.3)),
                 new Triangle(c, e, f).setEmission(new Color(250, 235, 215).reduce(2.5))
                         .setMaterial(new Material().setKD(0.001).setKS(0.002).setShininess(1).setKT(0.95)
-                                .setBlurGlass(isAffectOn ? 20 : 1, 0.3 * 5, 1)),
+                                .setBlurGlass(isAffectOn ? 300 : 1, 1, 0.1)),
                 new Triangle(d, e, f).setEmission(new Color(250, 235, 215).reduce(2.5))
                         .setMaterial(new Material().setKD(0.001).setKS(0.002).setShininess(1).setKT(0.95)
-                                .setBlurGlass(isAffectOn ? 20 : 1, 0.3 * 5, 1))
+                                .setBlurGlass(isAffectOn ? 300 : 1, 1, 0.1))
         );
 
         // Define colors
-        Color red = new Color(java.awt.Color.RED);
-        Color blue = new Color(java.awt.Color.BLUE);
+        Color red = new Color(RED);
+        Color blue = new Color(BLUE);
 
         // Define sphere properties
         double sphereRadius = 1.3;

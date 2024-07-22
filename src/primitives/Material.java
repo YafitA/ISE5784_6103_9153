@@ -25,7 +25,6 @@ public class Material {
      */
     public Double3 kD = Double3.ZERO;
 
-
     /**
      * The level of concentration of the lightning (the component specular).
      */
@@ -134,7 +133,6 @@ public class Material {
         this.kD = new Double3(kD);
         return this;
     }
-
 
 
     /**

@@ -144,7 +144,7 @@ public class Ray {
             return List.of(this);
 
         List<Ray> beamOfRays = new LinkedList<Ray>();
-        beamOfRays.add(this);
+        // beamOfRays.add(this);
 
         // the 2 vectors that create the virtual grid for the beam
         // a vector normal to the current direction
