@@ -148,34 +148,31 @@ public class Ray {
 
         // the 2 vectors that create the virtual grid for the beam
         // a vector normal to the current direction
-        Vector nX = direction.createNormal();
-        // is the cross product of the current direction and nX, ensuring orthogonality
-        Vector nY = direction.crossProduct(nX);
+        Vector vX = direction.createOrthogonal();
+        // is the cross product of the current direction and vX, ensuring orthogonality
+        Vector vY = direction.crossProduct(vX);
 
         //point in the center of the target plane
         Point centerOfCircle = this.getPoint(distance);
         Vector v12;
         Point randPoint;
 
-        double rand_x, rand_y;
-        double delta_radius = radius / (numOfRays - 1);
+        double randX, randY;
+        double deltaRadius = radius / (numOfRays - 1);
         // the dot product of the normal vector n and the direction vector of the main ray
         double nv = n.dotProduct(direction);
 
         for (int i = 1; i < numOfRays; i++) {
             randPoint = centerOfCircle;
-            rand_x = random(-radius, radius);
-            rand_y = randomSign() * Math.sqrt(radius * radius - rand_x * rand_x);
+            randX = random(-radius, radius);
+            randY = randomSign() * Math.sqrt(radius * radius - randX * randX);
 
             try {
-                randPoint = randPoint.add(nX.scale(rand_x));
-            } catch (Exception ignore) {
-            }
-
+                randPoint = randPoint.add(vX.scale(randX));
+            } catch (Exception ignore) {}
             try {
-                randPoint = randPoint.add(nY.scale(rand_y));
-            } catch (Exception ignore) {
-            }
+                randPoint = randPoint.add(vY.scale(randY));
+            } catch (Exception ignore) {}
 
             v12 = randPoint.subtract(head).normalize();
 
@@ -186,7 +183,7 @@ public class Ray {
             if (compareSign(nv, nt)) {
                 beamOfRays.add(new Ray(head, v12));
             }
-            radius -= delta_radius;
+            radius -= deltaRadius;
         }
 
         return beamOfRays;

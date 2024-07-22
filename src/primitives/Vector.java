@@ -127,11 +127,11 @@ public class Vector extends Point {
     }
 
     /**
-     * Creates a normal vector to this vector.
+     * Creates an Orthogonal vector to this vector.
      *
-     * @return a vector normal to this vector.
+     * @return an Orthogonal vector.
      */
-    public Vector createNormal() {
+    public Vector createOrthogonal() {
         // If the X component of this vector is zero, return a vector in the direction of the X-axis.
         if (Util.isZero(this.xyz.d1))
             return new Vector(1, 0, 0);
