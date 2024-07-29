@@ -96,25 +96,6 @@ public class Polygon extends Geometry {
 
     @Override
     protected List<GeoPoint> findGeoIntersectionsHelper(Ray ray, double maxDistance) {
-        List<GeoPoint> intersections = plane.findGeoIntersectionsHelper(ray, maxDistance);
-        if (intersections == null)
-            return null;
-
-        Point rayP0 = ray.getHead();
-        Vector rayVec = ray.getDirection();
-        int n = vertices.size();
-        Vector[] edgeVectors = new Vector[n];
-        for (int i = 0; i < n; ++i)
-            edgeVectors[i] = vertices.get(i).subtract(rayP0);
-        double[] scalars = new double[n];
-        for (int i = 0; i < n - 1; ++i)
-            scalars[i] = rayVec.dotProduct(edgeVectors[i].crossProduct(edgeVectors[i + 1]));
-        scalars[n - 1] = rayVec.dotProduct(edgeVectors[n - 1].crossProduct(edgeVectors[0]));
-        for (int i = 0; i < n - 1; ++i)
-            if (Util.alignZero(scalars[i] * scalars[i + 1]) <= 0)
-                return null;
-
-        intersections.get(0).geometry = this;
-        return intersections;
+        return null;
     }
 }

@@ -2,10 +2,7 @@ package geometries;
 
 
 import primitives.*;
-
-
 import java.util.List;
-
 import static primitives.Util.alignZero;
 
 /**
@@ -27,15 +24,24 @@ public class Sphere extends RadialGeometry {
     public Sphere(Point center, double radius) {
         super(radius);
         this.center = center;
+
+        this.boundingBox = new BoundingBox(center.add(new Vector(1, 1, 1).scale(radius)),
+                center.add(new Vector(-1, -1, -1).scale(radius)));
     }
 
     @Override
     public Vector getNormal(Point p) {
+
         return p.subtract(center).normalize();
     }
 
     @Override
     protected List<GeoPoint> findGeoIntersectionsHelper(Ray ray, double maxDistance) {
+
+        // there is no intersections
+        if (!this.boundingBox.intersectionBox(ray))
+            return null;
+
         //Ray starts at the center of sphere
         if (ray.getHead().equals(this.center))
             return List.of(new GeoPoint(this, ray.getPoint(this.radius)));

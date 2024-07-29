@@ -24,6 +24,11 @@ public class Triangle extends Polygon {
 
     @Override
     protected List<GeoPoint> findGeoIntersectionsHelper(Ray ray, double maxDistance) {
+
+        // there is no intersections
+        if (!this.boundingBox.intersectionBox(ray))
+            return null;
+
         List<GeoPoint> intersections = plane.findGeoIntersectionsHelper(ray, maxDistance);
         if (intersections == null) return null;
 

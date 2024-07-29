@@ -1,5 +1,6 @@
 package geometries;
 
+import primitives.BoundingBox;
 import primitives.Point;
 import primitives.Ray;
 
@@ -9,6 +10,11 @@ import java.util.List;
  * represent intersect
  */
 public abstract class Intersectable {
+
+    /**
+     * the bounding box
+     */
+    protected BoundingBox boundingBox = new BoundingBox();
 
     /**
      * Represent GeoPoint a point with a shape

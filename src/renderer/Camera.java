@@ -2,6 +2,7 @@ package renderer;
 
 import primitives.*;
 
+import java.util.LinkedList;
 import java.util.MissingResourceException;
 
 import static primitives.Util.alignZero;
@@ -52,11 +53,26 @@ public class Camera implements Cloneable {
     private RayTracerBase rayTracer;
 
     /**
+     * Pixel manager for supporting
+     */
+    private PixelManager pixelManager;
+
+    /**
+     * Number of threads to use for rendering
+     */
+    private int threadsCount = 10;
+
+    /**
+     * Print interval for debug print of progress percentage in Console window/tab
+     */
+    private double printInterval = 0;
+
+
+    /**
      * Private constructor to create an item of type camera
      */
     private Camera() {
     }
-
 
     /**
      * Gets the position of the camera.
@@ -172,13 +188,35 @@ public class Camera implements Cloneable {
      * @return the camera
      */
     public Camera renderImage() {
-        int ny = imageWriter.getNy();
-        int nx = imageWriter.getNx();
 
-        for (int i = 0; i < ny; i++)
-            for (int j = 0; j < nx; j++)
-                castRay(nx, ny, j, i);
+        final int nX = imageWriter.getNx();
+        final int nY = imageWriter.getNy();
+        pixelManager = new PixelManager(nY, nX, printInterval);
 
+        if (threadsCount == 0) {
+            for (int i = 0; i < nY; ++i)
+                for (int j = 0; j < nX; ++j)
+                    castRay(nX, nY, j, i);
+        }
+        else { // see further... option 2
+            var threads = new LinkedList<Thread>(); // list of threads
+            while (threadsCount-- > 0) // add appropriate number of threads
+                threads.add(new Thread(() -> { // add a thread with its code
+                    PixelManager.Pixel pixel; // current pixel(row,col)
+                    // allocate pixel(row,col) in loop until there are no more pixels
+                    while ((pixel = pixelManager.nextPixel()) != null)
+                        // cast ray through pixel (and color it – inside castRay)
+                        castRay(nX, nY, pixel.col(), pixel.row());
+                }));
+            // start all the threads
+            for (var thread : threads) thread.start();
+            // wait until all the threads have finished
+            try {
+                for (var thread : threads) thread.join();
+            }
+            catch (InterruptedException ignore) {
+            }
+        }
 
         return this;
     }
@@ -234,6 +272,7 @@ public class Camera implements Cloneable {
         Color color = rayTracer.traceRay(ray);
         //coloring the pixel
         imageWriter.writePixel(column, row, color);
+        pixelManager.pixelDone();
     }
 
     /**
@@ -361,6 +400,28 @@ public class Camera implements Cloneable {
         }
 
         /**
+         * Set the number of threads to use for rendering
+         *
+         * @param threadsCount the number of threads to use for rendering
+         * @return the camera builder
+         */
+        public Builder setMultithreading(int threadsCount) {
+            camera.threadsCount = threadsCount;
+            return this;
+        }
+
+        /**
+         * Set the debug print interval
+         *
+         * @param printInterval the debug print interval
+         * @return the camera builder
+         */
+        public Builder setDebugPrint(double printInterval) {
+            camera.printInterval = printInterval;
+            return this;
+        }
+
+        /**
          * checks all camera parameters are valid
          *
          * @return camera
@@ -405,6 +466,8 @@ public class Camera implements Cloneable {
             if (alignZero(camera.distance) <= 0) throw new IllegalArgumentException("distance must be positive!");
             if (alignZero(camera.width) <= 0 || alignZero(camera.height) <= 0)
                 throw new IllegalArgumentException("width and/or height must be positive!");
+            if (camera.threadsCount < 0) throw new IllegalArgumentException("Number of threads must be positive!");
+            if(camera.printInterval < 0) throw new IllegalArgumentException("printInterval must be positive!");
 
             //calc missing information
             camera.right = camera.to.crossProduct(camera.up).normalize();
@@ -415,20 +478,5 @@ public class Camera implements Cloneable {
                 return null;
             }
         }
-
-        /**
-         * sets the camera direction to look at a specified point p
-         *
-         * @param p point to looks at
-         * @return new camera
-         */
-        public Builder lookAt(Point p) {
-            camera.to = p.subtract(camera.location).normalize();
-            // vector Y with little angle, so it will be perpendicular to vTo
-            camera.right = Vector.Y.crossProduct(camera.to).normalize();
-            camera.up = camera.right.crossProduct(camera.to).normalize();
-            return this;
-        }
-
     }
 }

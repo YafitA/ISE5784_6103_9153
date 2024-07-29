@@ -1,5 +1,6 @@
 package geometries;
 
+import primitives.BoundingBox;
 import primitives.Point;
 import primitives.Ray;
 
@@ -29,7 +30,8 @@ public class Geometries extends Intersectable {
      * @param geometries group of shapes
      */
     public Geometries(Intersectable... geometries) {
-        add(geometries);
+        if (geometries != null)
+            add(geometries);
     }
 
     /**
@@ -38,11 +40,64 @@ public class Geometries extends Intersectable {
      * @param geometries group of shapes
      */
     public void add(Intersectable... geometries) {
+
         intersectableList.addAll(Arrays.asList(geometries));
+
+        // build a bounding box
+        // search in all new geometries for the min and max X,Y,Z (if they bigger then the current x,y,z bounding box)
+        double xMax = Double.NEGATIVE_INFINITY;
+        double xMin = Double.MAX_VALUE;
+
+        double yMax = Double.NEGATIVE_INFINITY;
+        double yMin = Double.MAX_VALUE;
+
+        double zMax = Double.NEGATIVE_INFINITY;
+        double zMin = Double.MAX_VALUE;
+
+        for (Intersectable g : intersectableList) {
+
+            // check x
+            if (g.boundingBox.getxMin() < xMin)
+                xMin = g.boundingBox.getxMin();
+
+            if (g.boundingBox.getxMax() > xMax)
+                xMax = g.boundingBox.getxMax();
+
+            // check y
+            if (g.boundingBox.getyMin() < yMin)
+                yMin = g.boundingBox.getyMin();
+
+            if (g.boundingBox.getyMax() > yMax)
+                yMax = g.boundingBox.getyMax();
+
+            // check z
+            if (g.boundingBox.getzMin() < zMin)
+                zMin = g.boundingBox.getzMin();
+
+            if (g.boundingBox.getzMax() > zMax)
+                zMax = g.boundingBox.getzMax();
+        }
+        boundingBox = new BoundingBox(new Point(xMin, yMin, zMin), new Point(xMax, yMax, zMax));
+    }
+
+    /**
+     * set bounding box
+     *
+     * @param p1 first point
+     * @param p2 second point
+     * @return new object
+     */
+    public Geometries setBoundingBox(Point p1, Point p2) {
+        this.boundingBox = new BoundingBox(p1, p2);
+        return this;
     }
 
     @Override
     protected List<GeoPoint> findGeoIntersectionsHelper(Ray ray, double maxDistance) {
+        // there is bounding box and no intersection
+        if (this.boundingBox != null && !this.boundingBox.intersectionBox(ray))
+            return null;
+
         //initialize list with null
         List<GeoPoint> intersectionsPoints = null;
 
