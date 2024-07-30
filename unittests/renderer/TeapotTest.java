@@ -31,7 +31,7 @@ public class TeapotTest {
             .setDirection(new Vector(0, 0, 1), new Vector(0, 1, 0)) //
             .setVpDistance(1000).setVpSize(200, 200) //
             .setImageWriter(imageWriter) //
-            .setMultithreading(0).setDebugPrint(0.1)
+            .setMultithreading(3)
             .setRayTracer(new SimpleRayTracer(scene))
             .build();
 

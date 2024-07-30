@@ -4,10 +4,7 @@ import java.util.List;
 
 import static primitives.Util.isZero;
 
-import primitives.Point;
-import primitives.Ray;
-import primitives.Util;
-import primitives.Vector;
+import primitives.*;
 
 /**
  * Polygon class represents two-dimensional polygon in 3D Cartesian coordinate
@@ -86,6 +83,43 @@ public class Polygon extends Geometry {
             edge2 = vertices[i].subtract(vertices[i - 1]);
             if (positive != (edge1.crossProduct(edge2).dotProduct(n) > 0))
                 throw new IllegalArgumentException("All vertices must be ordered and the polygon must be convex");
+
+            // build a bounding box
+            // search in all vertices
+            // for the min and max X,Y,Z
+            double xMax = Double.NEGATIVE_INFINITY;
+            double xMin = Double.MAX_VALUE;
+
+            double yMax = Double.NEGATIVE_INFINITY;
+            double yMin = Double.MAX_VALUE;
+
+            double zMax = Double.NEGATIVE_INFINITY;
+            double zMin = Double.MAX_VALUE;
+
+            for (Point p : vertices) {
+
+                // check x
+                if (p.getX() < xMin)
+                    xMin = p.getX();
+
+                if (p.getX() > xMax)
+                    xMax = p.getX();
+
+                // check y
+                if (p.getY() < yMin)
+                    yMin = p.getY();
+
+                if (p.getY() > yMax)
+                    yMax = p.getY();
+
+                // check z
+                if (p.getZ() < zMin)
+                    zMin = p.getZ();
+
+                if (p.getZ() > zMax)
+                    zMax = p.getZ();
+            }
+            boundingBox = new BoundingBox(xMin, xMax, yMin, yMax, zMin,zMax);
         }
     }
 

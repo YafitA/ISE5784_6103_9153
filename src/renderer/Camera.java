@@ -60,12 +60,7 @@ public class Camera implements Cloneable {
     /**
      * Number of threads to use for rendering
      */
-    private int threadsCount = 10;
-
-    /**
-     * Print interval for debug print of progress percentage in Console window/tab
-     */
-    private double printInterval = 0;
+    private int threadsCount = 0;
 
 
     /**
@@ -191,13 +186,13 @@ public class Camera implements Cloneable {
 
         final int nX = imageWriter.getNx();
         final int nY = imageWriter.getNy();
-        pixelManager = new PixelManager(nY, nX, printInterval);
 
-        if (threadsCount == 0) {
+        pixelManager = new PixelManager(nY, nX, 0);
+        if (threadsCount == 0)
             for (int i = 0; i < nY; ++i)
                 for (int j = 0; j < nX; ++j)
                     castRay(nX, nY, j, i);
-        }
+
         else { // see further... option 2
             var threads = new LinkedList<Thread>(); // list of threads
             while (threadsCount-- > 0) // add appropriate number of threads
@@ -209,15 +204,15 @@ public class Camera implements Cloneable {
                         castRay(nX, nY, pixel.col(), pixel.row());
                 }));
             // start all the threads
-            for (var thread : threads) thread.start();
+            for (Thread thread : threads)
+                thread.start();
             // wait until all the threads have finished
             try {
-                for (var thread : threads) thread.join();
-            }
-            catch (InterruptedException ignore) {
+                for (Thread thread : threads)
+                    thread.join();
+            } catch (InterruptedException ignore) {
             }
         }
-
         return this;
     }
 
@@ -410,16 +405,6 @@ public class Camera implements Cloneable {
             return this;
         }
 
-        /**
-         * Set the debug print interval
-         *
-         * @param printInterval the debug print interval
-         * @return the camera builder
-         */
-        public Builder setDebugPrint(double printInterval) {
-            camera.printInterval = printInterval;
-            return this;
-        }
 
         /**
          * checks all camera parameters are valid
@@ -466,8 +451,7 @@ public class Camera implements Cloneable {
             if (alignZero(camera.distance) <= 0) throw new IllegalArgumentException("distance must be positive!");
             if (alignZero(camera.width) <= 0 || alignZero(camera.height) <= 0)
                 throw new IllegalArgumentException("width and/or height must be positive!");
-            if (camera.threadsCount < 0) throw new IllegalArgumentException("Number of threads must be positive!");
-            if(camera.printInterval < 0) throw new IllegalArgumentException("printInterval must be positive!");
+            if (camera.threadsCount < 0) throw new IllegalArgumentException("Number of threads must be not neg!");
 
             //calc missing information
             camera.right = camera.to.crossProduct(camera.up).normalize();

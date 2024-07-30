@@ -4,26 +4,70 @@ import static primitives.Util.isZero;
 
 public class BoundingBox {
 
-    private final double xMin;
-    private final double xMax;
-    private final double yMin;
-    private final double yMax;
-    private final double zMin;
-    private final double zMax;
+    /**
+     * parameter to enable/disable BoundingBox
+      */
+    public static boolean isBoundingBoxOn = true;
 
     /**
-     * Constructs a new BoundingBox with default values. The default values for each
-     * dimension are negative infinity for the minimum and positive infinity for the
-     * maximum.
+     * x's minimum value
+     */
+    private final double xMin;
+    /**
+     * x's maximum value
+     */
+    private final double xMax;
+    /**
+     * y's minimum value
+     */
+    private final double yMin;
+    /**
+     * y's maximum value
+     */
+    private final double yMax;
+    /**
+     * z's minimum value
+     */
+    private final double zMin;
+    /**
+     * z's maximum value
+     */
+    private final double zMax;
+
+    public static void setIsBoundingBoxOn(boolean isBoundingBoxOn) {
+        BoundingBox.isBoundingBoxOn = isBoundingBoxOn;
+    }
+
+    /**
+     * create an object of BoundingBox
+     * @param xMin x's minimum value
+     * @param xMax x's maximum value
+     * @param yMin y's minimum value
+     * @param yMax y's maximum value
+     * @param zMin z's minimum value
+     * @param zMax z's maximum value
+     */
+    public BoundingBox(double xMin, double xMax, double yMin, double yMax, double zMin, double zMax) {
+        this.xMin = xMin;
+        this.xMax = xMax;
+        this.yMin = yMin;
+        this.yMax = yMax;
+        this.zMin = zMin;
+        this.zMax = zMax;
+    }
+
+    /**
+     * Constructs a new BoundingBox with default values.
      */
     public BoundingBox() {
-        this.xMin = Double.NEGATIVE_INFINITY;
+        this.xMin = Double.MIN_VALUE;
         this.xMax = Double.MAX_VALUE;
-        this.yMin = Double.NEGATIVE_INFINITY;
+        this.yMin = Double.MIN_VALUE;
         this.yMax = Double.MAX_VALUE;
-        this.zMin = Double.NEGATIVE_INFINITY;
+        this.zMin = Double.MIN_VALUE;
         this.zMax = Double.MAX_VALUE;
     }
+
 
     /**
      * Constructs a new BoundingBox from two points.
@@ -118,6 +162,9 @@ public class BoundingBox {
      * @return true if the ray intersects with the bounding box, false otherwise
      */
     public boolean intersectionBox(Ray r) {
+        //component is off
+        if (!isBoundingBoxOn) return true;
+
         double tMin, tMax;
 
         // Calculate the intersection range for the x-axis
