@@ -258,7 +258,7 @@ public class SimpleRayTracer extends RayTracerBase {
     /**
      * Calculates the average color from a list of rays.
      * This method traces each ray, finds the closest intersection,
-     *  and computes the color at that intersection. It then averages
+     * and computes the color at that intersection. It then averages
      * the colors from all rays.
      *
      * @param rays  the list of rays to trace

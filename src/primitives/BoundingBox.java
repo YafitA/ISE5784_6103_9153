@@ -2,12 +2,15 @@ package primitives;
 
 import static primitives.Util.isZero;
 
+/**
+ * BoundingBox for BVH improvement
+ */
 public class BoundingBox {
 
     /**
      * parameter to enable/disable BoundingBox
-      */
-    public static boolean isBoundingBoxOn = true;
+     */
+    private static boolean isBoundingBoxOn = true;
 
     /**
      * x's minimum value
@@ -34,12 +37,9 @@ public class BoundingBox {
      */
     private final double zMax;
 
-    public static void setIsBoundingBoxOn(boolean isBoundingBoxOn) {
-        BoundingBox.isBoundingBoxOn = isBoundingBoxOn;
-    }
-
     /**
      * create an object of BoundingBox
+     *
      * @param xMin x's minimum value
      * @param xMax x's maximum value
      * @param yMin y's minimum value
@@ -178,14 +178,12 @@ public class BoundingBox {
 
             tMin = Double.NEGATIVE_INFINITY;
             tMax = Double.MAX_VALUE;
-        }
-        else {
+        } else {
             // The ray is not parallel to the x-axis
             if (dirTemp > 0) { //positive
                 tMin = (xMin - pTemp) / dirTemp;
                 tMax = (xMax - pTemp) / dirTemp;
-            }
-            else { //negative
+            } else { //negative
                 tMax = (xMin - pTemp) / dirTemp;
                 tMin = (xMax - pTemp) / dirTemp;
             }
@@ -204,8 +202,7 @@ public class BoundingBox {
 
             tempMin = Double.NEGATIVE_INFINITY;
             tempMax = Double.MAX_VALUE;
-        }
-        else {
+        } else {
             // The ray is not parallel to the y-axis
             if (dirTemp > 0) {
                 tempMin = (yMin - pTemp) / dirTemp;
@@ -237,14 +234,12 @@ public class BoundingBox {
                 return false;
 
             return true;
-        }
-        else {
+        } else {
             // The ray is not parallel to the z-axis
             if (dirTemp > 0) {
                 tempMin = (zMin - pTemp) / dirTemp;
                 tempMax = (zMax - pTemp) / dirTemp;
-            }
-            else {
+            } else {
                 tempMax = (zMin - pTemp) / dirTemp;
                 tempMin = (zMax - pTemp) / dirTemp;
             }
@@ -262,6 +257,24 @@ public class BoundingBox {
             tMax = tempMax;
 
         return true;
+    }
+
+    /**
+     * Getter for IsBoundingBoxOn
+     *
+     * @return Is BoundingBox On
+     */
+    public static boolean GetIsBoundingBoxOn() {
+        return isBoundingBoxOn;
+    }
+
+    /**
+     * setter IsBoundingBoxOn
+     *
+     * @param isBoundingBoxOn turn the affect on/off
+     */
+    public static void setIsBoundingBoxOn(boolean isBoundingBoxOn) {
+        BoundingBox.isBoundingBoxOn = isBoundingBoxOn;
     }
 
 }

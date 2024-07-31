@@ -169,10 +169,12 @@ public class Ray {
 
             try {
                 randPoint = randPoint.add(vX.scale(randX));
-            } catch (Exception ignore) {}
+            } catch (Exception ignore) {
+            }
             try {
                 randPoint = randPoint.add(vY.scale(randY));
-            } catch (Exception ignore) {}
+            } catch (Exception ignore) {
+            }
 
             v12 = randPoint.subtract(head).normalize();
 

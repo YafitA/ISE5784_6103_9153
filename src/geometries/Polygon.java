@@ -119,7 +119,7 @@ public class Polygon extends Geometry {
                 if (p.getZ() > zMax)
                     zMax = p.getZ();
             }
-            boundingBox = new BoundingBox(xMin, xMax, yMin, yMax, zMin,zMax);
+            boundingBox = new BoundingBox(xMin, xMax, yMin, yMax, zMin, zMax);
         }
     }
 

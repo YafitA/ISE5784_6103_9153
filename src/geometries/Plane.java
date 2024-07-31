@@ -70,7 +70,7 @@ public class Plane extends Geometry {
     protected List<GeoPoint> findGeoIntersectionsHelper(Ray ray, double maxDistance) {
 
         // there is no intersections
-        if ( !this.boundingBox.intersectionBox(ray))
+        if (!this.boundingBox.intersectionBox(ray))
             return null;
 
         //in case p=q

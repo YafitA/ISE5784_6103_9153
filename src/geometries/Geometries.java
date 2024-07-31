@@ -21,7 +21,8 @@ public class Geometries extends Intersectable {
     /**
      * Constructs Geometries (empty)
      */
-    public Geometries() {}
+    public Geometries() {
+    }
 
     /**
      * Constructs Geometries with params
@@ -42,7 +43,7 @@ public class Geometries extends Intersectable {
 
         intersectableList.addAll(Arrays.asList(geometries));
         //if isBoundingBoxOn is off return
-        if(!BoundingBox.isBoundingBoxOn)    return;
+        if (!BoundingBox.GetIsBoundingBoxOn()) return;
         // build a bounding box
         // search in all new geometries for the min and max X,Y,Z (if they bigger then the current x,y,z bounding box)
         double xMax = Double.NEGATIVE_INFINITY;

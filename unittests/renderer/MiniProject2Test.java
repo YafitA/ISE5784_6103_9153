@@ -12,6 +12,9 @@ import scene.Scene;
 
 import static java.awt.Color.*;
 
+/**
+ * Mini-Project 2 tests
+ */
 public class MiniProject2Test {
     /**
      * Scene for the tests
@@ -23,24 +26,15 @@ public class MiniProject2Test {
     private final Camera.Builder cameraBuilder = Camera.getBuilder().setRayTracer(new SimpleRayTracer(scene));
 
     /**
-     * A param that'll turn on/off glossy the affect
+     * test that'll create an image, testing the time depends on different params
+     *
+     * @param isBVHOn          A param that'll turn on/off glossy the BVH
+     * @param threadsCount     A param for number of threads
+     * @param isAffectGlossyOn A param that'll turn on/off glossy the affect
      */
-    private final Boolean isAffectGlossyOn = true;
+    public void testBVHAndThreadsAndGlossyRunningTime(boolean isBVHOn, int threadsCount, Boolean isAffectGlossyOn) {
 
-    /**
-     * A param that'll turn on/off glossy the BVH
-     */
-    private final boolean isBVHOn = true;
-
-    /**
-     * A param for number of threads
-     */
-    private final int threadsCount = 0;
-
-    @Test
-    public void test500() {
-
-        BoundingBox.isBoundingBoxOn=isBVHOn;
+        BoundingBox.setIsBoundingBoxOn(isBVHOn);
 
         scene.setAmbientLight(new AmbientLight(new Color(WHITE), new Double3(0.15)));
 
@@ -103,4 +97,48 @@ public class MiniProject2Test {
                 .writeToImage();
 
     }
+
+    /**
+     * param to turn glossyAffect on or off
+     */
+    private boolean isAffectGlossyOn = true;
+
+    /**
+     * Test without improvements
+     * multiple-threads     off
+     * BVH                  off
+     */
+    @Test
+    public void normal() {
+        testBVHAndThreadsAndGlossyRunningTime(false, 0, isAffectGlossyOn);
+    }
+
+    /**
+     * multiple-threads     on
+     * BVH                  off
+     */
+    @Test
+    public void threadsOn() {
+        testBVHAndThreadsAndGlossyRunningTime(false, 3, isAffectGlossyOn);
+    }
+
+    /**
+     * multiple-threads     off
+     * BVH                  on
+     */
+    @Test
+    public void bvhOn() {
+        testBVHAndThreadsAndGlossyRunningTime(true, 0, isAffectGlossyOn);
+    }
+
+    /**
+     * multiple-threads     on
+     * BVH                  on
+     */
+    @Test
+    public void bvhOnThreadsOn() {
+        testBVHAndThreadsAndGlossyRunningTime(true, 3, isAffectGlossyOn);
+    }
+
+
 }
