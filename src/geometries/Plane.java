@@ -1,5 +1,6 @@
 package geometries;
 
+import primitives.BoundingBox;
 import primitives.Point;
 import primitives.Ray;
 import primitives.Vector;
@@ -64,6 +65,10 @@ public class Plane extends Geometry {
     @Override
     public Vector getNormal(Point p) {
         return this.normal;
+    }
+
+    @Override
+    public void setBoundingBox() {
     }
 
     @Override

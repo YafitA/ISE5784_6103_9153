@@ -16,10 +16,15 @@ import static java.awt.Color.*;
  * Mini-Project 2 tests
  */
 public class MiniProject2Test {
+
+    public enum Mode {
+        NORMAL, CBR, BVH
+    }
+
     /**
      * Scene for the tests
      */
-    private final Scene scene = new Scene("Test scene glossy surface and diffusive glass");
+    private final Scene scene = new Scene("Test scene mini project 2");
     /**
      * Camera builder for the tests
      */
@@ -28,13 +33,11 @@ public class MiniProject2Test {
     /**
      * test that'll create an image, testing the time depends on different params
      *
-     * @param isBVHOn          A param that'll turn on/off glossy the BVH
+     * @param mode              A param that'll turn on/off the BVH
      * @param threadsCount     A param for number of threads
      * @param isAffectGlossyOn A param that'll turn on/off glossy the affect
      */
-    public void testBVHAndThreadsAndGlossyRunningTime(boolean isBVHOn, int threadsCount, Boolean isAffectGlossyOn) {
-
-        BoundingBox.setIsBoundingBoxOn(isBVHOn);
+    public void testBVHAndThreadsAndGlossyRunningTime(Mode mode, int threadsCount, Boolean isAffectGlossyOn, String photoName) {
 
         scene.setAmbientLight(new AmbientLight(new Color(WHITE), new Double3(0.15)));
 
@@ -78,7 +81,18 @@ public class MiniProject2Test {
                         .setBlurGlass(isAffectGlossyOn ? 300 : 1, 10, 2))
         );
 
-        // Add lighting
+        switch (mode) {
+            case NORMAL:
+                break;
+            case BVH:
+                scene.geometries.setBVH();
+                break;
+            case CBR:
+                scene.geometries.setCBR();
+                break;
+        }
+
+                // Add lighting
         scene.lights.add(new DirectionalLight(new Color(WHITE).reduce(1.3), new Vector(-0.4, 1, 0)));
         scene.lights.add(new SpotLight(new Color(WHITE).reduce(2), new Point(20.43303, -7.37104, 13.77329),
                 new Vector(-20.43, 7.37, -13.77)).setKL(0.6));
@@ -90,7 +104,7 @@ public class MiniProject2Test {
                 .setMultithreading(threadsCount)
                 .setVpSize(200, 200)
                 .setVpDistance(1000)
-                .setImageWriter(new ImageWriter("500 Spheres", 500, 500))
+                .setImageWriter(new ImageWriter(photoName, 500, 500))
                 .setRayTracer(new SimpleRayTracer(scene))
                 .build()
                 .renderImage()
@@ -101,7 +115,7 @@ public class MiniProject2Test {
     /**
      * param to turn glossyAffect on or off
      */
-    private boolean isAffectGlossyOn = true;
+    private boolean isAffectGlossyOn = false;
 
     /**
      * Test without improvements
@@ -110,7 +124,7 @@ public class MiniProject2Test {
      */
     @Test
     public void normal() {
-        testBVHAndThreadsAndGlossyRunningTime(false, 0, isAffectGlossyOn);
+        testBVHAndThreadsAndGlossyRunningTime(Mode.NORMAL, 0, isAffectGlossyOn, "normal");
     }
 
     /**
@@ -119,16 +133,7 @@ public class MiniProject2Test {
      */
     @Test
     public void threadsOn() {
-        testBVHAndThreadsAndGlossyRunningTime(false, 3, isAffectGlossyOn);
-    }
-
-    /**
-     * multiple-threads     off
-     * BVH                  on
-     */
-    @Test
-    public void bvhOn() {
-        testBVHAndThreadsAndGlossyRunningTime(true, 0, isAffectGlossyOn);
+        testBVHAndThreadsAndGlossyRunningTime(Mode.NORMAL, 3, isAffectGlossyOn, "threadsOn");
     }
 
     /**
@@ -136,8 +141,17 @@ public class MiniProject2Test {
      * BVH                  on
      */
     @Test
-    public void bvhOnThreadsOn() {
-        testBVHAndThreadsAndGlossyRunningTime(true, 3, isAffectGlossyOn);
+    public void bvhOn() {
+        testBVHAndThreadsAndGlossyRunningTime(Mode.BVH, 3, isAffectGlossyOn, "BVH");
+    }
+
+    /**
+     * multiple-threads     on
+     * CBR                  on
+     */
+    @Test
+    public void cbrOn() {
+        testBVHAndThreadsAndGlossyRunningTime(Mode.CBR, 3, isAffectGlossyOn, "CBR");
     }
 
 

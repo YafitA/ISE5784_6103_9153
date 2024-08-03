@@ -12,11 +12,6 @@ import java.util.List;
 public abstract class Intersectable {
 
     /**
-     * the bounding box
-     */
-    protected BoundingBox boundingBox = new BoundingBox();
-
-    /**
      * Represent GeoPoint a point with a shape
      */
     public static class GeoPoint {
@@ -57,6 +52,25 @@ public abstract class Intersectable {
             this.point = point;
         }
     }
+
+    /**
+     * the bounding box
+     */
+    protected BoundingBox boundingBox = new BoundingBox();
+
+    /**
+     * Getter for bounding box
+     *
+     * @return the bounding box
+     */
+    public BoundingBox getBoundingBox() {
+        return boundingBox;
+    }
+
+    /**
+     * Setter for the bounding box.
+     */
+    public abstract void setBoundingBox();
 
     /**
      * finds the points that intersect with the ray and the shape

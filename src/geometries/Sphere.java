@@ -26,15 +26,18 @@ public class Sphere extends RadialGeometry {
     public Sphere(Point center, double radius) {
         super(radius);
         this.center = center;
-
-        this.boundingBox = new BoundingBox(center.add(new Vector(1, 1, 1).scale(radius)),
-                center.add(new Vector(-1, -1, -1).scale(radius)));
     }
 
     @Override
     public Vector getNormal(Point p) {
 
         return p.subtract(center).normalize();
+    }
+
+    @Override
+    public void setBoundingBox() {
+        this.boundingBox = new BoundingBox(center.add(new Vector(1, 1, 1).scale(radius)),
+                center.add(new Vector(-1, -1, -1).scale(radius)));
     }
 
     @Override

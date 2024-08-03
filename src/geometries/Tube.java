@@ -1,5 +1,6 @@
 package geometries;
 
+import primitives.BoundingBox;
 import primitives.Point;
 import primitives.Ray;
 import primitives.Vector;
@@ -36,6 +37,7 @@ public class Tube extends RadialGeometry {
         //normalize(given point - o)
         return point.subtract(axis.getPoint(t)).normalize();
     }
+
 
     @Override
     protected List<GeoPoint> findGeoIntersectionsHelper(Ray ray, double maxDistance) {

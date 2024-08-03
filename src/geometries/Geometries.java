@@ -5,8 +5,10 @@ import primitives.Point;
 import primitives.Ray;
 
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
+
 
 /**
  * Class to represent a geometries
@@ -21,7 +23,15 @@ public class Geometries extends Intersectable {
     /**
      * Constructs Geometries (empty)
      */
-    public Geometries() {
+    public Geometries() {}
+
+    /**
+     * Constructor with parameters
+     *
+     * @param geometries list of geometries
+     */
+    public Geometries(List<Intersectable> geometries) {
+        add(geometries);
     }
 
     /**
@@ -40,10 +50,28 @@ public class Geometries extends Intersectable {
      * @param geometries group of shapes
      */
     public void add(Intersectable... geometries) {
-
         intersectableList.addAll(Arrays.asList(geometries));
-        //if isBoundingBoxOn is off return
-        if (!BoundingBox.GetIsBoundingBoxOn()) return;
+    }
+
+    /**
+     * set bounding box
+     *
+     * @param p1 first point
+     * @param p2 second point
+     * @return new object
+     */
+    public Geometries setBoundingBox(Point p1, Point p2) {
+        this.boundingBox = new BoundingBox(p1, p2);
+        return this;
+    }
+
+    @Override
+    public void setBoundingBox() {
+        if (intersectableList.isEmpty()) {
+            boundingBox = null;
+            return;
+        }
+
         // build a bounding box
         // search in all new geometries for the min and max X,Y,Z (if they bigger then the current x,y,z bounding box)
         double xMax = Double.NEGATIVE_INFINITY;
@@ -81,16 +109,62 @@ public class Geometries extends Intersectable {
         boundingBox = new BoundingBox(new Point(xMin, yMin, zMin), new Point(xMax, yMax, zMax));
     }
 
-    /**
-     * set bounding box
-     *
-     * @param p1 first point
-     * @param p2 second point
-     * @return new object
-     */
-    public Geometries setBoundingBox(Point p1, Point p2) {
-        this.boundingBox = new BoundingBox(p1, p2);
-        return this;
+    /** Set the bounding box for the intractable */
+    public void setCBR() {
+        for (var intractable : intersectableList)
+            intractable.setBoundingBox();
+    }
+
+    /** Store the geometries as a BVH */
+    public void setBVH() {
+        setCBR();
+        buildBVH();
+    }
+
+    /** Build a BVH tree from a list of intersectable geometries */
+    protected void buildBVH() {
+        if (intersectableList.size() <= 3) {
+            // if there are 3 or fewer intersectableList, use them as the bounding box
+            return;
+        }
+
+        // extract infinite intersectableList into a separate list
+        List<Intersectable> infiniteGeometries = new LinkedList<>();
+        for (int i = 0; i < intersectableList.size(); i++) {
+            var g = intersectableList.get(i);
+            if (g.getBoundingBox() == null) {
+                infiniteGeometries.add(g);
+                intersectableList.remove(i);
+                i--;
+            }
+        }
+
+        // sort intersectableList based on their bounding box centroids along an axis (e.g., x-axis)
+        intersectableList.sort(Comparator.comparingDouble(g -> g.getBoundingBox().getCenter().getX()));
+
+        // split the list into two halves
+        int mid = intersectableList.size() / 2;
+        Geometries leftGeometries = new Geometries(intersectableList.subList(0, mid));
+        Geometries rightGeometries = new Geometries(intersectableList.subList(mid, intersectableList.size()));
+
+        // recursively build the BVH for the two halves
+        leftGeometries.buildBVH();
+        rightGeometries.buildBVH();
+
+        // calculate the bounding box for the two halves
+        leftGeometries.setBoundingBox();
+        rightGeometries.setBoundingBox();
+
+        // create a combined bounding box
+        Geometries combined = new Geometries(leftGeometries);
+        combined.add(rightGeometries);
+        combined.setBoundingBox();
+
+        // return the list of geometries
+        List<Intersectable> result = new LinkedList<>(infiniteGeometries);
+        result.add(combined);
+        intersectableList.clear();
+        intersectableList.addAll(result);
     }
 
     @Override

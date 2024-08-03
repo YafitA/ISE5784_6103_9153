@@ -84,48 +84,53 @@ public class Polygon extends Geometry {
             if (positive != (edge1.crossProduct(edge2).dotProduct(n) > 0))
                 throw new IllegalArgumentException("All vertices must be ordered and the polygon must be convex");
 
-            // build a bounding box
-            // search in all vertices
-            // for the min and max X,Y,Z
-            double xMax = Double.NEGATIVE_INFINITY;
-            double xMin = Double.MAX_VALUE;
 
-            double yMax = Double.NEGATIVE_INFINITY;
-            double yMin = Double.MAX_VALUE;
-
-            double zMax = Double.NEGATIVE_INFINITY;
-            double zMin = Double.MAX_VALUE;
-
-            for (Point p : vertices) {
-
-                // check x
-                if (p.getX() < xMin)
-                    xMin = p.getX();
-
-                if (p.getX() > xMax)
-                    xMax = p.getX();
-
-                // check y
-                if (p.getY() < yMin)
-                    yMin = p.getY();
-
-                if (p.getY() > yMax)
-                    yMax = p.getY();
-
-                // check z
-                if (p.getZ() < zMin)
-                    zMin = p.getZ();
-
-                if (p.getZ() > zMax)
-                    zMax = p.getZ();
-            }
-            boundingBox = new BoundingBox(xMin, xMax, yMin, yMax, zMin, zMax);
         }
     }
 
     @Override
     public Vector getNormal(Point point) {
         return plane.getNormal();
+    }
+
+    @Override
+    public void setBoundingBox() {
+        // build a bounding box
+        // search in all vertices
+        // for the min and max X,Y,Z
+        double xMax = Double.NEGATIVE_INFINITY;
+        double xMin = Double.MAX_VALUE;
+
+        double yMax = Double.NEGATIVE_INFINITY;
+        double yMin = Double.MAX_VALUE;
+
+        double zMax = Double.NEGATIVE_INFINITY;
+        double zMin = Double.MAX_VALUE;
+
+        for (Point p : vertices) {
+
+            // check x
+            if (p.getX() < xMin)
+                xMin = p.getX();
+
+            if (p.getX() > xMax)
+                xMax = p.getX();
+
+            // check y
+            if (p.getY() < yMin)
+                yMin = p.getY();
+
+            if (p.getY() > yMax)
+                yMax = p.getY();
+
+            // check z
+            if (p.getZ() < zMin)
+                zMin = p.getZ();
+
+            if (p.getZ() > zMax)
+                zMax = p.getZ();
+        }
+        boundingBox = new BoundingBox(xMin, xMax, yMin, yMax, zMin, zMax);
     }
 
     @Override

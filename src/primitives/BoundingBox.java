@@ -8,11 +8,6 @@ import static primitives.Util.isZero;
 public class BoundingBox {
 
     /**
-     * parameter to enable/disable BoundingBox
-     */
-    private static boolean isBoundingBoxOn = true;
-
-    /**
      * x's minimum value
      */
     private final double xMin;
@@ -60,11 +55,11 @@ public class BoundingBox {
      * Constructs a new BoundingBox with default values.
      */
     public BoundingBox() {
-        this.xMin = Double.MIN_VALUE;
+        this.xMin = Double.NEGATIVE_INFINITY;
         this.xMax = Double.MAX_VALUE;
-        this.yMin = Double.MIN_VALUE;
+        this.yMin = Double.NEGATIVE_INFINITY;
         this.yMax = Double.MAX_VALUE;
-        this.zMin = Double.MIN_VALUE;
+        this.zMin = Double.NEGATIVE_INFINITY;
         this.zMax = Double.MAX_VALUE;
     }
 
@@ -162,8 +157,7 @@ public class BoundingBox {
      * @return true if the ray intersects with the bounding box, false otherwise
      */
     public boolean intersectionBox(Ray r) {
-        //component is off
-        if (!isBoundingBoxOn) return true;
+
 
         double tMin, tMax;
 
@@ -258,23 +252,11 @@ public class BoundingBox {
 
         return true;
     }
-
-    /**
-     * Getter for IsBoundingBoxOn
-     *
-     * @return Is BoundingBox On
-     */
-    public static boolean GetIsBoundingBoxOn() {
-        return isBoundingBoxOn;
+    public Point getCenter() {
+        return new Point(
+                (xMin + xMax) / 2.0,
+                (yMin+ yMax) / 2.0,
+                (zMin + zMax) / 2.0
+        );
     }
-
-    /**
-     * setter IsBoundingBoxOn
-     *
-     * @param isBoundingBoxOn turn the affect on/off
-     */
-    public static void setIsBoundingBoxOn(boolean isBoundingBoxOn) {
-        BoundingBox.isBoundingBoxOn = isBoundingBoxOn;
-    }
-
 }
