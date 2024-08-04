@@ -17,8 +17,13 @@ import static java.awt.Color.*;
  */
 public class MiniProject2Test {
 
-    public enum Mode {
-        NORMAL, CBR, BVH
+    /**
+     * Enum modes for running - normal, CBR, BVH
+     */
+    private enum Mode {
+        NORMAL,
+        CBR,
+        BVH
     }
 
     /**
@@ -81,6 +86,8 @@ public class MiniProject2Test {
                         .setBlurGlass(isAffectGlossyOn ? 300 : 1, 10, 2))
         );
 
+
+        //Enum modes for running - normal, CBR, BVH
         switch (mode) {
             case NORMAL:
                 break;
@@ -132,18 +139,10 @@ public class MiniProject2Test {
      * BVH                  off
      */
     @Test
-    public void threadsOn() {
+    public void multiThreadsOn() {
         testBVHAndThreadsAndGlossyRunningTime(Mode.NORMAL, 3, isAffectGlossyOn, "threadsOn");
     }
 
-    /**
-     * multiple-threads     on
-     * BVH                  on
-     */
-    @Test
-    public void bvhOn() {
-        testBVHAndThreadsAndGlossyRunningTime(Mode.BVH, 3, isAffectGlossyOn, "BVH");
-    }
 
     /**
      * multiple-threads     on
@@ -154,5 +153,13 @@ public class MiniProject2Test {
         testBVHAndThreadsAndGlossyRunningTime(Mode.CBR, 3, isAffectGlossyOn, "CBR");
     }
 
+    /**
+     * multiple-threads     on
+     * BVH                  on
+     */
+    @Test
+    public void bvhOn() {
+        testBVHAndThreadsAndGlossyRunningTime(Mode.BVH, 3, isAffectGlossyOn, "BVH");
+    }
 
 }

@@ -25,14 +25,6 @@ public class Geometries extends Intersectable {
      */
     public Geometries() {}
 
-    /**
-     * Constructor with parameters
-     *
-     * @param geometries list of geometries
-     */
-    public Geometries(List<Intersectable> geometries) {
-        add(geometries);
-    }
 
     /**
      * Constructs Geometries with params
@@ -45,12 +37,30 @@ public class Geometries extends Intersectable {
     }
 
     /**
+     * Constructor with parameters
+     *
+     * @param geometries list of geometries
+     */
+    public Geometries(List<Intersectable> geometries) {
+        add(geometries);
+    }
+
+    /**
      * Add shapes to the group
      *
      * @param geometries group of shapes
      */
     public void add(Intersectable... geometries) {
         intersectableList.addAll(Arrays.asList(geometries));
+    }
+
+    /**
+     * Add geometries to the list
+     *
+     * @param geometries list of geometries
+     */
+    public void add(List<Intersectable> geometries) {
+        this.intersectableList.addAll(geometries);
     }
 
     /**
