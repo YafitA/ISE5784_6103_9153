@@ -32,8 +32,7 @@ public class Geometries extends Intersectable {
      * @param geometries group of shapes
      */
     public Geometries(Intersectable... geometries) {
-        if (geometries != null)
-            add(geometries);
+        add(geometries);
     }
 
     /**
@@ -116,7 +115,7 @@ public class Geometries extends Intersectable {
             if (g.boundingBox.getzMax() > zMax)
                 zMax = g.boundingBox.getzMax();
         }
-        boundingBox = new BoundingBox(new Point(xMin, yMin, zMin), new Point(xMax, yMax, zMax));
+        boundingBox = new BoundingBox(xMin,xMax,yMin,yMax,zMin,zMax);
     }
 
     /** Set the bounding box for the intractable */
@@ -179,9 +178,6 @@ public class Geometries extends Intersectable {
 
     @Override
     protected List<GeoPoint> findGeoIntersectionsHelper(Ray ray, double maxDistance) {
-        // there is bounding box and no intersection
-        if (this.boundingBox != null && !this.boundingBox.intersectionBox(ray))
-            return null;
 
         //initialize list with null
         List<GeoPoint> intersectionsPoints = null;

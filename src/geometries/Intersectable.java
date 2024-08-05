@@ -56,7 +56,7 @@ public abstract class Intersectable {
     /**
      * the bounding box
      */
-    protected BoundingBox boundingBox = new BoundingBox();
+    protected BoundingBox boundingBox;
 
     /**
      * Getter for bounding box
@@ -101,6 +101,8 @@ public abstract class Intersectable {
      * @return list of points and shapes
      */
     public final List<GeoPoint> findGeoIntersections(Ray ray, double maxDistance) {
+        if (boundingBox != null && !boundingBox.intersectionBox(ray))
+            return null;
         return findGeoIntersectionsHelper(ray, maxDistance);
     }
 

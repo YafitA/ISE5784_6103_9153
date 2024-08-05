@@ -30,7 +30,6 @@ public class Sphere extends RadialGeometry {
 
     @Override
     public Vector getNormal(Point p) {
-
         return p.subtract(center).normalize();
     }
 
@@ -42,10 +41,6 @@ public class Sphere extends RadialGeometry {
 
     @Override
     protected List<GeoPoint> findGeoIntersectionsHelper(Ray ray, double maxDistance) {
-
-        // there is no intersections
-        if (!this.boundingBox.intersectionBox(ray))
-            return null;
 
         //Ray starts at the center of sphere
         if (ray.getHead().equals(this.center))

@@ -1,12 +1,8 @@
 package renderer;
 
-import geometries.Plane;
-import geometries.Sphere;
-import geometries.Triangle;
-import lighting.AmbientLight;
-import lighting.DirectionalLight;
-import lighting.SpotLight;
 import org.junit.jupiter.api.Test;
+import geometries.*;
+import lighting.*;
 import primitives.*;
 import scene.Scene;
 
@@ -15,7 +11,7 @@ import static java.awt.Color.*;
 /**
  * Mini-Project 2 tests
  */
-public class MiniProject2Test {
+public class MiniProject2Tests {
 
     /**
      * Enum modes for running - normal, CBR, BVH
@@ -42,7 +38,7 @@ public class MiniProject2Test {
      * @param threadsCount     A param for number of threads
      * @param isAffectGlossyOn A param that'll turn on/off glossy the affect
      */
-    public void testBVHAndThreadsAndGlossyRunningTime(Mode mode, int threadsCount, Boolean isAffectGlossyOn, String photoName) {
+    private void testBVHAndThreadsAndGlossyRunningTime(Mode mode, int threadsCount, Boolean isAffectGlossyOn, String photoName) {
 
         scene.setAmbientLight(new AmbientLight(new Color(WHITE), new Double3(0.15)));
 
@@ -79,7 +75,7 @@ public class MiniProject2Test {
             }
         }
 
-        // Add plane with glossy surface
+        // Add plane
         scene.geometries.add(new Plane(new Point(1, 10, 1), new Point(2, 10, 1), new Point(5, 10, 0))
                 .setEmission(new Color(java.awt.Color.PINK).reduce(3))
                 .setMaterial(new Material().setKD(0.2).setShininess(1000).setKR(0.8).setKS(0.8)
@@ -99,10 +95,11 @@ public class MiniProject2Test {
                 break;
         }
 
-                // Add lighting
+        // Add lighting
         scene.lights.add(new DirectionalLight(new Color(WHITE).reduce(1.3), new Vector(-0.4, 1, 0)));
         scene.lights.add(new SpotLight(new Color(WHITE).reduce(2), new Point(20.43303, -7.37104, 13.77329),
                 new Vector(-20.43, 7.37, -13.77)).setKL(0.6));
+        scene.lights.add(new SpotLight(new Color(WHITE),new Point(midX, -200, midZ), new Vector(1,1,1)));
 
 
         // Set up the camera
@@ -122,7 +119,11 @@ public class MiniProject2Test {
     /**
      * param to turn glossyAffect on or off
      */
-    private boolean isAffectGlossyOn = false;
+    private final boolean isAffectGlossyOn = false;
+    /**
+     * Num of threads
+     */
+    private final int numThreads = 3;
 
     /**
      * Test without improvements
@@ -140,7 +141,7 @@ public class MiniProject2Test {
      */
     @Test
     public void multiThreadsOn() {
-        testBVHAndThreadsAndGlossyRunningTime(Mode.NORMAL, 3, isAffectGlossyOn, "threadsOn");
+        testBVHAndThreadsAndGlossyRunningTime(Mode.NORMAL, numThreads, isAffectGlossyOn, "threadsOn");
     }
 
 
@@ -150,7 +151,7 @@ public class MiniProject2Test {
      */
     @Test
     public void cbrOn() {
-        testBVHAndThreadsAndGlossyRunningTime(Mode.CBR, 3, isAffectGlossyOn, "CBR");
+        testBVHAndThreadsAndGlossyRunningTime(Mode.CBR, numThreads, isAffectGlossyOn, "CBR");
     }
 
     /**
@@ -159,7 +160,7 @@ public class MiniProject2Test {
      */
     @Test
     public void bvhOn() {
-        testBVHAndThreadsAndGlossyRunningTime(Mode.BVH, 3, isAffectGlossyOn, "BVH");
+        testBVHAndThreadsAndGlossyRunningTime(Mode.BVH, numThreads, isAffectGlossyOn, "BVH");
     }
 
 }

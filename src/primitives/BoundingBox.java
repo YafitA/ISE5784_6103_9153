@@ -158,7 +158,6 @@ public class BoundingBox {
      */
     public boolean intersectionBox(Ray r) {
 
-
         double tMin, tMax;
 
         // Calculate the intersection range for the x-axis
