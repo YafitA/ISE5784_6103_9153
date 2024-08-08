@@ -12,10 +12,12 @@ package renderer;
 class PixelManager {
     /**
      * Immutable class for object containing allocated pixel (with its row and column numbers)
+     *
      * @param col columns numbers
      * @param row rows number
      */
-    record Pixel(int col, int row) { }
+    record Pixel(int col, int row) {
+    }
 
     /**
      * Maximum rows of pixels

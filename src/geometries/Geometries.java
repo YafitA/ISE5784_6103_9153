@@ -1,33 +1,27 @@
 package geometries;
 
-import primitives.BoundingBox;
-import primitives.Point;
-import primitives.Ray;
+import primitives.*;
 
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.LinkedList;
-import java.util.List;
-
+import java.util.*;
 
 /**
- * Class to represent a geometries
+ * Class to represent a collection of geometries using a Bounding Volume Hierarchy (BVH).
  */
 public class Geometries extends Intersectable {
 
     /**
-     * list of intersection
+     * Root node of the BVH tree.
      */
-    private final List<Intersectable> intersectableList = new LinkedList<>();
+    private BVHNode root = new BVHNode();
 
     /**
-     * Constructs Geometries (empty)
+     * Constructs an empty Geometries object.
      */
-    public Geometries() {}
-
+    public Geometries() {
+    }
 
     /**
-     * Constructs Geometries with params
+     * Constructs a Geometries object with a given list of shapes.
      *
      * @param geometries group of shapes
      */
@@ -36,165 +30,180 @@ public class Geometries extends Intersectable {
     }
 
     /**
-     * Constructor with parameters
-     *
-     * @param geometries list of geometries
-     */
-    public Geometries(List<Intersectable> geometries) {
-        add(geometries);
-    }
-
-    /**
-     * Add shapes to the group
+     * Adds shapes to the group.
      *
      * @param geometries group of shapes
      */
     public void add(Intersectable... geometries) {
-        intersectableList.addAll(Arrays.asList(geometries));
+        root.geometries.addAll(Arrays.asList(geometries));
     }
 
     /**
-     * Add geometries to the list
+     * boundingBox For Shapes
      *
-     * @param geometries list of geometries
+     * @param geometries list of geos
+     * @return boundingbox for list
      */
-    public void add(List<Intersectable> geometries) {
-        this.intersectableList.addAll(geometries);
-    }
-
-    /**
-     * set bounding box
-     *
-     * @param p1 first point
-     * @param p2 second point
-     * @return new object
-     */
-    public Geometries setBoundingBox(Point p1, Point p2) {
-        this.boundingBox = new BoundingBox(p1, p2);
-        return this;
+    private BoundingBox boundingBoxForShapes(List<Intersectable> geometries) {
+        BoundingBox boundingBox = new BoundingBox();
+        for (Intersectable geo : geometries)
+            boundingBox.expandToInclude(geo.boundingBox);
+        return boundingBox;
     }
 
     @Override
     public void setBoundingBox() {
-        if (intersectableList.isEmpty()) {
-            boundingBox = null;
-            return;
-        }
-
-        // build a bounding box
-        // search in all new geometries for the min and max X,Y,Z (if they bigger then the current x,y,z bounding box)
-        double xMax = Double.NEGATIVE_INFINITY;
-        double xMin = Double.MAX_VALUE;
-
-        double yMax = Double.NEGATIVE_INFINITY;
-        double yMin = Double.MAX_VALUE;
-
-        double zMax = Double.NEGATIVE_INFINITY;
-        double zMin = Double.MAX_VALUE;
-
-        for (Intersectable g : intersectableList) {
-
-            // check x
-            if (g.boundingBox.getxMin() < xMin)
-                xMin = g.boundingBox.getxMin();
-
-            if (g.boundingBox.getxMax() > xMax)
-                xMax = g.boundingBox.getxMax();
-
-            // check y
-            if (g.boundingBox.getyMin() < yMin)
-                yMin = g.boundingBox.getyMin();
-
-            if (g.boundingBox.getyMax() > yMax)
-                yMax = g.boundingBox.getyMax();
-
-            // check z
-            if (g.boundingBox.getzMin() < zMin)
-                zMin = g.boundingBox.getzMin();
-
-            if (g.boundingBox.getzMax() > zMax)
-                zMax = g.boundingBox.getzMax();
-        }
-        boundingBox = new BoundingBox(xMin,xMax,yMin,yMax,zMin,zMax);
     }
 
-    /** Set the bounding box for the intractable */
+    /**
+     * Sets the bounding boxes for all intersectional in the list.
+     */
     public void setCBR() {
-        for (var intractable : intersectableList)
-            intractable.setBoundingBox();
+        for (Intersectable geo : root.geometries)
+            geo.setBoundingBox();
     }
 
-    /** Store the geometries as a BVH */
+    /**
+     * Constructs the BVH tree for the geometries.
+     */
     public void setBVH() {
+        //set CBR for all shapes
         setCBR();
-        buildBVH();
+        //sort list along x-axis
+        root.geometries.sort(Comparator.comparingDouble(g -> g.boundingBox.getCenter().getX()));
+        //set root to be organized
+        root = buildBVH(root.geometries, 0);
     }
 
-    /** Build a BVH tree from a list of intersectable geometries */
-    protected void buildBVH() {
-        if (intersectableList.size() <= 3) {
-            // if there are 3 or fewer intersectableList, use them as the bounding box
-            return;
+    /**
+     * Recursively builds the BVH tree from a list of intersectable geometries.
+     *
+     * @param geometries the list of geometries
+     * @param depth      the current depth of the BVH tree
+     * @return the root node of the BVH tree
+     */
+    protected BVHNode buildBVH(List<Intersectable> geometries, int depth) {
+        BoundingBox boundingBox = boundingBoxForShapes(geometries);
+
+        int maxDepth = 3;// Adjust as needed
+        int minObjectsPerLeaf = 3;  // Adjust as needed
+
+        if (depth >= maxDepth || geometries.size() <= minObjectsPerLeaf) {
+            return new BVHNode(boundingBox, geometries);
         }
 
-        // extract infinite intersectableList into a separate list
-        List<Intersectable> infiniteGeometries = new LinkedList<>();
-        for (int i = 0; i < intersectableList.size(); i++) {
-            var g = intersectableList.get(i);
-            if (g.getBoundingBox() == null) {
-                infiniteGeometries.add(g);
-                intersectableList.remove(i);
-                i--;
-            }
+        double xRange = boundingBox.getxMax() - boundingBox.getxMin();
+        double yRange = boundingBox.getyMax() - boundingBox.getyMin();
+        double zRange = boundingBox.getzMax() - boundingBox.getzMin();
+
+        Comparator<Intersectable> comparator;
+
+        if (xRange > yRange && xRange > zRange) {
+            comparator = Comparator.comparingDouble(g -> g.boundingBox.getCenter().getX());
+        } else if (yRange > zRange) {
+            comparator = Comparator.comparingDouble(g -> g.boundingBox.getCenter().getY());
+        } else {
+            comparator = Comparator.comparingDouble(g -> g.boundingBox.getCenter().getZ());
         }
 
-        // sort intersectableList based on their bounding box centroids along an axis (e.g., x-axis)
-        intersectableList.sort(Comparator.comparingDouble(g -> g.getBoundingBox().getCenter().getX()));
+        geometries.sort(comparator);
+        int mid = geometries.size() / 2;
 
-        // split the list into two halves
-        int mid = intersectableList.size() / 2;
-        Geometries leftGeometries = new Geometries(intersectableList.subList(0, mid));
-        Geometries rightGeometries = new Geometries(intersectableList.subList(mid, intersectableList.size()));
+        BVHNode leftChild = buildBVH(geometries.subList(0, mid), depth + 1);
+        BVHNode rightChild = buildBVH(geometries.subList(mid, geometries.size()), depth + 1);
 
-        // recursively build the BVH for the two halves
-        leftGeometries.buildBVH();
-        rightGeometries.buildBVH();
-
-        // calculate the bounding box for the two halves
-        leftGeometries.setBoundingBox();
-        rightGeometries.setBoundingBox();
-
-        // create a combined bounding box
-        Geometries combined = new Geometries(leftGeometries);
-        combined.add(rightGeometries);
-        combined.setBoundingBox();
-
-        // return the list of geometries
-        List<Intersectable> result = new LinkedList<>(infiniteGeometries);
-        result.add(combined);
-        intersectableList.clear();
-        intersectableList.addAll(result);
+        return new BVHNode(boundingBox, leftChild, rightChild);
     }
+
 
     @Override
     protected List<GeoPoint> findGeoIntersectionsHelper(Ray ray, double maxDistance) {
+        return findGeoIntersectionsHelper(ray, root, maxDistance);
+    }
 
-        //initialize list with null
-        List<GeoPoint> intersectionsPoints = null;
+    /**
+     * Recursively finds intersections between a ray and geometries in the BVH tree.
+     *
+     * @param ray         the ray
+     * @param node        the current BVH node
+     * @param maxDistance the maximum distance to check for intersections
+     * @return a list of intersection points
+     */
+    protected List<GeoPoint> findGeoIntersectionsHelper(Ray ray, BVHNode node, double maxDistance) {
 
-        //go over the list of shapes
-        for (Intersectable item : intersectableList) {
-            List<GeoPoint> itemIntersections = item.findGeoIntersections(ray, maxDistance);
-            // check if findIntersectionsHelper returned points and
-            // if intersectionsPoints is empty if so initialize an empty list
-            if (itemIntersections != null) {
-                if (intersectionsPoints == null)
-                    intersectionsPoints = new LinkedList<>(itemIntersections);
-                else
+        if (node.boundingBox != null && !node.boundingBox.intersectionBox(ray))
+            return null;
+
+        if (node.geometries != null) {//leaf
+            List<GeoPoint> intersectionsPoints = new LinkedList<>();
+            for (Intersectable geom : node.geometries) {
+                List<GeoPoint> itemIntersections = geom.findGeoIntersections(ray, maxDistance);
+                if (itemIntersections != null) {
                     intersectionsPoints.addAll(itemIntersections);
+                }
             }
+            return intersectionsPoints.isEmpty() ? null : intersectionsPoints;
+
+        } else {//not leaf
+            List<GeoPoint> leftIntersections = findGeoIntersectionsHelper(ray, node.leftChild, maxDistance);
+            List<GeoPoint> rightIntersections = findGeoIntersectionsHelper(ray, node.rightChild, maxDistance);
+            if (leftIntersections == null) return rightIntersections;
+            if (rightIntersections == null) return leftIntersections;
+            leftIntersections.addAll(rightIntersections);
+            return leftIntersections;
+        }
+    }
+
+    /**
+     * Inner class representing a node in the BVH tree.
+     */
+    public static class BVHNode {
+        /**
+         * Bounding box for children.
+         */
+        private BoundingBox boundingBox;
+        /**
+         * Node's left child.
+         */
+        private BVHNode leftChild;
+        /**
+         * Node's right child.
+         */
+        private BVHNode rightChild;
+        /**
+         * Node's list of geometries.
+         */
+        private List<Intersectable> geometries;
+
+        /**
+         * Constructor empty.
+         */
+        public BVHNode() {
+            this.geometries = new ArrayList<>();
         }
 
-        return intersectionsPoints;
+        /**
+         * Constructor for leaf nodes.
+         *
+         * @param boundingBox the bounding box
+         * @param geometries  the list of geometries
+         */
+        public BVHNode(BoundingBox boundingBox, List<Intersectable> geometries) {
+            this.boundingBox = boundingBox;
+            this.geometries = geometries;
+        }
+
+        /**
+         * Constructor for internal nodes.
+         *
+         * @param boundingBox the bounding box
+         * @param leftChild   the left child node
+         * @param rightChild  the right child node
+         */
+        public BVHNode(BoundingBox boundingBox, BVHNode leftChild, BVHNode rightChild) {
+            this.boundingBox = boundingBox;
+            this.leftChild = leftChild;
+            this.rightChild = rightChild;
+        }
     }
 }

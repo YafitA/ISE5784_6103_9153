@@ -14,18 +14,33 @@ import static java.awt.Color.*;
 public class MiniProject2Tests {
 
     /**
-     * Enum modes for running - normal, CBR, BVH
+     * Enum to represent the mode of bounding volume hierarchy usage.
      */
-    private enum Mode {
-        NORMAL,
+    public enum BVHMode {
+        /**
+         * No bounding volume hierarchy
+          */
+        NONE,
+        /**
+         * Use bounding boxes only
+         */
         CBR,
+        /**
+         * Use BVH
+         */
         BVH
     }
+
+    /**
+     * param to turn glossyAffect on or off
+     */
+    private final boolean isAffectGlossyOn = true;
 
     /**
      * Scene for the tests
      */
     private final Scene scene = new Scene("Test scene mini project 2");
+
     /**
      * Camera builder for the tests
      */
@@ -34,11 +49,12 @@ public class MiniProject2Tests {
     /**
      * test that'll create an image, testing the time depends on different params
      *
-     * @param mode              A param that'll turn on/off the BVH
-     * @param threadsCount     A param for number of threads
+     * @param mode             A param that'll turn on/off the BVH
+     * @param isMT             A param for number of threads
      * @param isAffectGlossyOn A param that'll turn on/off glossy the affect
+     * @param photoName        Name for photo
      */
-    private void testBVHAndThreadsAndGlossyRunningTime(Mode mode, int threadsCount, Boolean isAffectGlossyOn, String photoName) {
+    private void testBVHAndThreadsAndGlossyRunningTime(BVHMode mode, boolean isMT, boolean isAffectGlossyOn, String photoName) {
 
         scene.setAmbientLight(new AmbientLight(new Color(WHITE), new Double3(0.15)));
 
@@ -85,27 +101,28 @@ public class MiniProject2Tests {
 
         //Enum modes for running - normal, CBR, BVH
         switch (mode) {
-            case NORMAL:
+            case CBR:
+                scene.geometries.setCBR();
                 break;
             case BVH:
                 scene.geometries.setBVH();
                 break;
-            case CBR:
-                scene.geometries.setCBR();
+            default:
                 break;
         }
+
 
         // Add lighting
         scene.lights.add(new DirectionalLight(new Color(WHITE).reduce(1.3), new Vector(-0.4, 1, 0)));
         scene.lights.add(new SpotLight(new Color(WHITE).reduce(2), new Point(20.43303, -7.37104, 13.77329),
                 new Vector(-20.43, 7.37, -13.77)).setKL(0.6));
-        scene.lights.add(new SpotLight(new Color(WHITE),new Point(midX, -200, midZ), new Vector(1,1,1)));
+        scene.lights.add(new SpotLight(new Color(WHITE), new Point(midX, -200, midZ), new Vector(1, 1, 1)));
 
 
         // Set up the camera
         cameraBuilder.setLocation(new Point(midX, -350, midZ))
                 .setDirection(Vector.Y, Vector.Z)
-                .setMultithreading(threadsCount)
+                .setMultithreading(isMT ? 3 : 0)
                 .setVpSize(200, 200)
                 .setVpDistance(1000)
                 .setImageWriter(new ImageWriter(photoName, 500, 500))
@@ -117,50 +134,43 @@ public class MiniProject2Tests {
     }
 
     /**
-     * param to turn glossyAffect on or off
-     */
-    private final boolean isAffectGlossyOn = false;
-    /**
-     * Num of threads
-     */
-    private final int numThreads = 3;
-
-    /**
      * Test without improvements
-     * multiple-threads     off
-     * BVH                  off
+     * multiple-threads        OFF
+     * BVHMode                 NONE
      */
     @Test
-    public void normal() {
-        testBVHAndThreadsAndGlossyRunningTime(Mode.NORMAL, 0, isAffectGlossyOn, "normal");
+    public void testNormal() {
+        testBVHAndThreadsAndGlossyRunningTime(BVHMode.NONE, false, isAffectGlossyOn, "NORMAL");
     }
 
     /**
-     * multiple-threads     on
-     * BVH                  off
+     * Test with MT
+     * multiple-threads     ON
+     * BVHMode              NONE
      */
     @Test
-    public void multiThreadsOn() {
-        testBVHAndThreadsAndGlossyRunningTime(Mode.NORMAL, numThreads, isAffectGlossyOn, "threadsOn");
-    }
-
-
-    /**
-     * multiple-threads     on
-     * CBR                  on
-     */
-    @Test
-    public void cbrOn() {
-        testBVHAndThreadsAndGlossyRunningTime(Mode.CBR, numThreads, isAffectGlossyOn, "CBR");
+    public void testMT() {
+        testBVHAndThreadsAndGlossyRunningTime(BVHMode.NONE, true, isAffectGlossyOn, "MT");
     }
 
     /**
-     * multiple-threads     on
-     * BVH                  on
+     * Test with MT and CBR
+     * multiple-threads     ON
+     * BVHMode              CBR
      */
     @Test
-    public void bvhOn() {
-        testBVHAndThreadsAndGlossyRunningTime(Mode.BVH, numThreads, isAffectGlossyOn, "BVH");
+    public void testCBR() {
+        testBVHAndThreadsAndGlossyRunningTime(BVHMode.CBR, true, isAffectGlossyOn, "CBR");
+    }
+
+    /**
+     * Test with MT and BVH
+     * multiple-threads    ON
+     * BVHMode             BVH
+     */
+    @Test
+    public void testBVH() {
+        testBVHAndThreadsAndGlossyRunningTime(BVHMode.BVH, true, isAffectGlossyOn, "BVH");
     }
 
 }

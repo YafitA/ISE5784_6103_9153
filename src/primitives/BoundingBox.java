@@ -10,27 +10,27 @@ public class BoundingBox {
     /**
      * x's minimum value
      */
-    private final double xMin;
+    private double xMin;
     /**
      * x's maximum value
      */
-    private final double xMax;
+    private double xMax;
     /**
      * y's minimum value
      */
-    private final double yMin;
+    private double yMin;
     /**
      * y's maximum value
      */
-    private final double yMax;
+    private double yMax;
     /**
      * z's minimum value
      */
-    private final double zMin;
+    private double zMin;
     /**
      * z's maximum value
      */
-    private final double zMax;
+    private double zMax;
 
     /**
      * create an object of BoundingBox
@@ -96,6 +96,7 @@ public class BoundingBox {
         }
     }
 
+
     /**
      * Returns the minimum x value of the bounding box.
      *
@@ -150,6 +151,45 @@ public class BoundingBox {
         return zMax;
     }
 
+
+    /**
+     * Expand this boundingBox with the received bb
+     * @param other boundingBox to include
+     */
+    public void expandToInclude(BoundingBox other) {
+        if (other.xMin < this.xMin) this.xMin = other.xMin;
+        if (other.xMax > this.xMax) this.xMax = other.xMax;
+        if (other.yMin < this.yMin) this.yMin = other.yMin;
+        if (other.yMax > this.yMax) this.yMax = other.yMax;
+        if (other.zMin < this.zMin) this.zMin = other.zMin;
+        if (other.zMax > this.zMax) this.zMax = other.zMax;
+    }
+
+    /**
+     * get center of bounding box
+     * @return center
+     */
+    public Point getCenter() {
+        return new Point(
+                (xMin + xMax) / 2d,
+                (yMin + yMax) / 2d,
+                (zMin + zMax) / 2d
+        );
+    }
+
+    /**
+     * Calculates the surface area of the bounding box.
+     *
+     * @return the surface area of the bounding box.
+     */
+    public double surfaceArea() {
+        double xSize = xMax - xMin;
+        double ySize = yMax - yMin;
+        double zSize = zMax - zMin;
+
+        return 2 * (xSize * ySize + xSize * zSize + ySize * zSize);
+    }
+
     /**
      * Checks if the given ray intersects with the bounding box.
      *
@@ -161,24 +201,26 @@ public class BoundingBox {
         double tMin, tMax;
 
         // Calculate the intersection range for the x-axis
+        //ray's vec x
         double dirTemp = r.getDirection().getX();
-        double pTemp = r.getHead().getX();
+        //ray's head x
+        double headTemp = r.getHead().getX();
 
         if (isZero(dirTemp)) {
             // The ray is parallel to the x-axis
-            if (xMin > pTemp || xMax < pTemp)
+            if (xMin > headTemp || xMax < headTemp)
                 return false;
 
             tMin = Double.NEGATIVE_INFINITY;
             tMax = Double.MAX_VALUE;
-        } else {
+        } else {//dirTemp!=0
             // The ray is not parallel to the x-axis
             if (dirTemp > 0) { //positive
-                tMin = (xMin - pTemp) / dirTemp;
-                tMax = (xMax - pTemp) / dirTemp;
+                tMin = (xMin - headTemp) / dirTemp;
+                tMax = (xMax - headTemp) / dirTemp;
             } else { //negative
-                tMax = (xMin - pTemp) / dirTemp;
-                tMin = (xMax - pTemp) / dirTemp;
+                tMax = (xMin - headTemp) / dirTemp;
+                tMin = (xMax - headTemp) / dirTemp;
             }
         }
 
@@ -186,11 +228,11 @@ public class BoundingBox {
         double tempMin, tempMax;
 
         dirTemp = r.getDirection().getY();
-        pTemp = r.getHead().getY();
+        headTemp = r.getHead().getY();
 
         if (isZero(dirTemp)) {
             // The ray is parallel to the y-axis
-            if (yMin > pTemp || yMax < pTemp)
+            if (yMin > headTemp || yMax < headTemp)
                 return false;
 
             tempMin = Double.NEGATIVE_INFINITY;
@@ -198,11 +240,11 @@ public class BoundingBox {
         } else {
             // The ray is not parallel to the y-axis
             if (dirTemp > 0) {
-                tempMin = (yMin - pTemp) / dirTemp;
-                tempMax = (yMax - pTemp) / dirTemp;
+                tempMin = (yMin - headTemp) / dirTemp;
+                tempMax = (yMax - headTemp) / dirTemp;
             } else {
-                tempMax = (yMin - pTemp) / dirTemp;
-                tempMin = (yMax - pTemp) / dirTemp;
+                tempMax = (yMin - headTemp) / dirTemp;
+                tempMin = (yMax - headTemp) / dirTemp;
             }
         }
 
@@ -219,22 +261,22 @@ public class BoundingBox {
 
         // Calculate the intersection range for the z-axis
         dirTemp = r.getDirection().getZ();
-        pTemp = r.getHead().getZ();
+        headTemp = r.getHead().getZ();
 
         if (isZero(dirTemp)) {
             // The ray is parallel to the z-axis
-            if (zMin > pTemp || zMax < pTemp)
+            if (zMin > headTemp || zMax < headTemp)
                 return false;
 
             return true;
         } else {
             // The ray is not parallel to the z-axis
             if (dirTemp > 0) {
-                tempMin = (zMin - pTemp) / dirTemp;
-                tempMax = (zMax - pTemp) / dirTemp;
+                tempMin = (zMin - headTemp) / dirTemp;
+                tempMax = (zMax - headTemp) / dirTemp;
             } else {
-                tempMax = (zMin - pTemp) / dirTemp;
-                tempMin = (zMax - pTemp) / dirTemp;
+                tempMax = (zMin - headTemp) / dirTemp;
+                tempMin = (zMax - headTemp) / dirTemp;
             }
         }
 
@@ -242,20 +284,6 @@ public class BoundingBox {
         if ((tMin > tempMax) || (tempMin > tMax))
             return false;
 
-        // Update the minimum and maximum intersection ranges
-        if (tempMin > tMin)
-            tMin = tempMin;
-
-        if (tempMax < tMax)
-            tMax = tempMax;
-
         return true;
-    }
-    public Point getCenter() {
-        return new Point(
-                (xMin + xMax) / 2.0,
-                (yMin+ yMax) / 2.0,
-                (zMin + zMax) / 2.0
-        );
     }
 }

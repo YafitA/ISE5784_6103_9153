@@ -25,5 +25,6 @@ public abstract class RadialGeometry extends Geometry {
     }
 
     @Override
-    public void setBoundingBox() {}
+    public void setBoundingBox() {
+    }
 }

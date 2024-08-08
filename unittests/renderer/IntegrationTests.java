@@ -31,7 +31,7 @@ public class IntegrationTests {
             .setDirection(new Vector(0, 0, -1), new Vector(0, 1, 0))
             .setVpDistance(1)
             .setVpSize(3, 3);
-//TODO
+
     /**
      * Camera (0,0,0) center
      */
