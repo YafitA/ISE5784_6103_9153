@@ -19,7 +19,7 @@ public class MiniProject2Tests {
     public enum BVHMode {
         /**
          * No bounding volume hierarchy
-          */
+         */
         NONE,
         /**
          * Use bounding boxes only
@@ -58,6 +58,13 @@ public class MiniProject2Tests {
 
         scene.setAmbientLight(new AmbientLight(new Color(WHITE), new Double3(0.15)));
 
+        // Add plane
+        scene.geometries.add(new Plane(new Point(1, 10, 1), new Point(2, 10, 1), new Point(5, 10, 0))
+                .setEmission(new Color(java.awt.Color.PINK).reduce(3))
+                .setMaterial(new Material().setKD(0.2).setShininess(1000).setKR(0.8).setKS(0.8)
+                        .setBlurGlass(isAffectGlossyOn ? 300 : 1, 10, 2))
+        );
+
         Point a = new Point(-4, -5, -11);
 
         // Define colors
@@ -90,13 +97,6 @@ public class MiniProject2Tests {
                 );
             }
         }
-
-        // Add plane
-        scene.geometries.add(new Plane(new Point(1, 10, 1), new Point(2, 10, 1), new Point(5, 10, 0))
-                .setEmission(new Color(java.awt.Color.PINK).reduce(3))
-                .setMaterial(new Material().setKD(0.2).setShininess(1000).setKR(0.8).setKS(0.8)
-                        .setBlurGlass(isAffectGlossyOn ? 300 : 1, 10, 2))
-        );
 
 
         //Enum modes for running - normal, CBR, BVH

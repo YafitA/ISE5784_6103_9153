@@ -12,7 +12,7 @@ public class Geometries extends Intersectable {
     /**
      * Root node of the BVH tree.
      */
-    private BVHNode root = new BVHNode();
+    private final BVHNode root = new BVHNode();
 
     /**
      * Constructs an empty Geometries object.
@@ -38,29 +38,19 @@ public class Geometries extends Intersectable {
         root.geometries.addAll(Arrays.asList(geometries));
     }
 
-    /**
-     * boundingBox For Shapes
-     *
-     * @param geometries list of geos
-     * @return boundingbox for list
-     */
-    private BoundingBox boundingBoxForShapes(List<Intersectable> geometries) {
-        BoundingBox boundingBox = new BoundingBox();
-        for (Intersectable geo : geometries)
-            boundingBox.expandToInclude(geo.boundingBox);
-        return boundingBox;
-    }
-
     @Override
     public void setBoundingBox() {
+        for (Intersectable geo : root.geometries)
+            root.boundingBox.expandToInclude(geo.getBoundingBox());
     }
 
     /**
      * Sets the bounding boxes for all intersectional in the list.
      */
     public void setCBR() {
-        for (Intersectable geo : root.geometries)
+        for (var geo : root.geometries)
             geo.setBoundingBox();
+        setBoundingBox();
     }
 
     /**
@@ -69,50 +59,38 @@ public class Geometries extends Intersectable {
     public void setBVH() {
         //set CBR for all shapes
         setCBR();
-        //sort list along x-axis
-        root.geometries.sort(Comparator.comparingDouble(g -> g.boundingBox.getCenter().getX()));
-        //set root to be organized
-        root = buildBVH(root.geometries, 0);
+        //set bounding box for root
+        buildBVH(root, 0);
     }
 
     /**
-     * Recursively builds the BVH tree from a list of intersectable geometries.
-     *
-     * @param geometries the list of geometries
-     * @param depth      the current depth of the BVH tree
-     * @return the root node of the BVH tree
+     * max depth
      */
-    protected BVHNode buildBVH(List<Intersectable> geometries, int depth) {
-        BoundingBox boundingBox = boundingBoxForShapes(geometries);
+    private final static int maxDepth = 10;
 
-        int maxDepth = 3;// Adjust as needed
-        int minObjectsPerLeaf = 3;  // Adjust as needed
+    /**
+     * builds bvh tree
+     *
+     * @param parent the current node
+     * @param depth  the current depth
+     */
+    public void buildBVH(BVHNode parent, int depth) {
+        parent.boundingBox.setCenter();
 
-        if (depth >= maxDepth || geometries.size() <= minObjectsPerLeaf) {
-            return new BVHNode(boundingBox, geometries);
+        if (depth >= maxDepth) return;
+
+        parent.childA = new BVHNode();
+        parent.childB = new BVHNode();
+
+        for (Intersectable geometry : parent.geometries) {
+            boolean inA = geometry.boundingBox.getCenter().getX() < parent.boundingBox.getCenter().getX();
+            BVHNode child = inA ? parent.childA : parent.childB;
+            child.geometries.add(geometry);
+            child.boundingBox.expandToInclude(geometry.boundingBox);
         }
 
-        double xRange = boundingBox.getxMax() - boundingBox.getxMin();
-        double yRange = boundingBox.getyMax() - boundingBox.getyMin();
-        double zRange = boundingBox.getzMax() - boundingBox.getzMin();
-
-        Comparator<Intersectable> comparator;
-
-        if (xRange > yRange && xRange > zRange) {
-            comparator = Comparator.comparingDouble(g -> g.boundingBox.getCenter().getX());
-        } else if (yRange > zRange) {
-            comparator = Comparator.comparingDouble(g -> g.boundingBox.getCenter().getY());
-        } else {
-            comparator = Comparator.comparingDouble(g -> g.boundingBox.getCenter().getZ());
-        }
-
-        geometries.sort(comparator);
-        int mid = geometries.size() / 2;
-
-        BVHNode leftChild = buildBVH(geometries.subList(0, mid), depth + 1);
-        BVHNode rightChild = buildBVH(geometries.subList(mid, geometries.size()), depth + 1);
-
-        return new BVHNode(boundingBox, leftChild, rightChild);
+        buildBVH(parent.childA, depth + 1);
+        buildBVH(parent.childB, depth + 1);
     }
 
 
@@ -145,8 +123,8 @@ public class Geometries extends Intersectable {
             return intersectionsPoints.isEmpty() ? null : intersectionsPoints;
 
         } else {//not leaf
-            List<GeoPoint> leftIntersections = findGeoIntersectionsHelper(ray, node.leftChild, maxDistance);
-            List<GeoPoint> rightIntersections = findGeoIntersectionsHelper(ray, node.rightChild, maxDistance);
+            List<GeoPoint> leftIntersections = findGeoIntersectionsHelper(ray, node.childA, maxDistance);
+            List<GeoPoint> rightIntersections = findGeoIntersectionsHelper(ray, node.childB, maxDistance);
             if (leftIntersections == null) return rightIntersections;
             if (rightIntersections == null) return leftIntersections;
             leftIntersections.addAll(rightIntersections);
@@ -165,11 +143,11 @@ public class Geometries extends Intersectable {
         /**
          * Node's left child.
          */
-        private BVHNode leftChild;
+        private BVHNode childA;
         /**
          * Node's right child.
          */
-        private BVHNode rightChild;
+        private BVHNode childB;
         /**
          * Node's list of geometries.
          */
@@ -179,6 +157,7 @@ public class Geometries extends Intersectable {
          * Constructor empty.
          */
         public BVHNode() {
+            this.boundingBox = new BoundingBox();
             this.geometries = new ArrayList<>();
         }
 
@@ -197,13 +176,13 @@ public class Geometries extends Intersectable {
          * Constructor for internal nodes.
          *
          * @param boundingBox the bounding box
-         * @param leftChild   the left child node
-         * @param rightChild  the right child node
+         * @param childA      the left child node
+         * @param childB      the right child node
          */
-        public BVHNode(BoundingBox boundingBox, BVHNode leftChild, BVHNode rightChild) {
+        public BVHNode(BoundingBox boundingBox, BVHNode childA, BVHNode childB) {
             this.boundingBox = boundingBox;
-            this.leftChild = leftChild;
-            this.rightChild = rightChild;
+            this.childA = childA;
+            this.childB = childB;
         }
     }
 }

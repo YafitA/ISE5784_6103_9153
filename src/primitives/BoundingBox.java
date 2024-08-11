@@ -1,5 +1,9 @@
 package primitives;
 
+import geometries.Intersectable;
+
+import java.util.List;
+
 import static primitives.Util.isZero;
 
 /**
@@ -31,6 +35,10 @@ public class BoundingBox {
      * z's maximum value
      */
     private double zMax;
+    /**
+     * Center of bounding box
+     */
+    private Point center;
 
     /**
      * create an object of BoundingBox
@@ -49,6 +57,7 @@ public class BoundingBox {
         this.yMax = yMax;
         this.zMin = zMin;
         this.zMax = zMax;
+        setCenter();
     }
 
     /**
@@ -61,6 +70,7 @@ public class BoundingBox {
         this.yMax = Double.MAX_VALUE;
         this.zMin = Double.NEGATIVE_INFINITY;
         this.zMax = Double.MAX_VALUE;
+        setCenter();
     }
 
 
@@ -94,8 +104,19 @@ public class BoundingBox {
             this.zMin = p2.getZ();
             this.zMax = p1.getZ();
         }
+        setCenter();
     }
 
+    /**
+     * Setter for center
+     */
+    public void setCenter() {
+        center = new Point(
+                (xMin + xMax) / 2d,
+                (yMin + yMax) / 2d,
+                (zMin + zMax) / 2d
+        );
+    }
 
     /**
      * Returns the minimum x value of the bounding box.
@@ -151,9 +172,18 @@ public class BoundingBox {
         return zMax;
     }
 
+    /**
+     * getter for center of bounding box
+     *
+     * @return center
+     */
+    public Point getCenter() {
+        return center;
+    }
 
     /**
      * Expand this boundingBox with the received bb
+     *
      * @param other boundingBox to include
      */
     public void expandToInclude(BoundingBox other) {
@@ -165,30 +195,6 @@ public class BoundingBox {
         if (other.zMax > this.zMax) this.zMax = other.zMax;
     }
 
-    /**
-     * get center of bounding box
-     * @return center
-     */
-    public Point getCenter() {
-        return new Point(
-                (xMin + xMax) / 2d,
-                (yMin + yMax) / 2d,
-                (zMin + zMax) / 2d
-        );
-    }
-
-    /**
-     * Calculates the surface area of the bounding box.
-     *
-     * @return the surface area of the bounding box.
-     */
-    public double surfaceArea() {
-        double xSize = xMax - xMin;
-        double ySize = yMax - yMin;
-        double zSize = zMax - zMin;
-
-        return 2 * (xSize * ySize + xSize * zSize + ySize * zSize);
-    }
 
     /**
      * Checks if the given ray intersects with the bounding box.
