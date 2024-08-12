@@ -74,7 +74,7 @@ public class Geometries extends Intersectable {
      * @param parent the current node
      * @param depth  the current depth
      */
-    public void buildBVH(BVHNode parent, int depth) {
+    private void buildBVH(BVHNode parent, int depth) {
         parent.boundingBox.setCenter();
 
         if (depth >= maxDepth) return;
