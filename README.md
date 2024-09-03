@@ -7,14 +7,8 @@ This project is part of the Introduction to Software Engineering through Compute
 - Design Patterns: Implementation of essential software design patterns.
 - XP Practices: Includes TDD, refactoring, and Agile methodologies.
 
-## Project Highlights
-Developed Using: IntelliJ IDEA
-Languages: Java and JavaScript
-Key Features:
-3D virtual scene design with realistic physical effects.
-Multi-threading for efficient rendering and processing.
-Testing:
-Comprehensive unit tests for ensuring code reliability.
+## Technologies
+This project was developed using IntelliJ IDEA, with code primarily written in Java and JavaScript. It features a 3D virtual scene design with realistic physical effects and utilizes multi-threading for efficient rendering and processing. JUnit was used for comprehensive unit testing to ensure code reliability and functionality.
 
 ## Project Overview
 ![ezgif-2-dfb792df95](https://github.com/user-attachments/assets/8a48c4f8-2406-4413-be61-b39b3e8c6da9)
