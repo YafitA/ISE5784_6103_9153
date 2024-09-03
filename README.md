@@ -1,2 +1,2 @@
-#3D Virtual Scene - Mini-Project for Software Engineering and Computer Graphics
+# 3D Virtual Scene - Mini-Project for Software Engineering and Computer Graphics
 This repository contains the source code and documentation for my mini-project in the course Introduction to Software Engineering through Computer Graphics. The project involves the design and implementation of a three-dimensional virtual graphic scene, applying various software engineering principles and physical effects.
