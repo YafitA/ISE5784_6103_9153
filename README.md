@@ -1,5 +1,5 @@
-# 3D Virtual Scene - Mini-Project
-This project is part of the Introduction to Software Engineering through Computer Graphics course. It involves creating a 3D virtual scene, applying software engineering principles, and simulating physical effects.
+# Introduction to Software Engineering - Mini Project
+This project is part of "Introduction to Software Engineering - Mini Project" course. It involves creating a 3D virtual scene, applying software engineering principles, and simulating physical effects.
 
 ## Features
 - 3D Modeling: Building and manipulating objects in a virtual scene.
